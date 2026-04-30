@@ -2,11 +2,9 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { useUser } from "@clerk/nextjs";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/cn";
-
-const APP_URL =
-  process.env.NEXT_PUBLIC_APP_URL ?? "https://agents-hub-fawn.vercel.app";
 
 const links = [
   { label: "Why CrawlIQ", href: "#problems" },
@@ -18,6 +16,7 @@ const links = [
 
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const { isSignedIn } = useUser();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -60,20 +59,29 @@ export function Nav() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <a
-            href={`${APP_URL}/login?utm_source=marketing&utm_medium=nav&utm_campaign=signin`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hidden sm:inline-flex text-[13px] text-fg-muted hover:text-fg transition-colors px-3 py-2"
-          >
-            Sign in
-          </a>
-          <a
-            href="#hero"
-            className="btn-tactile inline-flex items-center gap-2 bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] font-display font-bold text-[12px] tracking-wide uppercase px-4 py-2.5 rounded-md focus-ring"
-          >
-            Run free audit
-          </a>
+          {isSignedIn ? (
+            <Link
+              href="/dashboard"
+              className="btn-tactile inline-flex items-center gap-2 bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] font-display font-bold text-[12px] tracking-wide uppercase px-4 py-2.5 rounded-md focus-ring"
+            >
+              Dashboard
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/sign-in"
+                className="hidden sm:inline-flex text-[13px] text-fg-muted hover:text-fg transition-colors px-3 py-2"
+              >
+                Sign in
+              </Link>
+              <Link
+                href="/sign-up"
+                className="btn-tactile inline-flex items-center gap-2 bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] font-display font-bold text-[12px] tracking-wide uppercase px-4 py-2.5 rounded-md focus-ring"
+              >
+                Get started
+              </Link>
+            </>
+          )}
         </div>
       </div>
     </header>

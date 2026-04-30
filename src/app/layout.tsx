@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { SmoothScroll } from "@/components/smooth-scroll";
 
@@ -64,11 +65,32 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className="min-h-[100dvh] bg-[color:var(--color-bg)] text-[color:var(--color-fg)] antialiased">
-        <SmoothScroll />
-        {children}
-      </body>
-    </html>
+    <ClerkProvider
+      afterSignOutUrl="/"
+      appearance={{
+        variables: {
+          colorPrimary: "#0066ff",
+          colorBackground: "#f5f5f7",
+          colorText: "#1d1d1f",
+          colorTextSecondary: "#6e6e73",
+          colorInputBackground: "#ffffff",
+          colorInputText: "#1d1d1f",
+          borderRadius: "8px",
+          fontFamily: "var(--font-geist-sans)",
+        },
+        elements: {
+          formButtonPrimary:
+            "bg-[#0066ff] hover:bg-[#1a78ff] text-white font-mono uppercase tracking-[0.14em] text-[12px]",
+          card: "shadow-none border border-[rgb(29_29_31_/_0.08)]",
+        },
+      }}
+    >
+      <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+        <body className="min-h-[100dvh] bg-[color:var(--color-bg)] text-[color:var(--color-fg)] antialiased">
+          <SmoothScroll />
+          {children}
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }

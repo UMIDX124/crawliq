@@ -23,7 +23,7 @@ const plans: Plan[] = [
     yearly: 0,
     blurb: "For testing, single-site checks, and curiosity audits.",
     cta: "Start free audit",
-    ctaHref: "#hero",
+    ctaHref: "/sign-up",
     features: [
       { text: "3 audits per month", included: true },
       { text: "On-Page + Technical pillars", included: true },
@@ -39,7 +39,7 @@ const plans: Plan[] = [
     yearly: 39,
     blurb: "For freelancers and growing agencies running weekly audits.",
     cta: "Start Pro trial",
-    ctaHref: "#hero",
+    ctaHref: "/sign-up?plan=pro",
     featured: true,
     features: [
       { text: "Unlimited audits", included: true },
