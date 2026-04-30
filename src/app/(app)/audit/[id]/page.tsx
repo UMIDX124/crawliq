@@ -11,6 +11,7 @@ import { AppTopbar } from "@/components/app/topbar";
 import { requireUser } from "@/lib/auth-helpers";
 import { db } from "@/lib/db";
 import { AGENTS } from "@/lib/agents";
+import { TrackFindingButton } from "@/components/app/track-finding-button";
 import type { CrawlSignals } from "@/lib/audit";
 import type { Severity, AgentType } from "@prisma/client";
 
@@ -211,6 +212,8 @@ export default async function AuditDetailPage({
                   audit.findings.map((f) => (
                     <FindingCard
                       key={f.id}
+                      auditId={audit.id}
+                      projectId={audit.projectId}
                       title={f.title}
                       detail={f.detail}
                       category={f.category}
@@ -228,11 +231,15 @@ export default async function AuditDetailPage({
 }
 
 function FindingCard({
+  auditId,
+  projectId,
   title,
   detail,
   category,
   severity,
 }: {
+  auditId: string;
+  projectId: string | null;
   title: string;
   detail: string;
   category: string;
@@ -254,7 +261,7 @@ function FindingCard({
       }}
     >
       <Icon size={22} weight="fill" style={{ color: m.color }} />
-      <div className="flex-1">
+      <div className="flex-1 min-w-0">
         <div className="flex items-center gap-3 flex-wrap mb-2">
           <span
             className="font-mono text-[10px] tracking-[0.18em] uppercase font-bold"
@@ -268,6 +275,17 @@ function FindingCard({
         </div>
         <h3 className="font-display font-bold text-[16px] mb-2">{title}</h3>
         <p className="text-[14px] leading-[1.65] text-fg-muted">{detail}</p>
+        {severity !== "PASS" && (
+          <div className="mt-4">
+            <TrackFindingButton
+              auditId={auditId}
+              projectId={projectId}
+              findingTitle={title}
+              findingDetail={detail}
+              severity={severity}
+            />
+          </div>
+        )}
       </div>
     </article>
   );

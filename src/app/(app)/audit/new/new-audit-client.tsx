@@ -19,6 +19,8 @@ type AgentMeta = {
   description: string;
 };
 
+type ProjectOption = { id: string; name: string; url: string };
+
 type Limit =
   | { remaining: number | null; plan: string; exceeded?: undefined; limit?: undefined }
   | { exceeded: true; plan: string; limit: number; remaining?: undefined };
@@ -27,14 +29,23 @@ type Phase = "idle" | "crawling" | "analyzing" | "saving" | "done" | "error";
 
 export function NewAuditClient({
   agents,
+  projects = [],
+  initialProjectId = null,
+  initialUrl = "",
   limit,
 }: {
   agents: AgentMeta[];
+  projects?: ProjectOption[];
+  initialProjectId?: string | null;
+  initialUrl?: string;
   limit: Limit;
 }) {
   const router = useRouter();
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState(initialUrl.replace(/^https?:\/\//, ""));
   const [agent, setAgent] = useState<AgentType>("ONPAGE");
+  const [projectId, setProjectId] = useState<string | "">(
+    initialProjectId ?? "",
+  );
 
   const [phase, setPhase] = useState<Phase>("idle");
   const [statusMessage, setStatusMessage] = useState("");
@@ -73,7 +84,11 @@ export function NewAuditClient({
       const res = await fetch("/api/agents/run", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url: v, agent }),
+        body: JSON.stringify({
+          url: v,
+          agent,
+          ...(projectId ? { projectId } : {}),
+        }),
         signal: ctrl.signal,
       });
       if (!res.ok || !res.body) {
@@ -212,6 +227,33 @@ export function NewAuditClient({
             spellCheck={false}
           />
         </div>
+
+        {/* Project picker (optional) */}
+        {projects.length > 0 && (
+          <div className="mt-7">
+            <label className="block font-mono text-[10.5px] tracking-[0.16em] uppercase text-fg-muted mb-2.5">
+              Project (optional)
+            </label>
+            <div className="relative">
+              <select
+                value={projectId}
+                onChange={(e) => setProjectId(e.target.value)}
+                disabled={phase === "crawling" || phase === "analyzing"}
+                className="appearance-none w-full rounded-md border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] px-3.5 py-3 text-[14px] outline-none focus:border-[color:var(--color-accent)] focus:shadow-[0_0_0_4px_var(--color-accent-soft)] transition-all disabled:opacity-60 pr-10"
+              >
+                <option value="">Standalone audit (not linked)</option>
+                {projects.map((p) => (
+                  <option key={p.id} value={p.id}>
+                    {p.name} · {p.url.replace(/^https?:\/\//, "")}
+                  </option>
+                ))}
+              </select>
+              <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[12px] text-fg-faint">
+                ▼
+              </span>
+            </div>
+          </div>
+        )}
 
         {/* Agent picker */}
         <label className="mt-7 block font-mono text-[10.5px] tracking-[0.16em] uppercase text-fg-muted mb-3">

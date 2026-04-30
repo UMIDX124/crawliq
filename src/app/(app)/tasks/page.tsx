@@ -1,15 +1,10 @@
 import { AppTopbar } from "@/components/app/topbar";
-import { ListChecks, Plus } from "@phosphor-icons/react/dist/ssr";
+import { ListChecks } from "@phosphor-icons/react/dist/ssr";
 import { requireUser } from "@/lib/auth-helpers";
 import { db } from "@/lib/db";
+import { TasksBoard } from "./tasks-board";
 
 export const metadata = { title: "Tasks" };
-
-const COLUMNS = [
-  { status: "TODO" as const, label: "To do" },
-  { status: "IN_PROGRESS" as const, label: "In progress" },
-  { status: "DONE" as const, label: "Done" },
-];
 
 export default async function TasksPage() {
   const user = await requireUser();
@@ -18,7 +13,7 @@ export default async function TasksPage() {
       OR: [{ creatorId: user.id }, { assigneeId: user.id }],
     },
     orderBy: { createdAt: "desc" },
-    include: { project: true },
+    include: { project: true, audit: { select: { id: true, url: true } } },
   });
 
   return (
@@ -35,56 +30,27 @@ export default async function TasksPage() {
               <h2 className="font-display font-extrabold mt-4 text-[clamp(28px,4vw,44px)] leading-[1.05] tracking-[-0.025em]">
                 Tasks.
               </h2>
+              <p className="mt-3 text-fg-muted text-[15px] leading-[1.65] max-w-xl">
+                Move tasks between columns. Tasks are auto-created from audit
+                findings, or you can add them by hand.
+              </p>
             </div>
-            <button
-              type="button"
-              className="btn-tactile shrink-0 inline-flex items-center gap-2 rounded-md bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-3 font-mono text-[12px] uppercase tracking-[0.14em]"
-            >
-              <Plus size={14} weight="bold" />
-              New task
-            </button>
           </div>
 
           {tasks.length === 0 ? (
             <EmptyState />
           ) : (
-            <div className="mt-10 grid grid-cols-1 md:grid-cols-3 gap-4">
-              {COLUMNS.map((col) => {
-                const colTasks = tasks.filter((t) => t.status === col.status);
-                return (
-                  <div
-                    key={col.status}
-                    className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-5"
-                  >
-                    <div className="flex items-center justify-between mb-5">
-                      <span className="font-mono text-[10.5px] tracking-[0.18em] uppercase text-fg-muted">
-                        {col.label}
-                      </span>
-                      <span className="font-mono text-[10.5px] tracking-[0.14em] text-fg-faint">
-                        {colTasks.length}
-                      </span>
-                    </div>
-                    <div className="flex flex-col gap-2.5">
-                      {colTasks.map((t) => (
-                        <article
-                          key={t.id}
-                          className="rounded-md border border-[color:var(--color-border)] bg-[color:var(--color-bg)] p-3.5"
-                        >
-                          <div className="text-[13.5px] font-medium leading-snug">
-                            {t.title}
-                          </div>
-                          {t.project && (
-                            <div className="mt-1.5 font-mono text-[10px] tracking-[0.14em] uppercase text-fg-faint">
-                              {t.project.name}
-                            </div>
-                          )}
-                        </article>
-                      ))}
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+            <TasksBoard
+              tasks={tasks.map((t) => ({
+                id: t.id,
+                title: t.title,
+                description: t.description,
+                status: t.status,
+                priority: t.priority,
+                projectName: t.project?.name ?? null,
+                auditUrl: t.audit?.url ?? null,
+              }))}
+            />
           )}
         </div>
       </main>
@@ -98,8 +64,8 @@ function EmptyState() {
       <ListChecks size={32} weight="duotone" className="text-fg-faint mb-5" />
       <h3 className="font-display font-bold text-[17px]">No tasks yet</h3>
       <p className="mt-2 text-fg-muted text-[14px] leading-[1.6] max-w-sm">
-        Audits create tasks automatically for each finding. Or create one by
-        hand.
+        Open an audit and click &ldquo;Track this&rdquo; on any finding to
+        create a task. Or finish a critical finding to mark it done.
       </p>
     </div>
   );
