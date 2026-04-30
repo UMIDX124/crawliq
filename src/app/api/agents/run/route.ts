@@ -2,19 +2,15 @@ import { NextRequest } from "next/server";
 import { z } from "zod";
 import { requireUser } from "@/lib/auth-helpers";
 import { db } from "@/lib/db";
-import { ALL_AGENT_TYPES } from "@/lib/agents";
-import {
-  crawlSite,
-  runAgentStream,
-  severityToEnum,
-} from "@/lib/agent-runner";
+import { runAgentStream, severityToEnum } from "@/lib/agent-runner";
+import { runAllChecks } from "@/lib/checks";
 import { checkAuditLimit } from "@/lib/plan-limits";
-import type { CrawlSignals } from "@/lib/audit";
+import { normalizeUrl, type CrawlSignals } from "@/lib/audit";
 import type { AgentType, Prisma } from "@prisma/client";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-export const maxDuration = 60;
+export const maxDuration = 90;
 
 const inputSchema = z.object({
   url: z.string().trim().min(1, "URL is required"),
@@ -23,9 +19,10 @@ const inputSchema = z.object({
 });
 
 type SseEvent =
-  | { type: "status"; phase: "crawling" | "analyzing" | "saving" | "done" | "error"; message: string }
+  | { type: "status"; phase: "checks" | "explain" | "saving" | "done" | "error"; message: string }
   | { type: "audit"; auditId: string }
   | { type: "signals"; signals: CrawlSignals }
+  | { type: "lighthouse"; scores: Record<string, number | null> }
   | { type: "delta"; chunk: string }
   | { type: "result"; raw: string }
   | { type: "limit"; remaining: number | null; plan: string }
@@ -43,7 +40,6 @@ export async function POST(req: NextRequest) {
     return Response.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  // plan limit
   const limit = await checkAuditLimit(user);
   if (!limit.ok) {
     return Response.json(
@@ -64,9 +60,9 @@ export async function POST(req: NextRequest) {
       { status: 400 },
     );
   }
-  const { url, agent, projectId } = parsed.data;
+  const url = normalizeUrl(parsed.data.url);
+  const { agent, projectId } = parsed.data;
 
-  // create the Audit row up-front so the client can correlate
   const audit = await db.audit.create({
     data: {
       url,
@@ -89,40 +85,53 @@ export async function POST(req: NextRequest) {
           remaining: limit.remaining,
           plan: limit.plan,
         });
-        send({ type: "status", phase: "crawling", message: `Fetching ${url}` });
 
         await db.audit.update({
           where: { id: audit.id },
           data: { status: "RUNNING", startedAt: new Date() },
         });
 
-        let signals: CrawlSignals;
-        try {
-          signals = await crawlSite(url);
-        } catch (err) {
-          const msg = err instanceof Error ? err.message : "Failed to fetch URL.";
-          await db.audit.update({
-            where: { id: audit.id },
-            data: { status: "FAILED", errorMsg: msg, endedAt: new Date() },
-          });
-          send({ type: "error", message: msg });
-          send({ type: "status", phase: "error", message: msg });
-          controller.close();
-          return;
-        }
-        send({ type: "signals", signals });
-        await db.audit.update({
-          where: { id: audit.id },
-          data: { signals: signals as unknown as Prisma.InputJsonValue },
-        });
-
+        // === Phase 1: real checks (crawl + PageSpeed + security + schema) ===
         send({
           type: "status",
-          phase: "analyzing",
-          message: `${agent} auditor analyzing crawl signals…`,
+          phase: "checks",
+          message: `Running real-data checks on ${url}…`,
         });
 
-        const gen = runAgentStream({ agent: agent as AgentType, signals });
+        const checks = await runAllChecks(url).catch((err) => {
+          throw new Error(
+            err instanceof Error ? err.message : "Failed during checks phase",
+          );
+        });
+
+        send({ type: "signals", signals: checks.crawl });
+        if (checks.lighthouse) {
+          send({
+            type: "lighthouse",
+            scores: checks.lighthouse.scores,
+          });
+        }
+
+        await db.audit.update({
+          where: { id: audit.id },
+          data: {
+            signals: {
+              crawl: checks.crawl,
+              lighthouse: checks.lighthouse,
+              security: checks.security,
+              schema: checks.schema,
+            } as unknown as Prisma.InputJsonValue,
+          },
+        });
+
+        // === Phase 2: LLM explainer ===
+        send({
+          type: "status",
+          phase: "explain",
+          message: `${agent} auditor writing explanations for verified findings…`,
+        });
+
+        const gen = runAgentStream({ agent: agent as AgentType, url });
         let raw = "";
         let finalResult = null;
         while (true) {
@@ -136,6 +145,7 @@ export async function POST(req: NextRequest) {
           if (v.type === "delta") {
             send({ type: "delta", chunk: v.chunk });
           }
+          // (we already sent our own status events)
         }
 
         send({ type: "result", raw });
@@ -153,7 +163,6 @@ export async function POST(req: NextRequest) {
               endedAt: new Date(),
             },
           });
-          // persist each finding row for queryability
           if (finalResult.findings.length > 0) {
             await db.finding.createMany({
               data: finalResult.findings.map((f) => ({
@@ -170,7 +179,7 @@ export async function POST(req: NextRequest) {
             where: { id: audit.id },
             data: {
               status: "FAILED",
-              errorMsg: "AI returned malformed JSON",
+              errorMsg: "Audit produced no findings",
               endedAt: new Date(),
             },
           });
@@ -203,7 +212,6 @@ export async function POST(req: NextRequest) {
   });
 }
 
-// Convenience GET — list authed user's recent audits (for the dashboard).
 export async function GET() {
   let user;
   try {
@@ -217,7 +225,5 @@ export async function GET() {
     take: 25,
     include: { project: true },
   });
-  // remove unused import warning
-  void ALL_AGENT_TYPES;
   return Response.json({ audits });
 }
