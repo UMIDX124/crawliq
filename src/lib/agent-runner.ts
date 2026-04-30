@@ -3,6 +3,21 @@ import { getGroq, GROQ_MODEL } from "@/lib/groq";
 import { crawlSite, buildAuditPrompt, type CrawlSignals } from "@/lib/audit";
 import { AGENTS } from "@/lib/agents";
 
+/**
+ * Deterministic 32-bit hash from a string.
+ * Used to derive a stable Groq seed per (URL, agent) so the same audit
+ * inputs produce the same outputs across runs.
+ */
+function stableSeed(input: string): number {
+  let h = 2166136261;
+  for (let i = 0; i < input.length; i++) {
+    h ^= input.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  // Groq accepts unsigned 32-bit
+  return h >>> 0;
+}
+
 export type AgentJsonFinding = {
   title: string;
   severity: "critical" | "warning" | "pass";
@@ -39,12 +54,15 @@ export async function* runAgentStream(opts: {
 > {
   const def = AGENTS[opts.agent];
   const groq = getGroq();
+  const seed = stableSeed(`${opts.signals.finalUrl}::${opts.agent}`);
 
   const completion = await groq.chat.completions.create({
     model: GROQ_MODEL,
-    temperature: 0.2,
+    temperature: 0,
+    top_p: 1,
     max_tokens: 2200,
     response_format: { type: "json_object" },
+    seed,
     stream: true,
     messages: [
       { role: "system", content: def.systemPrompt },

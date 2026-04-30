@@ -15,13 +15,25 @@ const LIMITS: Record<Plan, { auditsPerMonth: number | null }> = {
 
 /**
  * Resolve a user's current plan from their Stripe-backed Subscription row.
- * Falls back to "free" if no active subscription.
+ * Falls back to "free" if:
+ *   - no active subscription
+ *   - the Subscription table doesn't exist yet (pre-migration)
+ *   - the DB is unreachable
+ * Resilient by design — billing is optional, the app must boot regardless.
  */
 export async function getUserPlan(user: User): Promise<Plan> {
-  const sub = await db.subscription.findUnique({
-    where: { userId: user.id },
-  });
-  return resolvePlan(sub);
+  try {
+    const sub = await db.subscription.findUnique({
+      where: { userId: user.id },
+    });
+    return resolvePlan(sub);
+  } catch (err) {
+    // Most likely cause: Subscription table not migrated to this DB yet.
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("[plan-limits] subscription lookup failed, defaulting to free:", err);
+    }
+    return "free";
+  }
 }
 
 export function resolvePlan(sub: Subscription | null | undefined): Plan {
@@ -48,12 +60,20 @@ export async function checkAuditLimit(user: User): Promise<LimitCheck> {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1);
   const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1);
 
-  const used = await db.audit.count({
-    where: {
-      userId: user.id,
-      createdAt: { gte: monthStart, lt: monthEnd },
-    },
-  });
+  let used = 0;
+  try {
+    used = await db.audit.count({
+      where: {
+        userId: user.id,
+        createdAt: { gte: monthStart, lt: monthEnd },
+      },
+    });
+  } catch (err) {
+    // Audit table missing → treat as 0 used so the user isn't blocked.
+    if (process.env.NODE_ENV !== "production") {
+      console.warn("[plan-limits] audit count failed, treating as 0:", err);
+    }
+  }
 
   if (used >= limit) {
     return { ok: false, remaining: 0, plan, limit, resetAt: monthEnd };

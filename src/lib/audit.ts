@@ -205,13 +205,42 @@ export type AuditResult = {
   signals: CrawlSignals;
 };
 
+/**
+ * Bucket a load time into stable ranges so a 1843ms vs 2104ms vs 1956ms
+ * fetch of the same site produces the same prompt → same audit output.
+ */
+function bucketLoadTime(ms: number): string {
+  if (ms < 800) return "fast (<800ms)";
+  if (ms < 1500) return "good (~1s)";
+  if (ms < 2500) return "moderate (~2s)";
+  if (ms < 4000) return "slow (~3s)";
+  if (ms < 6000) return "very slow (~5s)";
+  return "critical (>6s)";
+}
+
+/**
+ * Bucket HTML weight into stable ranges (50 KB granularity).
+ */
+function bucketByteSize(bytes: number): string {
+  const kb = Math.round(bytes / 1024 / 50) * 50;
+  return `~${kb} KB`;
+}
+
+/**
+ * Bucket word count to nearest 100 so minor content changes don't
+ * change the prompt.
+ */
+function bucketWords(n: number): string {
+  return `~${Math.round(n / 100) * 100}`;
+}
+
 export function buildAuditPrompt(signals: CrawlSignals): string {
   const lines = [
     `URL: ${signals.finalUrl}`,
     `HTTP status: ${signals.status}`,
     `HTTPS: ${signals.hasHttps ? "yes" : "no"}`,
-    `Load time: ${signals.loadTimeMs}ms`,
-    `HTML size: ${(signals.byteSize / 1024).toFixed(1)} KB`,
+    `Load time: ${bucketLoadTime(signals.loadTimeMs)}`,
+    `HTML size: ${bucketByteSize(signals.byteSize)}`,
     `Language: ${signals.language ?? "not declared"}`,
     `Viewport meta: ${signals.viewport ?? "missing"}`,
     `Robots meta: ${signals.robotsMeta ?? "default"}`,
@@ -235,7 +264,7 @@ export function buildAuditPrompt(signals: CrawlSignals): string {
     `Twitter Card tags: ${signals.hasTwitterCard ? "yes" : "no"}`,
     `JSON-LD: ${signals.hasJsonLd ? `yes (${signals.jsonLdTypes.join(", ")})` : "no"}`,
     "",
-    `Word count: ${signals.wordCount}`,
+    `Word count: ${bucketWords(signals.wordCount)}`,
     `Content snippet: ${signals.contentSnippet.slice(0, 800)}`,
   ];
   return lines.join("\n");
