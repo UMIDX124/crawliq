@@ -1,10 +1,9 @@
 import { db } from "@/lib/db";
-import type { User } from "@prisma/client";
+import type { User, Subscription } from "@prisma/client";
 
 /**
- * Plan limits for the marketing-tier signups before Stripe is wired in.
- * Free: 3 audits per month.
- * Pro / Agency: unlimited (gated by Stripe metadata in Phase 4).
+ * Plan limits — Free / Pro / Agency.
+ * Pro+Agency = unlimited audits.
  */
 export type Plan = "free" | "pro" | "agency";
 
@@ -15,10 +14,21 @@ const LIMITS: Record<Plan, { auditsPerMonth: number | null }> = {
 };
 
 /**
- * Resolve a user's current plan. Phase 1: everyone is "free" until Stripe is wired.
- * Phase 4 will read this from a `subscription` table.
+ * Resolve a user's current plan from their Stripe-backed Subscription row.
+ * Falls back to "free" if no active subscription.
  */
-export function getUserPlan(_user: User): Plan {
+export async function getUserPlan(user: User): Promise<Plan> {
+  const sub = await db.subscription.findUnique({
+    where: { userId: user.id },
+  });
+  return resolvePlan(sub);
+}
+
+export function resolvePlan(sub: Subscription | null | undefined): Plan {
+  if (!sub) return "free";
+  if (sub.status !== "ACTIVE" && sub.status !== "TRIALING") return "free";
+  if (sub.plan === "PRO") return "pro";
+  if (sub.plan === "AGENCY") return "agency";
   return "free";
 }
 
@@ -27,7 +37,7 @@ export type LimitCheck =
   | { ok: false; remaining: 0; plan: Plan; limit: number; resetAt: Date };
 
 export async function checkAuditLimit(user: User): Promise<LimitCheck> {
-  const plan = getUserPlan(user);
+  const plan = await getUserPlan(user);
   const limit = LIMITS[plan].auditsPerMonth;
 
   if (limit === null) {
@@ -46,19 +56,7 @@ export async function checkAuditLimit(user: User): Promise<LimitCheck> {
   });
 
   if (used >= limit) {
-    return {
-      ok: false,
-      remaining: 0,
-      plan,
-      limit,
-      resetAt: monthEnd,
-    };
+    return { ok: false, remaining: 0, plan, limit, resetAt: monthEnd };
   }
-
-  return {
-    ok: true,
-    remaining: limit - used,
-    plan,
-    limit,
-  };
+  return { ok: true, remaining: limit - used, plan, limit };
 }

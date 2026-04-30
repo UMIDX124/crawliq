@@ -22,8 +22,15 @@ const items = [
   { label: "Settings", href: "/settings", icon: Gear },
 ];
 
-export function AppSidebar() {
+export function AppSidebar({
+  plan = "free",
+}: {
+  plan?: "free" | "pro" | "agency";
+}) {
   const pathname = usePathname();
+  const planLabel =
+    plan === "pro" ? "Pro" : plan === "agency" ? "Agency" : "Free";
+  const showUpgrade = plan === "free";
 
   return (
     <aside className="hidden md:flex shrink-0 w-[240px] flex-col border-r border-[color:var(--color-border)] bg-[color:var(--color-bg-2)] sticky top-0 h-[100dvh]">
@@ -70,13 +77,13 @@ export function AppSidebar() {
 
       <div className="border-t border-[color:var(--color-border)] p-4">
         <div className="font-mono text-[10px] tracking-[0.16em] uppercase text-fg-faint">
-          Plan · Free
+          Plan · {planLabel}
         </div>
         <Link
           href="/settings/billing"
           className="mt-2 block text-[12.5px] text-[color:var(--color-accent)] hover:underline"
         >
-          Upgrade to Pro →
+          {showUpgrade ? "Upgrade to Pro →" : "Manage billing →"}
         </Link>
       </div>
     </aside>

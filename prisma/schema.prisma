@@ -54,6 +54,25 @@ enum Severity {
   CRITICAL
 }
 
+enum Plan {
+  FREE
+  PRO
+  AGENCY
+}
+
+enum BillingCycle {
+  MONTHLY
+  ANNUAL
+}
+
+enum SubscriptionStatus {
+  TRIALING
+  ACTIVE
+  PAST_DUE
+  CANCELED
+  INCOMPLETE
+}
+
 model User {
   id          String   @id @default(cuid())
   clerkUserId String   @unique
@@ -70,9 +89,32 @@ model User {
   assignedTasks   Task[]           @relation("AssignedTasks")
   createdTasks    Task[]           @relation("CreatedTasks")
   pins            Pin[]
+  subscription    Subscription?
 
   @@index([email])
   @@index([clerkUserId])
+}
+
+model Subscription {
+  id                   String              @id @default(cuid())
+  userId               String              @unique
+  user                 User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  stripeCustomerId     String              @unique
+  stripeSubscriptionId String?             @unique
+  stripePriceId        String?
+
+  plan                 Plan                @default(FREE)
+  billingCycle         BillingCycle?
+  status               SubscriptionStatus  @default(INCOMPLETE)
+
+  currentPeriodEnd     DateTime?
+  cancelAtPeriodEnd    Boolean             @default(false)
+
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+
+  @@index([stripeCustomerId])
 }
 
 model Project {

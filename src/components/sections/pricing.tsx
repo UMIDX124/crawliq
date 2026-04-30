@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useUser } from "@clerk/nextjs";
 import { Check, Minus, ArrowRight } from "@phosphor-icons/react";
 import { Reveal } from "@/components/reveal";
 import { cn } from "@/lib/cn";
@@ -70,6 +71,7 @@ const plans: Plan[] = [
 
 export function Pricing() {
   const [annual, setAnnual] = useState(true);
+  const { isSignedIn } = useUser();
 
   return (
     <section id="pricing" className="relative py-20 sm:py-24 md:py-32 lg:py-36">
@@ -135,7 +137,11 @@ export function Pricing() {
         <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-5">
           {plans.map((p, i) => (
             <Reveal key={p.tier} delay={i * 0.08}>
-              <PriceCard plan={p} annual={annual} />
+              <PriceCard
+                plan={p}
+                annual={annual}
+                isSignedIn={!!isSignedIn}
+              />
             </Reveal>
           ))}
         </div>
@@ -144,7 +150,15 @@ export function Pricing() {
   );
 }
 
-function PriceCard({ plan, annual }: { plan: Plan; annual: boolean }) {
+function PriceCard({
+  plan,
+  annual,
+  isSignedIn,
+}: {
+  plan: Plan;
+  annual: boolean;
+  isSignedIn: boolean;
+}) {
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const r = e.currentTarget.getBoundingClientRect();
@@ -227,7 +241,7 @@ function PriceCard({ plan, annual }: { plan: Plan; annual: boolean }) {
       </ul>
 
       <a
-        href={plan.ctaHref}
+        href={isSignedIn ? "/settings/billing" : plan.ctaHref}
         className={cn(
           "btn-tactile group inline-flex items-center justify-center gap-2 rounded-md py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] focus-ring",
           plan.featured
@@ -235,7 +249,7 @@ function PriceCard({ plan, annual }: { plan: Plan; annual: boolean }) {
             : "border border-[color:var(--color-border-strong)] text-fg hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]",
         )}
       >
-        {plan.cta}
+        {isSignedIn && plan.tier !== "Free" ? `Upgrade to ${plan.tier}` : plan.cta}
         <ArrowRight
           size={14}
           weight="bold"
