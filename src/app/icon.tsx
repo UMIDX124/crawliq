@@ -14,15 +14,46 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           background: "#0066ff",
-          color: "#ffffff",
-          fontSize: 22,
-          fontWeight: 800,
-          fontFamily: "system-ui, sans-serif",
-          letterSpacing: "-0.04em",
           borderRadius: 7,
+          position: "relative",
         }}
       >
-        IQ
+        {/* eyes */}
+        <div
+          style={{
+            position: "absolute",
+            top: 9,
+            left: 7,
+            width: 6,
+            height: 6,
+            borderRadius: 999,
+            background: "rgba(255,255,255,0.95)",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: 9,
+            right: 7,
+            width: 6,
+            height: 6,
+            borderRadius: 999,
+            background: "rgba(255,255,255,0.95)",
+          }}
+        />
+        {/* smile */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: 7,
+            left: 9,
+            width: 14,
+            height: 5,
+            borderBottomLeftRadius: 7,
+            borderBottomRightRadius: 7,
+            background: "rgba(255,255,255,0.92)",
+          }}
+        />
       </div>
     ),
     size,

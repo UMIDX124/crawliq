@@ -1,27 +1,49 @@
 import { cn } from "@/lib/cn";
+import { LogoMark } from "@/components/logo-mark";
 
 export function Logo({
   className,
   size = "md",
+  withMark = true,
 }: {
   className?: string;
-  size?: "sm" | "md" | "lg";
+  size?: "sm" | "md" | "lg" | "xl";
+  withMark?: boolean;
 }) {
-  const sizes = {
-    sm: "text-base",
-    md: "text-xl",
-    lg: "text-2xl",
-  } as const;
+  const wordSize = {
+    sm: "text-[18px]",
+    md: "text-[22px]",
+    lg: "text-[26px]",
+    xl: "text-[30px]",
+  }[size];
+
+  const markSize = {
+    sm: 28,
+    md: 34,
+    lg: 40,
+    xl: 48,
+  }[size];
+
+  const gap = {
+    sm: "gap-2",
+    md: "gap-2.5",
+    lg: "gap-3",
+    xl: "gap-3.5",
+  }[size];
 
   return (
     <span
       className={cn(
-        "font-display font-extrabold tracking-tight select-none",
-        sizes[size],
+        "inline-flex items-center font-display font-extrabold tracking-[-0.02em] select-none",
+        gap,
+        wordSize,
         className,
       )}
     >
-      Crawl<span className="text-[color:var(--color-accent)]">IQ</span>
+      {withMark && <LogoMark size={markSize} />}
+      <span className="leading-none">
+        Crawl<span className="text-[color:var(--color-accent)]">IQ</span>
+      </span>
     </span>
   );
 }

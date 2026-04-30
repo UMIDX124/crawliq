@@ -41,9 +41,9 @@ export function Nav() {
         <Link
           href="/"
           aria-label="CrawlIQ home"
-          className="focus-ring rounded-sm"
+          className="focus-ring rounded-md"
         >
-          <Logo />
+          <Logo size="lg" />
         </Link>
 
         <nav className="hidden md:flex items-center gap-8">
