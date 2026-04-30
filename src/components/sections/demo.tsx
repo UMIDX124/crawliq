@@ -122,7 +122,7 @@ export function Demo() {
   return (
     <section
       id="demo"
-      className="relative py-28 md:py-36 bg-[color:var(--color-bg-2)]"
+      className="relative py-20 sm:py-24 md:py-32 lg:py-36 bg-[color:var(--color-bg-2)]"
     >
       <div className="container-page">
         <Reveal className="max-w-3xl">
@@ -158,13 +158,13 @@ export function Demo() {
             </div>
 
             {/* body */}
-            <div className="grid grid-cols-1 md:grid-cols-[260px_1fr] min-h-[480px]">
+            <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] lg:grid-cols-[260px_1fr] min-h-[480px]">
               {/* sidebar */}
-              <div className="border-b md:border-b-0 md:border-r border-[color:var(--color-border)] p-5">
+              <div className="border-b md:border-b-0 md:border-r border-[color:var(--color-border)] p-4 sm:p-5">
                 <div className="font-mono text-[10.5px] tracking-[0.18em] uppercase text-fg-faint mb-4 px-1">
                   Audit sections
                 </div>
-                <div className="flex flex-col gap-1">
+                <div className="flex md:flex-col gap-1 overflow-x-auto md:overflow-visible -mx-1 px-1 md:mx-0 md:px-0">
                   {sections.map((s) => (
                     <button
                       key={s.id}

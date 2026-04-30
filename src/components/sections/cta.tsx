@@ -16,7 +16,7 @@ export function FinalCta() {
   };
 
   return (
-    <section id="cta" className="relative py-28 md:py-36">
+    <section id="cta" className="relative py-20 sm:py-24 md:py-32 lg:py-36">
       <div className="container-page">
         <Reveal>
           <div className="relative overflow-hidden rounded-2xl border border-[color:var(--color-border-accent)] bg-[color:var(--color-bg-2)]">

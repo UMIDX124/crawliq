@@ -3,7 +3,7 @@ import { ArrowRight, ArrowUp } from "@phosphor-icons/react/dist/ssr";
 
 export function CaseStudy() {
   return (
-    <section className="relative py-28 md:py-36 bg-[color:var(--color-bg-2)]">
+    <section className="relative py-20 sm:py-24 md:py-32 lg:py-36 bg-[color:var(--color-bg-2)]">
       <div className="container-page">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.1fr] gap-16 lg:gap-24 items-center">
           <Reveal>

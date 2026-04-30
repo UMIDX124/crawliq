@@ -13,7 +13,7 @@ import {
 
 export function Features() {
   return (
-    <section id="features" className="relative py-28 md:py-36">
+    <section id="features" className="relative py-20 sm:py-24 md:py-32 lg:py-36">
       <div className="container-page">
         <Reveal className="max-w-3xl">
           <span className="eyebrow">

@@ -1,6 +1,5 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { useRef, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 import { ArrowRight, Sparkle } from "@phosphor-icons/react";
@@ -8,17 +7,13 @@ import { KineticHeading, FadeChildren } from "@/components/kinetic-heading";
 import { LiveTicker } from "@/components/live-ticker";
 import { CountUp } from "@/components/count-up";
 import { InlineAudit } from "@/components/inline-audit";
-
-const Globe3D = dynamic(
-  () => import("@/components/globe-3d").then((m) => m.Globe3D),
-  { ssr: false, loading: () => null },
-);
+import { HeroDashboard } from "@/components/hero-dashboard";
 
 const stats = [
-  { to: 240, suffix: "+", label: "Signals checked per audit" },
-  { to: 8, prefix: "<", suffix: "s", label: "Median audit time" },
-  { to: 5, label: "AI auditor specialists" },
-  { to: 98, suffix: "%", label: "Issue detection rate" },
+  { to: 240, suffix: "+", label: "Signals checked" },
+  { to: 8, prefix: "<", suffix: "s", label: "Median audit" },
+  { to: 5, label: "AI auditors" },
+  { to: 98, suffix: "%", label: "Detection rate" },
 ];
 
 export function Hero() {
@@ -26,23 +21,19 @@ export function Hero() {
   const [url, setUrl] = useState("");
   const heroRef = useRef<HTMLElement>(null);
 
-  // cursor parallax — drives a small offset, used by globe + badge
+  // cursor parallax for badge
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const sx = useSpring(mx, { stiffness: 50, damping: 18 });
   const sy = useSpring(my, { stiffness: 50, damping: 18 });
-  const globeX = useTransform(sx, (v) => v * 18);
-  const globeY = useTransform(sy, (v) => v * 18);
-  const badgeX = useTransform(sx, (v) => v * 6);
-  const badgeY = useTransform(sy, (v) => v * 6);
+  const badgeX = useTransform(sx, (v) => v * 5);
+  const badgeY = useTransform(sy, (v) => v * 5);
 
   const onMove = (e: React.MouseEvent) => {
     if (!heroRef.current) return;
     const r = heroRef.current.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    mx.set(px);
-    my.set(py);
+    mx.set((e.clientX - r.left) / r.width - 0.5);
+    my.set((e.clientY - r.top) / r.height - 0.5);
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -68,142 +59,175 @@ export function Hero() {
       id="hero"
       ref={heroRef}
       onMouseMove={onMove}
-      className="relative min-h-[100dvh] flex flex-col items-center justify-center pt-32 pb-20 px-5 md:px-8 overflow-hidden"
+      className="relative pt-28 sm:pt-32 lg:pt-40 pb-16 sm:pb-20 lg:pb-28 px-5 md:px-8 overflow-hidden"
     >
-      {/* 3D wireframe globe — top-right ambient anchor */}
-      <motion.div
-        style={{ x: globeX, y: globeY }}
-        className="pointer-events-none absolute -top-24 -right-32 md:top-12 md:right-8 w-[420px] h-[420px] md:w-[520px] md:h-[520px] opacity-[0.55]"
-      >
-        <Globe3D className="w-full h-full" />
-      </motion.div>
-
-      {/* faint grid behind text */}
+      {/* mesh gradient bg — radial cobalt + slate, very faint */}
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-[0.25]"
+        className="pointer-events-none absolute inset-0 -z-10"
+        style={{
+          backgroundImage: `
+            radial-gradient(ellipse 60% 50% at 15% 0%, rgb(0 102 255 / 0.06), transparent 60%),
+            radial-gradient(ellipse 50% 40% at 100% 100%, rgb(0 102 255 / 0.04), transparent 60%)
+          `,
+        }}
+      />
+
+      {/* faint grid */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 -z-10 opacity-[0.18]"
         style={{
           backgroundImage:
             "linear-gradient(to right, rgb(29 29 31 / 0.04) 1px, transparent 1px), linear-gradient(to bottom, rgb(29 29 31 / 0.04) 1px, transparent 1px)",
           backgroundSize: "56px 56px",
           maskImage:
-            "radial-gradient(ellipse 60% 50% at 50% 35%, black 30%, transparent 70%)",
+            "radial-gradient(ellipse 75% 60% at 50% 35%, black 30%, transparent 75%)",
         }}
       />
 
-      <div className="relative w-full max-w-[1200px] mx-auto flex flex-col items-center">
+      <div className="relative w-full max-w-[1320px] mx-auto">
         {!submittedUrl ? (
-          <>
-            {/* eyebrow badge */}
-            <motion.div
-              style={{ x: badgeX, y: badgeY }}
-              initial={{ opacity: 0, y: -8 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.55, delay: 0.1 }}
-              className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-border-accent)] bg-[color:var(--color-accent-soft)] px-3 py-1.5"
-            >
-              <span className="pulse-dot inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)]" />
-              <span className="font-mono text-[10.5px] tracking-[0.18em] uppercase text-[color:var(--color-accent)]">
-                AI auditors · live
-              </span>
-            </motion.div>
+          <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] xl:grid-cols-[1.2fr_1fr] gap-12 lg:gap-16 xl:gap-20 items-center">
+            {/* LEFT — copy + form */}
+            <div className="flex flex-col items-start text-left">
+              {/* eyebrow badge */}
+              <motion.div
+                style={{ x: badgeX, y: badgeY }}
+                initial={{ opacity: 0, y: -8 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.55, delay: 0.1 }}
+                className="inline-flex items-center gap-2 rounded-full border border-[color:var(--color-border-accent)] bg-[color:var(--color-accent-soft)] px-3 py-1.5"
+              >
+                <span className="pulse-dot inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)]" />
+                <span className="font-mono text-[10.5px] tracking-[0.18em] uppercase text-[color:var(--color-accent)]">
+                  AI auditors · live
+                </span>
+              </motion.div>
 
-            {/* kinetic H1 */}
-            <KineticHeading
-              className="font-display font-extrabold mt-8 text-balance text-center text-[clamp(46px,7vw,108px)] leading-[0.92] tracking-[-0.035em] max-w-[1100px]"
-              words={[
-                "Your website,",
-                "audited",
-                { italic: "like an" },
-                { italic: "expert" },
-                "would.",
-              ]}
-              delayBase={0.3}
-            />
+              {/* H1 */}
+              <KineticHeading
+                className="font-display font-extrabold mt-7 sm:mt-8 lg:mt-10 text-balance text-[clamp(40px,8.4vw,96px)] leading-[0.92] tracking-[-0.035em]"
+                words={[
+                  "Your website,",
+                  "audited",
+                  { italic: "like an" },
+                  { italic: "expert" },
+                  "would.",
+                ]}
+                delayBase={0.3}
+              />
 
-            {/* sub */}
-            <FadeChildren delay={1.3}>
-              <p className="mt-7 max-w-[640px] text-center text-balance text-fg-muted text-[17px] md:text-[19px] leading-[1.55]">
-                Five AI auditors crawl your site in parallel — On-Page,
-                Technical, Content, Off-Site, and Competitor. They explain
-                exactly what&rsquo;s broken, why it matters, and how to fix it.
-                No checklists. No fluff.
-              </p>
-            </FadeChildren>
+              {/* sub */}
+              <FadeChildren delay={1.3}>
+                <p className="mt-6 lg:mt-8 max-w-[560px] text-balance text-fg-muted text-[16px] sm:text-[17px] lg:text-[18.5px] leading-[1.6]">
+                  Five AI auditors crawl your site in parallel — On-Page,
+                  Technical, Content, Off-Site, and Competitor. They explain
+                  exactly what&rsquo;s broken, why it matters, and how to fix
+                  it. No checklists. No fluff.
+                </p>
+              </FadeChildren>
 
-            {/* URL input */}
-            <FadeChildren delay={1.5} className="w-full max-w-[660px] mt-10">
-              <form onSubmit={handleSubmit}>
-                <div className="group relative flex items-center rounded-md border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] focus-within:border-[color:var(--color-accent)] focus-within:shadow-[0_0_0_4px_var(--color-accent-soft)] transition-all">
-                  <span className="pl-4 pr-2 text-fg-faint font-mono text-sm">
-                    https://
-                  </span>
-                  <input
-                    type="text"
-                    inputMode="url"
-                    placeholder="yourwebsite.com"
-                    value={url}
-                    onChange={(e) =>
-                      setUrl(e.target.value.replace(/^https?:\/\//, ""))
-                    }
-                    className="flex-1 bg-transparent py-4 pr-3 text-[15px] outline-none placeholder:text-fg-faint"
-                    autoComplete="off"
-                    spellCheck={false}
-                    aria-label="Website URL"
-                  />
-                  <button
-                    type="submit"
-                    className="btn-tactile m-1.5 inline-flex items-center gap-2 rounded-[6px] bg-[color:var(--color-accent)] px-5 py-3 font-display text-[13px] font-bold uppercase tracking-wide text-[color:var(--color-accent-fg)] hover:bg-[color:var(--color-accent-hover)] focus-ring shadow-[0_4px_14px_-4px_rgb(0_102_255/_0.4)]"
-                  >
-                    <Sparkle size={14} weight="fill" />
-                    Run audit
-                    <ArrowRight size={14} weight="bold" />
-                  </button>
-                </div>
-              </form>
-
-              {/* live ticker beneath input */}
-              <div className="mt-5 flex justify-center">
-                <LiveTicker />
-              </div>
-            </FadeChildren>
-
-            {/* stats */}
-            <FadeChildren delay={1.8}>
-              <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-x-16 gap-y-9 max-w-3xl">
-                {stats.map((s) => (
-                  <div key={s.label} className="text-center">
-                    <CountUp
-                      to={s.to}
-                      prefix={s.prefix ?? ""}
-                      suffix={s.suffix ?? ""}
-                      className="font-display font-extrabold text-[36px] md:text-[42px] leading-none text-fg tabular-nums"
+              {/* URL input */}
+              <FadeChildren delay={1.5} className="w-full max-w-[560px] mt-8 lg:mt-10">
+                <form onSubmit={handleSubmit}>
+                  <div className="group relative flex items-center rounded-md border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] focus-within:border-[color:var(--color-accent)] focus-within:shadow-[0_0_0_4px_var(--color-accent-soft)] transition-all">
+                    <span className="pl-3 sm:pl-4 pr-1.5 sm:pr-2 text-fg-faint font-mono text-[12px] sm:text-sm shrink-0">
+                      https://
+                    </span>
+                    <input
+                      type="text"
+                      inputMode="url"
+                      placeholder="yourwebsite.com"
+                      value={url}
+                      onChange={(e) =>
+                        setUrl(e.target.value.replace(/^https?:\/\//, ""))
+                      }
+                      className="flex-1 min-w-0 bg-transparent py-3.5 sm:py-4 pr-2 sm:pr-3 text-[14px] sm:text-[15px] outline-none placeholder:text-fg-faint"
+                      autoComplete="off"
+                      spellCheck={false}
+                      aria-label="Website URL"
                     />
-                    <div className="mt-2.5 font-mono text-[10.5px] tracking-[0.16em] uppercase text-fg-muted">
-                      {s.label}
-                    </div>
+                    <MagneticButton type="submit">
+                      <Sparkle size={14} weight="fill" />
+                      <span className="hidden xs:inline">Run audit</span>
+                      <ArrowRight size={14} weight="bold" />
+                    </MagneticButton>
                   </div>
-                ))}
-              </div>
-            </FadeChildren>
+                </form>
 
-            {/* scroll indicator */}
-            <FadeChildren
-              delay={2.1}
-              className="absolute bottom-8 left-1/2 -translate-x-1/2 hidden md:flex flex-col items-center gap-2"
-            >
-              <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-fg-faint">
-                Scroll
-              </span>
-              <span className="block w-[20px] h-[30px] rounded-full border border-[color:var(--color-border-strong)] flex items-start justify-center pt-1.5">
-                <span className="scroll-dot block w-[3px] h-[6px] rounded-full bg-[color:var(--color-accent)]" />
-              </span>
-            </FadeChildren>
-          </>
+                <div className="mt-4 sm:mt-5">
+                  <LiveTicker />
+                </div>
+              </FadeChildren>
+
+              {/* stats */}
+              <FadeChildren delay={1.8} className="w-full max-w-[560px] mt-12 lg:mt-16">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-7">
+                  {stats.map((s) => (
+                    <div key={s.label}>
+                      <CountUp
+                        to={s.to}
+                        prefix={s.prefix ?? ""}
+                        suffix={s.suffix ?? ""}
+                        className="font-display font-extrabold text-[28px] sm:text-[30px] lg:text-[34px] leading-none text-fg tabular-nums"
+                      />
+                      <div className="mt-2 font-mono text-[9.5px] sm:text-[10px] tracking-[0.16em] uppercase text-fg-muted">
+                        {s.label}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </FadeChildren>
+            </div>
+
+            {/* RIGHT — audit dashboard widget (lg+ only) */}
+            <div className="hidden lg:flex justify-center lg:justify-end">
+              <HeroDashboard />
+            </div>
+          </div>
         ) : (
           <InlineAudit url={submittedUrl} onReset={reset} />
         )}
       </div>
     </section>
+  );
+}
+
+// magnetic button — pulls slightly toward cursor on hover
+function MagneticButton({
+  children,
+  type = "button",
+}: {
+  children: React.ReactNode;
+  type?: "button" | "submit";
+}) {
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
+  const sx = useSpring(x, { stiffness: 200, damping: 18, mass: 0.4 });
+  const sy = useSpring(y, { stiffness: 200, damping: 18, mass: 0.4 });
+
+  const onMove = (e: React.MouseEvent<HTMLButtonElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    const px = (e.clientX - r.left - r.width / 2) / (r.width / 2);
+    const py = (e.clientY - r.top - r.height / 2) / (r.height / 2);
+    x.set(px * 6);
+    y.set(py * 4);
+  };
+  const reset = () => {
+    x.set(0);
+    y.set(0);
+  };
+
+  return (
+    <motion.button
+      type={type}
+      onMouseMove={onMove}
+      onMouseLeave={reset}
+      style={{ x: sx, y: sy }}
+      className="m-1 sm:m-1.5 inline-flex items-center gap-1.5 sm:gap-2 rounded-[6px] bg-[color:var(--color-accent)] px-3 sm:px-5 py-2.5 sm:py-3 font-display text-[12px] sm:text-[13px] font-bold uppercase tracking-wide text-[color:var(--color-accent-fg)] hover:bg-[color:var(--color-accent-hover)] focus-ring shadow-[0_4px_14px_-4px_rgb(0_102_255/_0.4)] btn-tactile"
+    >
+      {children}
+    </motion.button>
   );
 }

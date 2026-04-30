@@ -21,7 +21,7 @@ const legal = [
 
 export function Footer() {
   return (
-    <footer className="border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-2)] py-20">
+    <footer className="border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-2)] py-14 sm:py-16 md:py-20">
       <div className="container-page">
         <div className="grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-12 md:gap-16">
           <div>

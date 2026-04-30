@@ -16,11 +16,17 @@ const rows: { label: string; crawliq: Cell; lighthouse: Cell; ahrefs: Cell; manu
   { label: "Cost per audit", crawliq: true, lighthouse: true, ahrefs: false, manual: false },
 ];
 
+const competitors = [
+  { key: "lighthouse", label: "Lighthouse" },
+  { key: "ahrefs", label: "Ahrefs" },
+  { key: "manual", label: "Manual audit" },
+] as const;
+
 export function Comparison() {
   return (
     <section
       id="comparison"
-      className="relative py-28 md:py-36"
+      className="relative py-20 sm:py-24 md:py-32 lg:py-36"
     >
       <div className="container-page">
         <Reveal className="max-w-3xl">
@@ -28,22 +34,22 @@ export function Comparison() {
             <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
             Why CrawlIQ
           </span>
-          <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
+          <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(28px,5.5vw,56px)] leading-[1.05] tracking-[-0.025em]">
             One tool that{" "}
             <span className="italic font-light text-fg-muted">
               replaces five.
             </span>
           </h2>
-          <p className="mt-6 max-w-2xl text-fg-muted text-[16px] md:text-[17px] leading-[1.65]">
+          <p className="mt-5 sm:mt-6 max-w-2xl text-fg-muted text-[15px] sm:text-[16px] md:text-[17px] leading-[1.65]">
             Lighthouse only checks performance. Ahrefs only does backlinks.
             Manual audits take three weeks and cost five figures. CrawlIQ does
             all of it, in eight seconds, for the price of a coffee.
           </p>
         </Reveal>
 
-        <Reveal delay={0.15}>
-          <div className="mt-14 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden">
-            {/* header */}
+        {/* DESKTOP TABLE — md and up */}
+        <Reveal delay={0.15} className="hidden md:block">
+          <div className="mt-12 md:mt-14 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden">
             <div className="grid grid-cols-[1.5fr_1fr_1fr_1fr_1fr] border-b border-[color:var(--color-border)] bg-[color:var(--color-bg-2)]">
               <div className="px-5 md:px-7 py-5 font-mono text-[11px] tracking-[0.16em] uppercase text-fg-muted">
                 Capability
@@ -51,10 +57,9 @@ export function Comparison() {
               <ColHeader label="CrawlIQ" featured />
               <ColHeader label="Lighthouse" />
               <ColHeader label="Ahrefs" />
-              <ColHeader label="Manual audit" />
+              <ColHeader label="Manual" />
             </div>
 
-            {/* rows */}
             {rows.map((r, i) => (
               <div
                 key={r.label}
@@ -75,6 +80,29 @@ export function Comparison() {
             ))}
           </div>
         </Reveal>
+
+        {/* MOBILE CARD STACK — under md */}
+        <div className="md:hidden mt-12 space-y-3">
+          {rows.map((r, i) => (
+            <Reveal key={r.label} delay={i * 0.03}>
+              <article className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-5">
+                <div className="font-display font-medium text-[15px] mb-4 text-balance">
+                  {r.label}
+                </div>
+                <div className="grid grid-cols-2 gap-x-3 gap-y-2.5">
+                  <MobileRow label="CrawlIQ" v={r.crawliq} featured />
+                  {competitors.map((c) => (
+                    <MobileRow
+                      key={c.key}
+                      label={c.label}
+                      v={r[c.key]}
+                    />
+                  ))}
+                </div>
+              </article>
+            </Reveal>
+          ))}
+        </div>
       </div>
     </section>
   );
@@ -84,21 +112,17 @@ function ColHeader({ label, featured = false }: { label: string; featured?: bool
   return (
     <div
       className={cn(
-        "px-5 py-5 text-center border-l border-[color:var(--color-border)]",
+        "px-3 md:px-5 py-5 text-center border-l border-[color:var(--color-border)]",
         featured && "bg-[color:var(--color-accent-soft)]",
       )}
     >
       <div className="flex items-center justify-center gap-1.5">
         {featured && (
-          <Sparkle
-            size={12}
-            weight="fill"
-            className="text-[color:var(--color-accent)]"
-          />
+          <Sparkle size={12} weight="fill" className="text-[color:var(--color-accent)]" />
         )}
         <span
           className={cn(
-            "font-display font-bold text-[14px] tracking-tight",
+            "font-display font-bold text-[13px] md:text-[14px] tracking-tight",
             featured && "text-[color:var(--color-accent)]",
           )}
         >
@@ -122,9 +146,7 @@ function CellMark({ v, featured = false }: { v: Cell; featured?: boolean }) {
           size={18}
           weight="bold"
           className={cn(
-            featured
-              ? "text-[color:var(--color-accent)]"
-              : "text-[color:var(--color-pass)]",
+            featured ? "text-[color:var(--color-accent)]" : "text-[color:var(--color-pass)]",
           )}
         />
       ) : v === "partial" ? (
@@ -133,6 +155,49 @@ function CellMark({ v, featured = false }: { v: Cell; featured?: boolean }) {
         </span>
       ) : (
         <Minus size={16} weight="bold" className="text-fg-faint" />
+      )}
+    </div>
+  );
+}
+
+function MobileRow({
+  label,
+  v,
+  featured = false,
+}: {
+  label: string;
+  v: Cell;
+  featured?: boolean;
+}) {
+  return (
+    <div
+      className={cn(
+        "flex items-center justify-between rounded-md px-3 py-2",
+        featured && "bg-[color:var(--color-accent-soft)]",
+      )}
+    >
+      <span
+        className={cn(
+          "font-mono text-[10.5px] tracking-[0.14em] uppercase",
+          featured ? "text-[color:var(--color-accent)] font-bold" : "text-fg-muted",
+        )}
+      >
+        {label}
+      </span>
+      {v === true ? (
+        <Check
+          size={14}
+          weight="bold"
+          className={cn(
+            featured ? "text-[color:var(--color-accent)]" : "text-[color:var(--color-pass)]",
+          )}
+        />
+      ) : v === "partial" ? (
+        <span className="font-mono text-[9.5px] tracking-[0.14em] uppercase text-fg-faint">
+          part
+        </span>
+      ) : (
+        <Minus size={12} weight="bold" className="text-fg-faint" />
       )}
     </div>
   );

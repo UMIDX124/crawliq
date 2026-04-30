@@ -21,7 +21,7 @@ export function PdfPreview() {
   const fade = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0.6, 1, 1, 0.7]);
 
   return (
-    <section ref={ref} className="relative py-32 md:py-40 overflow-hidden">
+    <section ref={ref} className="relative py-20 sm:py-24 md:py-32 lg:py-40 overflow-hidden">
       <div className="container-page">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-16 lg:gap-24 items-center">
           <Reveal>
