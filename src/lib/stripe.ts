@@ -2,6 +2,21 @@ import Stripe from "stripe";
 
 const env = process.env;
 
+/**
+ * True only when ALL Stripe env vars are present.
+ * Used by /settings/billing and Pricing CTAs to gracefully degrade
+ * before billing is live.
+ */
+export function isStripeConfigured(): boolean {
+  return Boolean(
+    env.STRIPE_SECRET_KEY &&
+      env.STRIPE_PRICE_PRO_MONTHLY &&
+      env.STRIPE_PRICE_PRO_ANNUAL &&
+      env.STRIPE_PRICE_AGENCY_MONTHLY &&
+      env.STRIPE_PRICE_AGENCY_ANNUAL,
+  );
+}
+
 let _stripe: Stripe | null = null;
 export function getStripe(): Stripe {
   if (!env.STRIPE_SECRET_KEY) {

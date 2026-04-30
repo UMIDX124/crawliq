@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowLeft, Check, Minus, Sparkle } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, Check, Minus, Sparkle, Lock } from "@phosphor-icons/react/dist/ssr";
 import { AppTopbar } from "@/components/app/topbar";
 import { requireUser } from "@/lib/auth-helpers";
 import { db } from "@/lib/db";
@@ -8,6 +8,7 @@ import {
   ManageBillingButton,
 } from "@/components/app/billing-buttons";
 import { resolvePlan } from "@/lib/plan-limits";
+import { isStripeConfigured } from "@/lib/stripe";
 import { cn } from "@/lib/cn";
 
 export const metadata = { title: "Billing" };
@@ -164,23 +165,23 @@ export default async function BillingPage({
             </div>
           </section>
 
-          {/* upgrade tiles */}
-          {plan !== "AGENCY" && (
-            <section className="mt-10">
-              <span className="eyebrow">
-                <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
-                {plan === "FREE" ? "Upgrade" : "Switch plan"}
-              </span>
-              <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-5">
-                {TIERS.map((t) => (
-                  <PlanCard
-                    key={t.key}
-                    tier={t}
-                    currentPlan={plan}
-                  />
-                ))}
-              </div>
-            </section>
+          {/* upgrade tiles — only when Stripe is fully wired */}
+          {isStripeConfigured() ? (
+            plan !== "AGENCY" && (
+              <section className="mt-10">
+                <span className="eyebrow">
+                  <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
+                  {plan === "FREE" ? "Upgrade" : "Switch plan"}
+                </span>
+                <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-5">
+                  {TIERS.map((t) => (
+                    <PlanCard key={t.key} tier={t} currentPlan={plan} />
+                  ))}
+                </div>
+              </section>
+            )
+          ) : (
+            <BillingComingSoon />
           )}
         </div>
       </main>
@@ -278,6 +279,70 @@ function PlanCard({
         </div>
       )}
     </article>
+  );
+}
+
+function BillingComingSoon() {
+  return (
+    <section className="mt-10">
+      <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-10 md:p-14">
+        <div className="max-w-xl">
+          <span className="eyebrow">
+            <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
+            Paid plans · opening soon
+          </span>
+          <h3 className="font-display font-extrabold mt-4 text-[clamp(22px,3vw,32px)] leading-[1.1] tracking-[-0.022em]">
+            Pro and Agency plans are{" "}
+            <span className="italic font-light text-fg-muted">
+              days away.
+            </span>
+          </h3>
+          <p className="mt-4 text-fg-muted text-[15px] leading-[1.65]">
+            We&rsquo;re finishing the billing pipeline. The Free tier (3
+            audits/month) is fully working in the meantime — run as many as
+            you can, and we&rsquo;ll email you the moment Pro opens.
+          </p>
+
+          <div className="mt-7 grid grid-cols-1 sm:grid-cols-3 gap-3">
+            {TIERS.map((t) => (
+              <article
+                key={t.key}
+                className="rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-bg)] p-5 relative"
+              >
+                <div className="font-mono text-[10.5px] tracking-[0.18em] uppercase text-fg-muted mb-2">
+                  {t.name}
+                </div>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="font-display font-extrabold text-[28px] leading-none tabular-nums">
+                    ${t.monthly}
+                  </span>
+                  <span className="text-fg-faint text-[12px]">/mo</span>
+                </div>
+                {t.key !== "FREE" && (
+                  <div className="mt-4 inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[0.16em] uppercase text-fg-faint">
+                    <Lock size={11} weight="bold" />
+                    locked
+                  </div>
+                )}
+                {t.key === "FREE" && (
+                  <div className="mt-4 inline-flex items-center gap-1.5 font-mono text-[10px] tracking-[0.16em] uppercase text-[color:var(--color-pass)]">
+                    <Sparkle size={11} weight="fill" />
+                    active
+                  </div>
+                )}
+              </article>
+            ))}
+          </div>
+
+          <a
+            href="mailto:hello@crawliq.ai?subject=Notify me when Pro opens"
+            className="btn-tactile mt-9 inline-flex items-center gap-2 rounded-md bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-3 font-mono text-[12px] uppercase tracking-[0.14em]"
+          >
+            Email me when Pro opens
+          </a>
+        </div>
+      </div>
+    </section>
   );
 }
 

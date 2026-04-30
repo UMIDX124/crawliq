@@ -241,7 +241,13 @@ function PriceCard({
       </ul>
 
       <a
-        href={isSignedIn ? "/settings/billing" : plan.ctaHref}
+        href={
+          plan.tier === "Free"
+            ? "/sign-up"
+            : isSignedIn
+              ? "/settings/billing"
+              : "/sign-up"
+        }
         className={cn(
           "btn-tactile group inline-flex items-center justify-center gap-2 rounded-md py-3.5 font-mono text-[12px] uppercase tracking-[0.14em] focus-ring",
           plan.featured
@@ -249,7 +255,11 @@ function PriceCard({
             : "border border-[color:var(--color-border-strong)] text-fg hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]",
         )}
       >
-        {isSignedIn && plan.tier !== "Free" ? `Upgrade to ${plan.tier}` : plan.cta}
+        {plan.tier === "Free"
+          ? plan.cta
+          : isSignedIn
+            ? `Upgrade to ${plan.tier}`
+            : `Get ${plan.tier} access`}
         <ArrowRight
           size={14}
           weight="bold"
