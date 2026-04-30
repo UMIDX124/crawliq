@@ -14,8 +14,9 @@ const pilotSchema = z.object({
   websiteUrl: z.string().trim().min(3).max(300),
   monthlyTraffic: z.string().trim().max(80).optional().default(""),
   message: z.string().trim().max(2000).optional().default(""),
-  // honeypot — must be empty
-  _gotcha: z.string().max(0).optional().default(""),
+  // honeypot — accept any value here; rejected silently in handler so bots
+  // can't see they tripped a trap from the validation error.
+  _gotcha: z.string().optional().default(""),
 });
 
 export async function POST(req: NextRequest) {
