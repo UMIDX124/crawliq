@@ -5,6 +5,7 @@ import { env } from "@/lib/env";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
+export const maxDuration = 30;
 
 const pilotSchema = z.object({
   name: z.string().trim().min(1).max(120),

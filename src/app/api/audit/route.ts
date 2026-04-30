@@ -11,6 +11,7 @@ import { rateLimit, getClientIp } from "@/lib/rate-limit";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 type SseEvent =
   | { type: "status"; phase: "crawling" | "analyzing" | "done" | "error"; message: string }
