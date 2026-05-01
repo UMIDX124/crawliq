@@ -85,8 +85,8 @@ export function Pricing() {
             </span>
           </h2>
           <p className="mt-6 max-w-2xl text-fg-muted text-[16px] md:text-[17px] leading-[1.65]">
-            No hidden fees. No annual lock-in. Cancel anytime. We never sell or
-            share your audit data — it stays in your account, period.
+            No hidden fees. No annual lock-in. Cancel anytime. Your audit data
+            stays in your account — we don&rsquo;t sell it or train models on it.
           </p>
         </Reveal>
 

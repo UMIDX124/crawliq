@@ -22,24 +22,24 @@ export function WhyBuilt() {
               className="text-[color:var(--color-accent)] mb-7"
             />
             <p className="font-display text-[clamp(22px,3vw,32px)] leading-[1.35] tracking-[-0.018em] text-balance text-fg">
-              I&rsquo;ve spent years running an agency that ships audits, CRM
-              systems, and AI automation for businesses across three brands.
-              Every audit took two days to write, sat unread for a week, and
-              listed 60 issues with no priority order. Half the time clients
-              shelved the whole thing.{" "}
-              <span className="text-fg-muted italic font-light">
-                CrawlIQ is the audit tool I wish my own team had — fast enough
-                to run on a sales call, sharp enough to point at the three
-                fixes that actually move rankings.
-              </span>
+              Look — I&rsquo;ve been running an agency for years and audits
+              were always the worst part of the job. Two days to write one.
+              Clients wouldn&rsquo;t read past page three. They&rsquo;d ask me
+              which thing to fix first and I never had a clean answer, because
+              the report wasn&rsquo;t built that way.
             </p>
 
-            <p className="mt-6 max-w-[58ch] text-[15.5px] leading-[1.7] text-fg-muted">
-              I don&rsquo;t build tools to chase trends. I build the ones I
-              needed yesterday and didn&rsquo;t exist. If something on this
-              page reads like a marketing claim, ask me on a call — every
-              number, every check, every line of code in the audit pipeline
-              has a person behind it who has used it on real client work.
+            <p className="mt-6 max-w-[60ch] text-[16px] leading-[1.7] text-fg-muted">
+              CrawlIQ exists because I wanted to run an audit on a sales call
+              and have something actually useful by the time the call ended.
+              The three things that matter, in order, with a real reason next
+              to each one. Not a 60-page PDF nobody opens.
+            </p>
+
+            <p className="mt-5 max-w-[60ch] text-[15px] leading-[1.7] text-fg-muted">
+              If something on this page sounds like marketing, email me. The
+              only thing I&rsquo;m selling here is the tool I&rsquo;d pay for
+              myself.
             </p>
 
             <div className="mt-10 flex items-center justify-between gap-6 pt-7 border-t border-[color:var(--color-border)]">

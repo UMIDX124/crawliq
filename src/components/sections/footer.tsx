@@ -60,7 +60,7 @@ export function Footer() {
             <span>© {new Date().getFullYear()} CrawlIQ</span>
             <span className="hidden sm:inline text-fg-faint/40">·</span>
             <span className="text-fg-muted normal-case tracking-normal text-[11.5px]">
-              We never sell or share your audit data.
+              Your audit data stays in your account. We don&rsquo;t sell it.
             </span>
           </div>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
