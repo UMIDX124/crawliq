@@ -38,7 +38,7 @@ export function LogoMark({
         width="60"
         height="60"
         rx="14"
-        fill="var(--color-accent, #FF1A6E)"
+        fill="var(--color-accent, #FF5E1A)"
       />
 
       {/* outer dashed ring — slowly rotating */}

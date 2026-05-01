@@ -54,7 +54,7 @@ export function SweepSection({
           style={{
             width: "60%",
             background:
-              "linear-gradient(90deg, transparent 0%, rgb(255 26 110 / 0.08) 30%, rgb(255 26 110 / 0.18) 50%, rgb(255 26 110 / 0.08) 70%, transparent 100%)",
+              "linear-gradient(90deg, transparent 0%, rgb(255 94 26 / 0.08) 30%, rgb(255 94 26 / 0.18) 50%, rgb(255 94 26 / 0.08) 70%, transparent 100%)",
             mixBlendMode: "screen",
           }}
         />

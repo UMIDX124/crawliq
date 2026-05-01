@@ -52,19 +52,19 @@ const styles = StyleSheet.create({
     fontSize: 18,
     letterSpacing: -0.4,
   },
-  brandIQ: { color: "#FF1A6E" },
+  brandIQ: { color: "#FF5E1A" },
   metaRight: { textAlign: "right" },
   scoreBig: {
     fontFamily: "Geist",
     fontWeight: 800,
     fontSize: 36,
-    color: "#FF1A6E",
+    color: "#FF5E1A",
     letterSpacing: -1,
   },
   grade: {
     fontFamily: "Geist",
     fontSize: 9,
-    color: "#FF1A6E",
+    color: "#FF5E1A",
     letterSpacing: 1.4,
     textTransform: "uppercase",
     marginTop: 2,
@@ -159,7 +159,7 @@ const styles = StyleSheet.create({
     fontFamily: "Geist",
     fontWeight: 800,
     fontSize: 18,
-    color: "#FF1A6E",
+    color: "#FF5E1A",
   },
   pillarName: {
     fontSize: 8,
@@ -188,7 +188,7 @@ const styles = StyleSheet.create({
     marginBottom: 4,
   },
   quickWinArrow: {
-    color: "#FF1A6E",
+    color: "#FF5E1A",
     marginRight: 6,
     fontWeight: 600,
   },
@@ -221,7 +221,7 @@ export function AuditReportPdf({
   brand,
 }: AuditPdfProps) {
   const brandName = brand?.name ?? "CrawlIQ";
-  const brandColor = brand?.color ?? "#FF1A6E";
+  const brandColor = brand?.color ?? "#FF5E1A";
   const brandLogoUrl = brand?.logoUrl ?? null;
   const data = audit.data as {
     score?: number;

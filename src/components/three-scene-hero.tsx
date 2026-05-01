@@ -23,16 +23,15 @@ import { OrbitControls, Grid, Float } from "@react-three/drei";
 import { Group, Mesh } from "three";
 import * as THREE from "three";
 
-const ACCENT = "#FF1A6E";
+const ACCENT = "#FF5E1A";
 const PASS = "#00DC82";
 const WARN = "#FFC107";
 const CRIT = "#FF4757";
 const INK = "#FFFFFF";
 
 // Floating 3D AUDIT STAMP SEALS — extruded versions of CrawlIQ's signature
-// stamp mark. Five of them at varied angles/sizes, scattered around the
-// central reticle. Stamps reinforce "this is an audit deliverable" — unique
-// to CrawlIQ, not the same 3D scene every other SaaS uses.
+// stamp mark. 5 stamps at varied angles/sizes, scattered around the central
+// reticle. Stamps reinforce "this is an audit deliverable" — unique to CrawlIQ.
 const STAMPS = [
   { x: -3.8, y: 1.5, z: -1.0, rotX: -0.25, rotY: 0.35, rotZ: -0.18, scale: 0.85, finding: false, glow: 0.4 },
   { x: 3.6, y: 1.0, z: -0.6, rotX: -0.15, rotY: -0.45, rotZ: 0.22, scale: 0.7, finding: true, glow: 1.1 },

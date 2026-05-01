@@ -7,34 +7,35 @@
  */
 
 @theme {
-  /* surfaces — pure black, never warmed; raised surfaces lift via subtle warm-grey */
+  /* surfaces — pure black with subtle warmth in raised surfaces */
   --color-bg: #0A0A0A;
-  --color-bg-2: #141416;
-  --color-bg-3: #1C1D20;
-  --color-surface: #16171A;
+  --color-bg-2: #161412;
+  --color-bg-3: #1F1B17;
+  --color-surface: #1A1612;
 
-  /* ink — pure white text on black, dimmed via opacity not hue */
-  --color-fg: #FFFFFF;
-  --color-fg-muted: #A1A1AA;
-  --color-fg-subtle: #71717A;
-  --color-fg-faint: #52525B;
+  /* ink — warm cream text (not pure white — adds warmth, less sterile) */
+  --color-fg: #F5F0E8;
+  --color-fg-muted: #A39C92;
+  --color-fg-subtle: #7A736A;
+  --color-fg-faint: #524C44;
 
-  /* borders — neutral white hairlines at low alpha */
-  --color-border: rgb(255 255 255 / 0.08);
-  --color-border-strong: rgb(255 255 255 / 0.20);
-  --color-border-accent: rgb(255 26 110 / 0.40);
+  /* borders — warm-cream hairlines at low alpha */
+  --color-border: rgb(245 240 232 / 0.08);
+  --color-border-strong: rgb(245 240 232 / 0.20);
+  --color-border-accent: rgb(255 94 26 / 0.40);
 
-  /* accent — hot magenta-pink. NOT purple/indigo (different hue family — magenta is HSL ~330,
-     purple/indigo are HSL ~270). Reads as bold, energetic, "look here". */
-  --color-accent: #FF1A6E;
-  --color-accent-hover: #FF3D85;
-  --color-accent-soft: rgb(255 26 110 / 0.10);
-  --color-accent-fg: #FFFFFF;
+  /* accent — ELECTRIC TANGERINE. Not blue/cyan/amber/magenta/green/purple.
+     Warm orange-red, distinct from severity-crit (#FF4757 is hotter pink-red).
+     Rare in B2B SaaS — almost no audit/dev tool uses orange this saturated. */
+  --color-accent: #FF5E1A;
+  --color-accent-hover: #FF7438;
+  --color-accent-soft: rgb(255 94 26 / 0.10);
+  --color-accent-fg: #0A0A0A;
 
-  /* gradient stops for full-bleed CTA bands — hot pink fade */
-  --grad-stop-1: #FF1A6E;
-  --grad-stop-2: #E0156B;
-  --grad-stop-3: #C41B5A;
+  /* gradient stops for full-bleed CTA bands — tangerine fade */
+  --grad-stop-1: #FF5E1A;
+  --grad-stop-2: #E84F0F;
+  --grad-stop-3: #C44308;
 
   /* semantic severity (calibrated for pure-black bg) */
   --color-pass: #00DC82;
@@ -84,9 +85,9 @@
   }
 
   body {
-    /* operator-tool grain — very faint white dot grid on pure black */
+    /* operator-tool grain — very faint warm-cream dot grid on pure black */
     background-image:
-      radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.025) 1px, transparent 0);
+      radial-gradient(circle at 1px 1px, rgb(245 240 232 / 0.025) 1px, transparent 0);
     background-size: 28px 28px;
     background-attachment: fixed;
   }
@@ -104,11 +105,11 @@
     background: var(--color-bg);
   }
   ::-webkit-scrollbar-thumb {
-    background: rgb(255 255 255 / 0.14);
+    background: rgb(245 240 232 / 0.14);
     border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgb(255 26 110 / 0.45);
+    background: rgb(255 94 26 / 0.45);
   }
 
   ::placeholder {
@@ -378,9 +379,9 @@
   /* signature data-mesh tile — generative SVG pattern background */
   .data-mesh {
     background-image:
-      linear-gradient(135deg, transparent 48%, rgb(255 26 110 / 0.06) 48%, rgb(255 26 110 / 0.06) 52%, transparent 52%),
-      linear-gradient(45deg, transparent 48%, rgb(255 26 110 / 0.06) 48%, rgb(255 26 110 / 0.06) 52%, transparent 52%),
-      radial-gradient(circle at 8px 8px, rgb(255 26 110 / 0.10) 1px, transparent 1.5px);
+      linear-gradient(135deg, transparent 48%, rgb(255 94 26 / 0.06) 48%, rgb(255 94 26 / 0.06) 52%, transparent 52%),
+      linear-gradient(45deg, transparent 48%, rgb(255 94 26 / 0.06) 48%, rgb(255 94 26 / 0.06) 52%, transparent 52%),
+      radial-gradient(circle at 8px 8px, rgb(255 94 26 / 0.10) 1px, transparent 1.5px);
     background-size: 24px 24px, 24px 24px, 16px 16px;
   }
 

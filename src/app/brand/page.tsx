@@ -17,7 +17,7 @@ const PALETTE = [
   { name: "surface", hex: "#16171A", role: "Raised surfaces, cards, modals" },
   { name: "ink", hex: "#FFFFFF", role: "Primary text, accent on accent" },
   { name: "ink-muted", hex: "#A1A1AA", role: "Secondary text, captions" },
-  { name: "accent", hex: "#FF1A6E", role: "Primary brand accent, single chromatic move" },
+  { name: "accent", hex: "#FF5E1A", role: "Primary brand accent, single chromatic move" },
   { name: "pass", hex: "#00DC82", role: "Severity: passed check" },
   { name: "warn", hex: "#FFC107", role: "Severity: warning finding" },
   { name: "crit", hex: "#FF4757", role: "Severity: critical finding" },
@@ -141,14 +141,14 @@ export default function BrandPage() {
               {/* core dot */}
               <circle cx="100" cy="100" r="10" fill="#FFFFFF" />
               {/* finding dot NE */}
-              <circle cx="148" cy="64" r="6" fill="#FF1A6E" />
+              <circle cx="148" cy="64" r="6" fill="#FF5E1A" />
               {/* connector */}
-              <line x1="100" y1="100" x2="148" y2="64" stroke="#FF1A6E" strokeWidth="1.5" />
+              <line x1="100" y1="100" x2="148" y2="64" stroke="#FF5E1A" strokeWidth="1.5" />
               {/* labels */}
               <text x="100" y="195" textAnchor="middle" fontSize="6" fill="rgb(255 255 255 / 0.5)" fontFamily="ui-monospace, monospace" letterSpacing="2">
                 R = 84 · DASH 3·6
               </text>
-              <text x="155" y="60" fontSize="6" fill="rgb(255 26 110 / 0.85)" fontFamily="ui-monospace, monospace" letterSpacing="1">
+              <text x="155" y="60" fontSize="6" fill="rgb(255 94 26 / 0.85)" fontFamily="ui-monospace, monospace" letterSpacing="1">
                 FINDING
               </text>
             </svg>

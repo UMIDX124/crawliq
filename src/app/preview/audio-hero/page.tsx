@@ -166,7 +166,7 @@ export default function AudioHeroPreview() {
                     style={{
                       background:
                         i < 4 || i > 35
-                          ? "rgb(255 26 110 / 0.25)"
+                          ? "rgb(255 94 26 / 0.25)"
                           : "var(--color-accent)",
                       opacity: enabled ? 1 : 0.2,
                     }}

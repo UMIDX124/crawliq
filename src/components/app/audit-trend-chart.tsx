@@ -98,12 +98,12 @@ export function AuditTrendChart({
         </text>
       ))}
       {/* area fill */}
-      <path d={areaPath} fill="rgb(255 26 110 / 0.08)" />
+      <path d={areaPath} fill="rgb(255 94 26 / 0.08)" />
       {/* line */}
       <path
         d={path}
         fill="none"
-        stroke="var(--color-accent, #FF1A6E)"
+        stroke="var(--color-accent, #FF5E1A)"
         strokeWidth="2"
         strokeLinecap="round"
         strokeLinejoin="round"
@@ -115,7 +115,7 @@ export function AuditTrendChart({
             cx={xs[i]}
             cy={ys[i]}
             r="3.5"
-            fill="var(--color-accent, #FF1A6E)"
+            fill="var(--color-accent, #FF5E1A)"
             stroke="white"
             strokeWidth="1.5"
           />

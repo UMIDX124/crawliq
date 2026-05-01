@@ -137,7 +137,7 @@ function PricingCard({ plan }: { plan: (typeof PLANS)[number] }) {
         rotateY: reduce ? 0 : rotY,
         perspective: 1200,
       }}
-      className={`relative rounded-2xl border ${plan.featured ? "border-[color:var(--color-accent)] shadow-[0_24px_60px_-30px_rgb(255_26_110/_0.45)]" : "border-[color:var(--color-border)]"} bg-[color:var(--color-surface)] p-8 md:p-9 overflow-hidden`}
+      className={`relative rounded-2xl border ${plan.featured ? "border-[color:var(--color-accent)] shadow-[0_24px_60px_-30px_rgb(255_94_26/_0.45)]" : "border-[color:var(--color-border)]"} bg-[color:var(--color-surface)] p-8 md:p-9 overflow-hidden`}
     >
       {plan.featured && (
         <span
@@ -157,7 +157,7 @@ function PricingCard({ plan }: { plan: (typeof PLANS)[number] }) {
           background: useTransform(
             [glowX, glowY],
             ([x, y]) =>
-              `radial-gradient(420px circle at ${x} ${y}, rgb(255 26 110 / 0.18), transparent 50%)`,
+              `radial-gradient(420px circle at ${x} ${y}, rgb(255 94 26 / 0.18), transparent 50%)`,
           ),
         }}
       />

@@ -178,9 +178,9 @@ export default function PageLoadPreview() {
                 opacity: 1,
                 scale: 1,
                 boxShadow: [
-                  "0 0 0 0 rgb(255 26 110 / 0)",
-                  "0 0 40px 4px rgb(255 26 110 / 0.4)",
-                  "0 0 0 0 rgb(255 26 110 / 0)",
+                  "0 0 0 0 rgb(255 94 26 / 0)",
+                  "0 0 40px 4px rgb(255 94 26 / 0.4)",
+                  "0 0 0 0 rgb(255 94 26 / 0)",
                 ],
               }}
               transition={{
