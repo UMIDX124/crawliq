@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const themes = [
+const THEMES = [
   {
     href: "/preview/blueprint",
     name: "Blueprint / CAD",
@@ -27,47 +27,130 @@ const themes = [
   },
 ];
 
+const PHASES = [
+  {
+    href: "/preview/scroll-hero",
+    num: "01",
+    name: "3D scene hero",
+    blurb: "R3F + drei. Floating reticle + 5 pillar pyramids + severity dots + grid floor. Drag to orbit.",
+  },
+  {
+    href: "/preview/watch-think",
+    num: "02",
+    name: "Scroll choreography",
+    blurb: "Section pins for 3 viewports. 5 terminals activate sequentially as scroll progresses.",
+  },
+  {
+    href: "/preview/features-h",
+    num: "03",
+    name: "Vertical → horizontal scroll",
+    blurb: "Scroll vertically, cards reveal horizontally. After last card, vertical resumes.",
+  },
+  {
+    href: "/preview/comparison-scroll",
+    num: "04",
+    name: "Pinned table reveal",
+    blurb: "Table rows reveal as scroll advances. Final summary card scales out.",
+  },
+  {
+    href: "/preview/pricing-3d",
+    num: "05",
+    name: "Cursor 3D depth pricing",
+    blurb: "Each card layer (header / price / features / CTA) on its own Z-plane. Cursor tilts.",
+  },
+  {
+    href: "/preview/cursor",
+    num: "06",
+    name: "Region-scoped reticle cursor",
+    blurb: "Native cursor hides in demo region; CrawlIQ reticle follows. Expands on interactive elements.",
+  },
+  {
+    href: "/preview/section-fx",
+    num: "07",
+    name: "Accent sweep section transitions",
+    blurb: "Each section enters with a brief accent sweep. Pure CSS + IntersectionObserver, 60fps.",
+  },
+  {
+    href: "/preview/page-load",
+    num: "08",
+    name: "Film-opening page-load",
+    blurb: "4 acts in 1.6s: brand mark draws → wordmark assembles → hero copy → URL input. First-visit only.",
+  },
+  {
+    href: "/preview/audio-hero",
+    num: "09",
+    name: "Audio-reactive hero",
+    blurb: "Synthesized hum via Web Audio API. Reacts to typing. Toggle on/off in footer. No audio assets.",
+  },
+  {
+    href: "/preview/audit-doc",
+    num: "10",
+    name: "Page-as-deliverable",
+    blurb: "Sticky right margin updates with section-aware findings as you scroll. The page IS its own audit.",
+  },
+];
+
 export default function PreviewIndex() {
   return (
-    <main className="min-h-[100dvh] bg-[#0a0a0a] text-white p-12">
-      <div className="max-w-3xl mx-auto">
-        <div className="font-mono text-[11px] tracking-[0.2em] uppercase text-white/50 mb-4">
-          CrawlIQ · theme exploration
+    <main className="min-h-[100dvh] bg-[color:var(--color-bg)] text-[color:var(--color-fg)] py-16 px-6 md:px-10">
+      <div className="max-w-[1100px] mx-auto">
+        <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-4">
+          ◇ CrawlIQ · preview index
         </div>
-        <h1 className="text-4xl font-extrabold tracking-tight mb-8">
-          Pick a theme to preview.
+        <h1 className="font-display font-black text-[clamp(40px,6vw,72px)] leading-[0.95] tracking-[-0.03em] mb-6">
+          Pick a preview to compare.
         </h1>
-        <p className="text-white/60 leading-relaxed mb-12 max-w-prose">
-          Each route is a self-contained mockup of the same hero / feature /
-          score block in a different visual direction. Open them in separate
-          tabs and compare.
+        <p className="text-fg-muted text-[16px] leading-[1.65] max-w-prose mb-16">
+          Ten phase prototypes plus four theme explorations. Each route is isolated — opening any preview never touches the live homepage.
         </p>
 
+        <div className="font-mono text-[11px] tracking-[0.22em] uppercase text-fg-muted mb-6">
+          Innovation phases (10)
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-20">
+          {PHASES.map((p) => (
+            <Link
+              key={p.href}
+              href={p.href}
+              className="group block rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-6 hover:border-[color:var(--color-accent)] transition-colors"
+            >
+              <div className="flex items-baseline justify-between mb-3 font-mono text-[10.5px] tracking-[0.22em] uppercase">
+                <span className="text-[color:var(--color-accent)]">◇ Phase {p.num}</span>
+                <span className="text-fg-faint group-hover:text-[color:var(--color-accent)] transition-colors">{p.href}</span>
+              </div>
+              <div className="font-display font-bold text-[18px] mb-2 leading-snug">{p.name}</div>
+              <div className="text-fg-muted text-[13px] leading-[1.55]">{p.blurb}</div>
+            </Link>
+          ))}
+        </div>
+
+        <div className="font-mono text-[11px] tracking-[0.22em] uppercase text-fg-muted mb-6">
+          Theme explorations (4 · alt)
+        </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {themes.map((t) => (
+          {THEMES.map((t) => (
             <Link
               key={t.href}
               href={t.href}
-              className="block p-6 rounded-lg border border-white/10 hover:border-white/30 transition-colors"
+              className="block p-5 rounded-lg border border-[color:var(--color-border)] hover:border-[color:var(--color-fg-muted)] transition-colors"
             >
-              <div className="flex gap-1.5 mb-4">
+              <div className="flex gap-1.5 mb-3">
                 {t.swatch.map((c) => (
-                  <span
-                    key={c}
-                    className="w-6 h-6 rounded-sm border border-white/10"
-                    style={{ background: c }}
-                  />
+                  <span key={c} className="w-5 h-5 rounded-sm border border-[color:var(--color-border)]" style={{ background: c }} />
                 ))}
               </div>
-              <div className="font-bold text-[16px] mb-1">{t.name}</div>
-              <div className="text-white/55 text-[13px] leading-relaxed">
-                {t.blurb}
-              </div>
-              <div className="mt-3 font-mono text-[10px] tracking-[0.18em] uppercase text-white/35">
-                {t.href} →
-              </div>
+              <div className="font-bold text-[14px] mb-1">{t.name}</div>
+              <div className="text-fg-muted text-[12px] leading-relaxed">{t.blurb}</div>
+              <div className="mt-2 font-mono text-[9.5px] tracking-[0.18em] uppercase text-fg-faint">{t.href} →</div>
             </Link>
           ))}
+        </div>
+
+        <div className="mt-20 pt-8 border-t border-[color:var(--color-border)] font-mono text-[10.5px] tracking-[0.22em] uppercase text-fg-faint flex items-center justify-between">
+          <span>◇ all routes isolated · live homepage untouched</span>
+          <Link href="/" className="hover:text-[color:var(--color-accent)] transition-colors">
+            ← live site
+          </Link>
         </div>
       </div>
     </main>
