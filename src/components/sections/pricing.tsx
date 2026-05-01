@@ -184,7 +184,7 @@ function PriceCard({
         transformStyle: "preserve-3d",
       }}
       className={cn(
-        "relative h-full rounded-2xl audit-clip p-8 md:p-9 flex flex-col transition-transform duration-300 overflow-hidden",
+        "relative h-full rounded-2xl p-8 md:p-9 flex flex-col transition-transform duration-300 overflow-hidden",
         plan.featured
           ? "border border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-[0_24px_48px_-24px_rgb(31_109_240/_0.25)]"
           : "border border-[color:var(--color-border)] bg-[color:var(--color-surface)]",
@@ -199,7 +199,7 @@ function PriceCard({
         }}
       />
       {plan.featured && (
-        <span className="absolute -top-3 left-7 inline-block bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full">
+        <span className="absolute -top-3 left-7 inline-block whitespace-nowrap bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full">
           Most popular
         </span>
       )}
@@ -208,13 +208,13 @@ function PriceCard({
         {plan.tier}
       </div>
 
-      <div className="flex items-baseline gap-2 mb-2">
+      <div className="flex items-baseline gap-2 mb-2 whitespace-nowrap">
         <span className="font-display font-extrabold text-[52px] leading-none tabular-nums">
           ${price}
         </span>
         <span className="text-fg-muted text-[15px]">/mo</span>
       </div>
-      <div className="font-mono text-[10.5px] tracking-[0.14em] uppercase text-fg-faint mb-6">
+      <div className="font-mono text-[10.5px] tracking-[0.14em] uppercase text-fg-faint mb-6 leading-snug">
         {annual && price > 0
           ? `billed yearly · save $${(plan.monthly - plan.yearly) * 12}`
           : price === 0

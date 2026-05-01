@@ -136,7 +136,7 @@ export function LiveAuditMargin() {
   return (
     <aside
       aria-label="Live page audit"
-      className="hidden xl:block fixed right-4 top-24 z-40 w-[212px] font-mono"
+      className="hidden 2xl:block fixed right-4 top-28 z-40 w-[208px] font-mono"
     >
       <div className="rounded-md border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)]/85 backdrop-blur-md shadow-[0_8px_24px_-12px_rgb(0_0_0_/_0.18)] overflow-hidden">
         <button

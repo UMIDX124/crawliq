@@ -24,8 +24,8 @@ export function Footer() {
   return (
     <footer className="border-t border-[color:var(--color-border)] bg-[color:var(--color-bg-2)] py-14 sm:py-16 md:py-20">
       <div className="container-page">
-        <div className="grid grid-cols-2 md:grid-cols-[2fr_1fr_1fr_1fr] gap-12 md:gap-16">
-          <div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-[2fr_1fr_1fr_1fr] gap-y-10 gap-x-8 md:gap-x-12 lg:gap-x-16">
+          <div className="col-span-2 sm:col-span-3 md:col-span-1">
             <Logo size="lg" />
             <p className="mt-4 text-[14px] text-fg-muted leading-[1.65] max-w-[280px]">
               AI-powered website audits that read your site like an expert and

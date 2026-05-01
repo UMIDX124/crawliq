@@ -186,11 +186,11 @@ function PillarTop({
 }) {
   return (
     <>
-      <div className="flex items-start justify-between">
-        <div className="w-9 h-9 rounded-lg grid place-items-center bg-[color:var(--color-accent-soft)] text-[color:var(--color-accent)] transition-transform duration-300 group-hover:scale-105">
+      <div className="flex items-start justify-between gap-3 min-w-0">
+        <div className="w-9 h-9 shrink-0 rounded-lg grid place-items-center bg-[color:var(--color-accent-soft)] text-[color:var(--color-accent)] transition-transform duration-300 group-hover:scale-105">
           <Icon size={18} weight="duotone" />
         </div>
-        <span className="font-mono text-[10px] tracking-[0.16em] uppercase text-fg-faint border border-[color:var(--color-border)] px-2 py-1 rounded">
+        <span className="shrink-0 whitespace-nowrap font-mono text-[10px] tracking-[0.14em] uppercase text-fg-faint border border-[color:var(--color-border)] px-2 py-1 rounded">
           {tag}
         </span>
       </div>

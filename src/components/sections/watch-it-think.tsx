@@ -189,24 +189,24 @@ function Terminal({ agent, index }: { agent: Agent; index: number }) {
       className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden h-full flex flex-col"
     >
       {/* terminal bar */}
-      <div className="flex items-center gap-2 px-4 py-2.5 border-b border-[color:var(--color-border)] bg-[color:var(--color-bg-2)]">
-        <span className="w-2 h-2 rounded-full bg-[#ff5f57]" />
-        <span className="w-2 h-2 rounded-full bg-[#febc2e]" />
-        <span className="w-2 h-2 rounded-full bg-[#28c840]" />
+      <div className="flex items-center gap-1.5 px-3 py-2.5 border-b border-[color:var(--color-border)] bg-[color:var(--color-bg-2)] min-w-0">
+        <span className="w-2 h-2 rounded-full bg-[#ff5f57] shrink-0" />
+        <span className="w-2 h-2 rounded-full bg-[#febc2e] shrink-0" />
+        <span className="w-2 h-2 rounded-full bg-[#28c840] shrink-0" />
         <Icon
-          size={13}
+          size={12}
           weight="bold"
-          className="ml-2 text-[color:var(--color-accent)]"
+          className="ml-1.5 shrink-0 text-[color:var(--color-accent)]"
         />
-        <span className="font-mono text-[11px] text-fg-muted">
+        <span className="font-mono text-[10.5px] text-fg-muted truncate min-w-0">
           {agent.id}.agent
         </span>
         {done && score ? (
-          <span className="ml-auto font-mono text-[10px] tracking-[0.14em] uppercase px-2 py-0.5 rounded-full bg-[color:var(--color-accent-soft)] text-[color:var(--color-accent)] animate-[fadein_300ms_ease-out_forwards]">
+          <span className="ml-auto shrink-0 font-mono text-[9.5px] tracking-[0.1em] uppercase tabular-nums whitespace-nowrap px-1.5 py-0.5 rounded-full bg-[color:var(--color-accent-soft)] text-[color:var(--color-accent)] animate-[fadein_300ms_ease-out_forwards]">
             {score}
           </span>
         ) : (
-          <span className="ml-auto inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)] pulse-dot" />
+          <span className="ml-auto shrink-0 inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)] pulse-dot" />
         )}
       </div>
 

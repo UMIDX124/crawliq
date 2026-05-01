@@ -59,11 +59,13 @@ export function ReportEyebrow({
   total?: string;
 }) {
   return (
-    <span className="inline-flex items-center gap-2.5 font-mono text-[10.5px] tracking-[0.2em] uppercase text-fg-muted">
-      <Glyph k="section" className="text-[color:var(--color-accent)] text-[10px]" />
-      <span className="text-fg-faint tabular-nums">§ {num} / {total}</span>
-      <span className="text-fg-faint">·</span>
-      <span>{children}</span>
+    <span className="inline-flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[10.5px] tracking-[0.18em] uppercase text-fg-muted leading-none">
+      <span className="inline-flex items-center gap-2.5 whitespace-nowrap">
+        <Glyph k="section" className="text-[color:var(--color-accent)] text-[10px]" />
+        <span className="text-fg-faint tabular-nums">§&nbsp;{num}&nbsp;/&nbsp;{total}</span>
+      </span>
+      <span className="text-fg-faint hidden sm:inline">·</span>
+      <span className="whitespace-nowrap">{children}</span>
     </span>
   );
 }

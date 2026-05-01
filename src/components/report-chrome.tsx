@@ -19,23 +19,23 @@ export function ReportTopBar() {
 
   return (
     <div className="sticky top-0 z-30 border-b border-[color:var(--color-border-strong)] bg-[color:var(--color-bg)]/85 backdrop-blur-md">
-      <div className="max-w-[1280px] mx-auto px-5 md:px-8 py-2 flex items-center justify-between font-mono text-[10px] tracking-[0.18em] uppercase text-fg-muted">
-        <div className="flex items-center gap-3">
-          <FileText size={12} weight="bold" className="text-[color:var(--color-accent)]" />
-          <span className="hidden sm:inline">Audit report</span>
+      <div className="max-w-[1280px] mx-auto px-5 md:px-8 py-2 flex items-center justify-between gap-3 font-mono text-[10px] tracking-[0.18em] uppercase text-fg-muted overflow-hidden">
+        <div className="flex items-center gap-3 min-w-0">
+          <FileText size={12} weight="bold" className="text-[color:var(--color-accent)] shrink-0" />
+          <span className="hidden sm:inline whitespace-nowrap">Audit report</span>
           <span className="text-fg-faint hidden sm:inline">·</span>
-          <span>
+          <span className="whitespace-nowrap truncate">
             <span className="text-fg-faint">Subject:</span>{" "}
             <span className="text-fg">crawliq.io</span>
           </span>
         </div>
-        <div className="flex items-center gap-3">
-          <span className="hidden md:flex items-center gap-1.5">
+        <div className="flex items-center gap-3 shrink-0">
+          <span className="hidden md:flex items-center gap-1.5 whitespace-nowrap">
             <CalendarBlank size={11} weight="bold" />
             {dateStr}
           </span>
           <span className="hidden md:inline text-fg-faint">·</span>
-          <span className="flex items-center gap-1.5">
+          <span className="flex items-center gap-1.5 whitespace-nowrap">
             <Hash size={11} weight="bold" />
             <span className="text-fg-faint">Rev</span>
             <span className="text-fg">{(process.env.VERCEL_GIT_COMMIT_SHA ?? "local").slice(0, 7)}</span>
@@ -48,10 +48,10 @@ export function ReportTopBar() {
 
 export function ReportAppendixDivider({ section }: { section: string }) {
   return (
-    <div className="max-w-[1280px] mx-auto px-5 md:px-8 py-3 flex items-center justify-between font-mono text-[10px] tracking-[0.18em] uppercase text-fg-faint">
-      <span>{section}</span>
-      <span className="text-fg-faint/60">— · —</span>
-      <span>CrawlIQ Audit · Confidential</span>
+    <div className="max-w-[1280px] mx-auto px-5 md:px-8 py-4 flex items-center justify-between gap-4 font-mono text-[10px] tracking-[0.18em] uppercase text-fg-faint">
+      <span className="truncate">{section}</span>
+      <span className="hidden sm:inline text-fg-faint/60 shrink-0">— · —</span>
+      <span className="whitespace-nowrap shrink-0">CrawlIQ · Confidential</span>
     </div>
   );
 }

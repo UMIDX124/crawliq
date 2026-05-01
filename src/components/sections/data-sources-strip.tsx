@@ -80,17 +80,17 @@ export function DataSourcesStrip() {
                     transition: { duration: 0.45, ease: [0.16, 1, 0.3, 1] },
                   },
                 }}
-                className="bg-[color:var(--color-surface)] p-5 hover:bg-[color:var(--color-bg-3)] transition-colors"
+                className="bg-[color:var(--color-surface)] p-5 min-h-[140px] flex flex-col hover:bg-[color:var(--color-bg-3)] transition-colors"
               >
                 <Icon
                   size={20}
                   weight="duotone"
-                  className="text-[color:var(--color-accent)] mb-3"
+                  className="text-[color:var(--color-accent)] mb-3 shrink-0"
                 />
-                <div className="font-display font-bold text-[14px] mb-1">
+                <div className="font-display font-bold text-[14px] mb-1.5 leading-snug">
                   {s.name}
                 </div>
-                <div className="text-[11.5px] text-fg-muted leading-[1.5]">
+                <div className="text-[11.5px] text-fg-muted leading-[1.55]">
                   {s.tag}
                 </div>
               </motion.li>

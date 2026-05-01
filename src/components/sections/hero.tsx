@@ -103,8 +103,8 @@ export function Hero() {
         }}
       />
 
-      {/* Audited seal — corner artifact, like a stamped audit form */}
-      <div className="hidden lg:block absolute top-24 right-8 xl:right-16 pointer-events-none opacity-90 z-0">
+      {/* Audited seal — small artifact near the bottom-left of hero, doesn't fight the dashboard widget */}
+      <div className="hidden md:block absolute bottom-6 left-6 lg:bottom-10 lg:left-10 pointer-events-none opacity-50 hover:opacity-90 transition-opacity z-0 scale-75 lg:scale-100">
         <AuditedSeal />
       </div>
 
@@ -206,16 +206,16 @@ export function Hero() {
 
               {/* stats */}
               <FadeChildren delay={1.8} className="w-full max-w-[560px] mt-12 lg:mt-16">
-                <div className="grid grid-cols-3 gap-x-6 gap-y-7">
+                <div className="grid grid-cols-3 gap-x-5 sm:gap-x-6 gap-y-7">
                   {stats.map((s) => (
-                    <div key={s.label}>
+                    <div key={s.label} className="min-w-0">
                       <CountUp
                         to={s.to}
                         prefix={s.prefix ?? ""}
                         suffix={s.suffix ?? ""}
-                        className="font-display font-extrabold text-[28px] sm:text-[30px] lg:text-[34px] leading-none text-fg tabular-nums"
+                        className="font-display font-extrabold text-[26px] sm:text-[30px] lg:text-[34px] leading-none text-fg tabular-nums whitespace-nowrap"
                       />
-                      <div className="mt-2 font-mono text-[9.5px] sm:text-[10px] tracking-[0.16em] uppercase text-fg-muted">
+                      <div className="mt-2 font-mono text-[9.5px] sm:text-[10px] tracking-[0.14em] uppercase text-fg-muted leading-snug">
                         {s.label}
                       </div>
                     </div>

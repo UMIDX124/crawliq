@@ -114,9 +114,9 @@ function ColHeader({ label, featured = false }: { label: string; featured?: bool
         featured && "bg-[color:var(--color-accent-soft)]",
       )}
     >
-      <div className="flex items-center justify-center gap-1.5">
+      <div className="flex items-center justify-center gap-1.5 whitespace-nowrap">
         {featured && (
-          <Sparkle size={12} weight="fill" className="text-[color:var(--color-accent)]" />
+          <Sparkle size={12} weight="fill" className="text-[color:var(--color-accent)] shrink-0" />
         )}
         <span
           className={cn(
