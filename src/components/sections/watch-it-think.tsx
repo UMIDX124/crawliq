@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { Reveal } from "@/components/reveal";
+import { ReportEyebrow } from "@/components/glyph";
 import {
   MagnifyingGlass,
   GearSix,
@@ -108,10 +109,7 @@ export function WatchItThink() {
     >
       <div className="container-page">
         <Reveal className="max-w-3xl">
-          <span className="eyebrow">
-            <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
-            Watch the auditors think
-          </span>
+          <ReportEyebrow num="02">Watch the auditors think</ReportEyebrow>
           <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
             Five auditors. Five terminals.{" "}
             <span className="italic font-light text-fg-muted">

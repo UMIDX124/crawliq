@@ -12,16 +12,14 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { ScoreVisual } from "@/components/sections/score-visual";
 import { ParallaxCard } from "@/components/parallax-card";
+import { ReportEyebrow } from "@/components/glyph";
 
 export function Features() {
   return (
     <section id="features" className="relative py-20 sm:py-24 md:py-32 lg:py-36">
       <div className="container-page">
         <Reveal className="max-w-3xl">
-          <span className="eyebrow">
-            <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
-            Five auditors · one report
-          </span>
+          <ReportEyebrow num="04">Five auditors · one report</ReportEyebrow>
           <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
             Every angle, every issue,{" "}
             <span className="italic font-light text-fg-muted">
@@ -168,7 +166,7 @@ function BentoCell({
   return (
     <ParallaxCard
       intensity={big ? 0.6 : 1}
-      className={`card-lift group h-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:border-[color:var(--color-accent)] ${
+      className={`card-lift audit-clip group h-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:border-[color:var(--color-accent)] ${
         big ? "p-8" : "p-7"
       } flex flex-col`}
     >

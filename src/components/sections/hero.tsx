@@ -9,6 +9,7 @@ import { CountUp } from "@/components/count-up";
 import { InlineAudit } from "@/components/inline-audit";
 import { HeroDashboard } from "@/components/hero-dashboard";
 import { Magnetic } from "@/components/magnetic";
+import { AuditedSeal } from "@/components/audit-stamp";
 
 const stats = [
   { to: 267, label: "Checks per audit" },
@@ -101,6 +102,11 @@ export function Hero() {
             "radial-gradient(ellipse 75% 60% at 50% 35%, black 30%, transparent 75%)",
         }}
       />
+
+      {/* Audited seal — corner artifact, like a stamped audit form */}
+      <div className="hidden lg:block absolute top-24 right-8 xl:right-16 pointer-events-none opacity-90 z-0">
+        <AuditedSeal />
+      </div>
 
       <div className="relative w-full max-w-[1320px] mx-auto">
         {!submittedUrl ? (

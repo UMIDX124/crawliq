@@ -1,6 +1,7 @@
 import { Reveal } from "@/components/reveal";
 import { CountUp } from "@/components/count-up";
 import { MagnifyingGlass, ChartLineDown, Hourglass } from "@phosphor-icons/react/dist/ssr";
+import { ReportEyebrow } from "@/components/glyph";
 
 const problems = [
   {
@@ -34,10 +35,7 @@ export function Problems() {
     <section id="problems" className="relative py-20 sm:py-24 md:py-32 lg:py-36">
       <div className="container-page">
         <Reveal className="max-w-3xl">
-          <span className="eyebrow">
-            <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
-            The problem
-          </span>
+          <ReportEyebrow num="01">The problem</ReportEyebrow>
           <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
             Your site is losing rankings.{" "}
             <span className="italic font-light text-fg-muted">
