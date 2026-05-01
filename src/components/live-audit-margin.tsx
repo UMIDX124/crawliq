@@ -120,15 +120,22 @@ export function LiveAuditMargin() {
     };
   }, []);
 
-  // scroll depth tracking
+  // scroll depth tracking — rAF-throttled so React isn't re-rendered on every wheel tick
   useEffect(() => {
-    const onScroll = () => {
+    let ticking = false;
+    const compute = () => {
       const h = document.documentElement;
       const scrolled = h.scrollTop;
       const max = Math.max(1, h.scrollHeight - h.clientHeight);
       setScrollPct(Math.min(100, Math.round((scrolled / max) * 100)));
+      ticking = false;
     };
-    onScroll();
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(compute);
+    };
+    compute();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);

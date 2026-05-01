@@ -22,10 +22,12 @@ export function SmoothScroll() {
       if (cancelled) return;
 
       const lenis = new Lenis({
-        duration: 1.05,
-        easing: (t: number) => 1 - Math.pow(1 - t, 3),
-        wheelMultiplier: 1,
-        touchMultiplier: 1.4,
+        // Tighter lerp gives a responsive feel; long duration was causing 1+ sec
+        // scroll lag. 0.1 lerp is what Linear/Vercel use.
+        lerp: 0.1,
+        wheelMultiplier: 1.1,
+        touchMultiplier: 1.5,
+        smoothWheel: true,
       });
 
       const tick = (time: number) => {

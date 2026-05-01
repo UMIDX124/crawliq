@@ -297,10 +297,24 @@ export function WebGPUConstellation() {
         };
         window.addEventListener("scroll", onScroll, { passive: true });
 
+        // Pause render loop when constellation is off-screen — saves significant GPU
+        let inView = true;
+        const io = new IntersectionObserver(
+          (entries) => {
+            for (const e of entries) inView = e.isIntersecting;
+          },
+          { rootMargin: "120px" },
+        );
+        io.observe(container);
+
         // Animate
         const clock = new THREE.Clock();
         let lastFrame = 0;
         const animate = () => {
+          if (!inView) {
+            lastFrame = requestAnimationFrame(animate);
+            return;
+          }
           const dt = Math.min(clock.getDelta(), 0.08);
           const t = clock.getElapsedTime();
           dtUniform.value = dt;
@@ -340,6 +354,7 @@ export function WebGPUConstellation() {
 
         cleanup = () => {
           cancelAnimationFrame(lastFrame);
+          io.disconnect();
           window.removeEventListener("resize", onResize);
           window.removeEventListener("scroll", onScroll);
           container.removeEventListener("mousemove", onMove);
