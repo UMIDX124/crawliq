@@ -74,14 +74,16 @@ enum SubscriptionStatus {
 }
 
 model User {
-  id          String   @id @default(cuid())
-  clerkUserId String   @unique
-  email       String   @unique
-  name        String
-  avatarUrl   String?
-  role        Role     @default(SPECIALIST)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id           String   @id @default(cuid())
+  clerkUserId  String   @unique
+  email        String   @unique
+  name         String
+  avatarUrl    String?
+  role         Role     @default(SPECIALIST)
+  onboardedAt  DateTime?
+  digestOptIn  Boolean  @default(true)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 
   audits                  Audit[]                   @relation("AuditCreatedBy")
   ownedProjects           Project[]                 @relation("ProjectOwner")
@@ -136,6 +138,10 @@ model Project {
   name        String
   url         String
   description String?
+  /** "off" | "weekly" | "monthly" — controls auto re-audits */
+  cadence     String          @default("off")
+  /** UTC timestamp of next scheduled run */
+  nextRunAt   DateTime?
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 
@@ -147,6 +153,7 @@ model Project {
   tasks       Task[]
 
   @@index([ownerId])
+  @@index([nextRunAt])
 }
 
 model ProjectMember {

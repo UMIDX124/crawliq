@@ -11,5 +11,15 @@
         { "key": "Cache-Control", "value": "no-cache, no-transform" }
       ]
     }
+  ],
+  "crons": [
+    {
+      "path": "/api/cron/digest",
+      "schedule": "0 9 * * 1"
+    },
+    {
+      "path": "/api/cron/scheduled-audits",
+      "schedule": "0 * * * *"
+    }
   ]
 }

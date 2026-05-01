@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
 import { AppTopbar } from "@/components/app/topbar";
 import { requireUser } from "@/lib/auth-helpers";
 import { db } from "@/lib/db";
@@ -18,6 +19,9 @@ export const metadata = { title: "Dashboard" };
 
 export default async function DashboardPage() {
   const user = await requireUser();
+  if (!user.onboardedAt) {
+    redirect("/onboarding");
+  }
 
   const [
     auditCount,
