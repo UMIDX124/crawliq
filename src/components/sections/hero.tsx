@@ -1,13 +1,14 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { ArrowRight, Sparkle } from "@phosphor-icons/react";
 import { KineticHeading, FadeChildren } from "@/components/kinetic-heading";
 import { LiveTicker } from "@/components/live-ticker";
 import { CountUp } from "@/components/count-up";
 import { InlineAudit } from "@/components/inline-audit";
 import { HeroDashboard } from "@/components/hero-dashboard";
+import { Magnetic } from "@/components/magnetic";
 
 const stats = [
   { to: 240, suffix: "+", label: "Signals checked" },
@@ -22,6 +23,7 @@ export function Hero() {
   const heroRef = useRef<HTMLElement>(null);
 
   // cursor parallax for badge
+  const reduce = useReducedMotion();
   const mx = useMotionValue(0);
   const my = useMotionValue(0);
   const sx = useSpring(mx, { stiffness: 50, damping: 18 });
@@ -30,7 +32,7 @@ export function Hero() {
   const badgeY = useTransform(sy, (v) => v * 5);
 
   const onMove = (e: React.MouseEvent) => {
-    if (!heroRef.current) return;
+    if (reduce || !heroRef.current) return;
     const r = heroRef.current.getBoundingClientRect();
     mx.set((e.clientX - r.left) / r.width - 0.5);
     my.set((e.clientY - r.top) / r.height - 0.5);
@@ -148,11 +150,14 @@ export function Hero() {
                       spellCheck={false}
                       aria-label="Website URL"
                     />
-                    <MagneticButton type="submit">
+                    <Magnetic
+                      type="submit"
+                      className="m-1 sm:m-1.5 inline-flex items-center gap-1.5 sm:gap-2 rounded-[6px] bg-[color:var(--color-accent)] px-3 sm:px-5 py-2.5 sm:py-3 font-display text-[12px] sm:text-[13px] font-bold uppercase tracking-wide text-[color:var(--color-accent-fg)] hover:bg-[color:var(--color-accent-hover)] focus-ring shadow-[0_4px_14px_-4px_rgb(0_102_255/_0.4)] btn-tactile"
+                    >
                       <Sparkle size={14} weight="fill" />
                       <span className="hidden xs:inline">Run audit</span>
                       <ArrowRight size={14} weight="bold" />
-                    </MagneticButton>
+                    </Magnetic>
                   </div>
                 </form>
 
@@ -194,40 +199,3 @@ export function Hero() {
   );
 }
 
-// magnetic button — pulls slightly toward cursor on hover
-function MagneticButton({
-  children,
-  type = "button",
-}: {
-  children: React.ReactNode;
-  type?: "button" | "submit";
-}) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-  const sx = useSpring(x, { stiffness: 200, damping: 18, mass: 0.4 });
-  const sy = useSpring(y, { stiffness: 200, damping: 18, mass: 0.4 });
-
-  const onMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const r = e.currentTarget.getBoundingClientRect();
-    const px = (e.clientX - r.left - r.width / 2) / (r.width / 2);
-    const py = (e.clientY - r.top - r.height / 2) / (r.height / 2);
-    x.set(px * 6);
-    y.set(py * 4);
-  };
-  const reset = () => {
-    x.set(0);
-    y.set(0);
-  };
-
-  return (
-    <motion.button
-      type={type}
-      onMouseMove={onMove}
-      onMouseLeave={reset}
-      style={{ x: sx, y: sy }}
-      className="m-1 sm:m-1.5 inline-flex items-center gap-1.5 sm:gap-2 rounded-[6px] bg-[color:var(--color-accent)] px-3 sm:px-5 py-2.5 sm:py-3 font-display text-[12px] sm:text-[13px] font-bold uppercase tracking-wide text-[color:var(--color-accent-fg)] hover:bg-[color:var(--color-accent-hover)] focus-ring shadow-[0_4px_14px_-4px_rgb(0_102_255/_0.4)] btn-tactile"
-    >
-      {children}
-    </motion.button>
-  );
-}

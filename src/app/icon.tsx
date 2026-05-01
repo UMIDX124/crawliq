@@ -1,8 +1,12 @@
 import { ImageResponse } from "next/og";
 
-export const size = { width: 32, height: 32 };
+export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
+/**
+ * Favicon — same minimalist reticle as <LogoMark />.
+ * Rendered at 64×64 source, browsers downscale gracefully.
+ */
 export default function Icon() {
   return new ImageResponse(
     (
@@ -14,44 +18,58 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           background: "#0066ff",
-          borderRadius: 7,
+          borderRadius: 14,
           position: "relative",
         }}
       >
-        {/* eyes */}
+        {/* outer dashed ring */}
         <div
           style={{
             position: "absolute",
-            top: 9,
-            left: 7,
-            width: 6,
-            height: 6,
+            top: 14,
+            left: 14,
+            width: 36,
+            height: 36,
             borderRadius: 999,
-            background: "rgba(255,255,255,0.95)",
+            border: "2.5px dashed rgba(255,255,255,0.45)",
           }}
         />
+        {/* inner solid 3/4 arc — fake by clipping a full ring with the
+            container background overlay; favicon doesn't need pixel-perfect SMIL */}
         <div
           style={{
             position: "absolute",
-            top: 9,
-            right: 7,
-            width: 6,
-            height: 6,
+            top: 14,
+            left: 14,
+            width: 36,
+            height: 36,
             borderRadius: 999,
-            background: "rgba(255,255,255,0.95)",
+            border: "2.5px solid #ffffff",
+            borderTopColor: "transparent",
           }}
         />
-        {/* smile */}
+        {/* core dot */}
         <div
           style={{
             position: "absolute",
-            bottom: 7,
-            left: 9,
-            width: 14,
+            top: 30,
+            left: 30,
+            width: 7,
+            height: 7,
+            borderRadius: 999,
+            background: "#ffffff",
+          }}
+        />
+        {/* finding dot NE */}
+        <div
+          style={{
+            position: "absolute",
+            top: 19,
+            right: 14,
+            width: 5,
             height: 5,
-            borderBottomLeftRadius: 7,
-            borderBottomRightRadius: 7,
-            background: "rgba(255,255,255,0.92)",
+            borderRadius: 999,
+            background: "#ffffff",
           }}
         />
       </div>

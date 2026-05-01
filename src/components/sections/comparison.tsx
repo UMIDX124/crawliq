@@ -1,6 +1,7 @@
 import { Reveal } from "@/components/reveal";
 import { Check, Minus, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { cn } from "@/lib/cn";
+import { ComparisonRow } from "@/components/sections/comparison-row";
 
 type Cell = boolean | "partial";
 
@@ -61,8 +62,9 @@ export function Comparison() {
             </div>
 
             {rows.map((r, i) => (
-              <div
+              <ComparisonRow
                 key={r.label}
+                index={i}
                 className={cn(
                   "grid grid-cols-[1.5fr_1fr_1fr_1fr_1fr] items-center",
                   i % 2 === 0 ? "bg-[color:var(--color-surface)]" : "bg-[color:var(--color-bg)]",
@@ -76,7 +78,7 @@ export function Comparison() {
                 <CellMark v={r.lighthouse} />
                 <CellMark v={r.ahrefs} />
                 <CellMark v={r.manual} />
-              </div>
+              </ComparisonRow>
             ))}
           </div>
         </Reveal>

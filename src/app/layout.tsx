@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { ScrollProgress } from "@/components/scroll-progress";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -87,7 +88,14 @@ export default function RootLayout({
     >
       <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
         <body className="min-h-[100dvh] bg-[color:var(--color-bg)] text-[color:var(--color-fg)] antialiased">
+          <a
+            href="#hero"
+            className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-[color:var(--color-accent)] focus:text-[color:var(--color-accent-fg)] focus:px-4 focus:py-2 focus:rounded-md focus:font-mono focus:text-[12px] focus:tracking-[0.14em] focus:uppercase"
+          >
+            Skip to content
+          </a>
           <SmoothScroll />
+          <ScrollProgress />
           {children}
         </body>
       </html>

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useUser } from "@clerk/nextjs";
+import { useReducedMotion } from "framer-motion";
 import { Check, Minus, ArrowRight } from "@phosphor-icons/react";
 import { Reveal } from "@/components/reveal";
 import { cn } from "@/lib/cn";
@@ -159,14 +160,21 @@ function PriceCard({
   annual: boolean;
   isSignedIn: boolean;
 }) {
+  const reduce = useReducedMotion();
   const [tilt, setTilt] = useState({ x: 0, y: 0 });
+  const [glow, setGlow] = useState({ x: 50, y: 50, active: false });
   const onMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (reduce) return;
     const r = e.currentTarget.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width - 0.5;
-    const py = (e.clientY - r.top) / r.height - 0.5;
-    setTilt({ x: -py * 4, y: px * 4 });
+    const px = (e.clientX - r.left) / r.width;
+    const py = (e.clientY - r.top) / r.height;
+    setTilt({ x: -(py - 0.5) * 4, y: (px - 0.5) * 4 });
+    setGlow({ x: px * 100, y: py * 100, active: true });
   };
-  const reset = () => setTilt({ x: 0, y: 0 });
+  const reset = () => {
+    setTilt({ x: 0, y: 0 });
+    setGlow((g) => ({ ...g, active: false }));
+  };
 
   const price = annual ? plan.yearly : plan.monthly;
 
@@ -179,12 +187,20 @@ function PriceCard({
         transformStyle: "preserve-3d",
       }}
       className={cn(
-        "relative h-full rounded-2xl p-8 md:p-9 flex flex-col transition-transform duration-300",
+        "relative h-full rounded-2xl p-8 md:p-9 flex flex-col transition-transform duration-300 overflow-hidden",
         plan.featured
           ? "border border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-[0_24px_48px_-24px_rgb(0_102_255/_0.25)]"
           : "border border-[color:var(--color-border)] bg-[color:var(--color-surface)]",
       )}
     >
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+        style={{
+          opacity: glow.active ? 1 : 0,
+          background: `radial-gradient(420px circle at ${glow.x}% ${glow.y}%, rgb(0 102 255 / 0.12), transparent 50%)`,
+        }}
+      />
       {plan.featured && (
         <span className="absolute -top-3 left-7 inline-block bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full">
           Most popular

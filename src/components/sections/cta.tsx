@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowRight, Sparkle } from "@phosphor-icons/react";
 import { Reveal } from "@/components/reveal";
+import { Magnetic } from "@/components/magnetic";
 
 export function FinalCta() {
   const router = useRouter();
@@ -69,14 +70,14 @@ export function FinalCta() {
                     spellCheck={false}
                     aria-label="Website URL"
                   />
-                  <button
+                  <Magnetic
                     type="submit"
                     className="btn-tactile m-1.5 inline-flex items-center gap-2 rounded-[6px] bg-[color:var(--color-accent)] px-5 py-3 font-display text-[13px] font-bold uppercase tracking-wide text-[color:var(--color-accent-fg)] hover:bg-[color:var(--color-accent-hover)] focus-ring"
                   >
                     <Sparkle size={14} weight="fill" />
                     Run audit
                     <ArrowRight size={14} weight="bold" />
-                  </button>
+                  </Magnetic>
                 </div>
               </form>
 
