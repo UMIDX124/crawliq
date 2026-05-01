@@ -1,5 +1,6 @@
 import { Reveal } from "@/components/reveal";
 import { Quotes } from "@phosphor-icons/react/dist/ssr";
+import { ParallaxCard } from "@/components/parallax-card";
 
 /**
  * Founder voice section — tells the WHY behind CrawlIQ.
@@ -44,9 +45,12 @@ export function WhyBuilt() {
 
             <div className="mt-10 flex items-center justify-between gap-6 pt-7 border-t border-[color:var(--color-border)]">
               <div className="flex items-center gap-3.5">
-                <div className="w-11 h-11 rounded-full bg-[color:var(--color-accent-soft)] grid place-items-center font-display font-bold text-[15px] text-[color:var(--color-accent)]">
+                <ParallaxCard
+                  intensity={1.4}
+                  className="w-11 h-11 rounded-full bg-[color:var(--color-accent-soft)] grid place-items-center font-display font-bold text-[15px] text-[color:var(--color-accent)]"
+                >
                   UF
-                </div>
+                </ParallaxCard>
                 <div>
                   <div className="font-display font-bold text-[14.5px] text-fg leading-tight">
                     Umer Farooq

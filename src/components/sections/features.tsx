@@ -11,6 +11,7 @@ import {
   Calendar,
 } from "@phosphor-icons/react/dist/ssr";
 import { ScoreVisual } from "@/components/sections/score-visual";
+import { ParallaxCard } from "@/components/parallax-card";
 
 export function Features() {
   return (
@@ -165,13 +166,14 @@ function BentoCell({
   big?: boolean;
 }) {
   return (
-    <div
+    <ParallaxCard
+      intensity={big ? 0.6 : 1}
       className={`card-lift group h-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:border-[color:var(--color-accent)] ${
         big ? "p-8" : "p-7"
       } flex flex-col`}
     >
       {children}
-    </div>
+    </ParallaxCard>
   );
 }
 
