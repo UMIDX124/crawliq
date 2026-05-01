@@ -1,14 +1,16 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Figtree, Geist_Mono } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { ScrollProgress } from "@/components/scroll-progress";
 
-const geistSans = Geist({
+// Figtree — chosen for its slightly geometric character, distinct from the
+// universal Geist/Inter on every other SaaS landing.
+const figtree = Figtree({
   variable: "--font-geist-sans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
 });
 
@@ -70,23 +72,23 @@ export default function RootLayout({
       afterSignOutUrl="/"
       appearance={{
         variables: {
-          colorPrimary: "#C8472D",
-          colorBackground: "#f5f5f7",
-          colorText: "#1d1d1f",
-          colorTextSecondary: "#6e6e73",
-          colorInputBackground: "#ffffff",
-          colorInputText: "#1d1d1f",
+          colorPrimary: "#07C42C",
+          colorBackground: "#0A0A0A",
+          colorText: "#FFFFFF",
+          colorTextSecondary: "#A1A1AA",
+          colorInputBackground: "#16171A",
+          colorInputText: "#FFFFFF",
           borderRadius: "8px",
           fontFamily: "var(--font-geist-sans)",
         },
         elements: {
           formButtonPrimary:
-            "bg-[#C8472D] hover:bg-[#1a78ff] text-white font-mono uppercase tracking-[0.14em] text-[12px]",
-          card: "shadow-none border border-[rgb(29_29_31_/_0.08)]",
+            "bg-[#07C42C] hover:bg-[#1FD945] text-black font-mono uppercase tracking-[0.14em] text-[12px]",
+          card: "shadow-none border border-[rgb(255_255_255_/_0.08)] bg-[#16171A]",
         },
       }}
     >
-      <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <html lang="en" className={`${figtree.variable} ${geistMono.variable}`}>
         <body className="min-h-[100dvh] bg-[color:var(--color-bg)] text-[color:var(--color-fg)] antialiased">
           <a
             href="#hero"

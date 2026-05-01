@@ -1,44 +1,43 @@
 @import "tailwindcss";
 
 /* === CrawlIQ design tokens ===
- *  EDITORIAL theme — warm cream paper + deep ink + vermilion accent.
- *  NYT / McKinsey / Stripe Press aesthetic. ZERO tech-AI palette feel.
- *  No blue, no cyan, no amber, no neon. Print-publication credibility.
+ *  OPERATOR theme — pure black surface + signal-green accent + Figtree.
+ *  Combo deliberately picked to avoid: cobalt, cyan, amber, vermilion (all rejected),
+ *  plus AI tech-palette and Linear/Vercel default greens (we use a more saturated lime-green).
  */
 
 @theme {
-  /* surfaces — warm paper cream, never pure white */
-  --color-bg: #FAF7F0;
-  --color-bg-2: #F2EEE3;
-  --color-bg-3: #EAE5D6;
-  --color-surface: #FFFDF8;
+  /* surfaces — pure black, never warmed; raised surfaces lift via subtle warm-grey */
+  --color-bg: #0A0A0A;
+  --color-bg-2: #141416;
+  --color-bg-3: #1C1D20;
+  --color-surface: #16171A;
 
-  /* ink — deep warm-black, never pure black */
-  --color-fg: #1A1614;
-  --color-fg-muted: #5A4F47;
-  --color-fg-subtle: #847A70;
-  --color-fg-faint: #B0A89E;
+  /* ink — pure white text on black, dimmed via opacity not hue */
+  --color-fg: #FFFFFF;
+  --color-fg-muted: #A1A1AA;
+  --color-fg-subtle: #71717A;
+  --color-fg-faint: #52525B;
 
-  /* borders — ink hairlines */
-  --color-border: rgb(26 22 20 / 0.10);
-  --color-border-strong: rgb(26 22 20 / 0.22);
-  --color-border-accent: rgb(200 71 45 / 0.30);
+  /* borders — neutral white hairlines at low alpha */
+  --color-border: rgb(255 255 255 / 0.08);
+  --color-border-strong: rgb(255 255 255 / 0.20);
+  --color-border-accent: rgb(7 196 44 / 0.40);
 
-  /* accent — vermilion red, NYT op-ed mark.
-     Editorial / publication accent, used sparingly. Distinct from
-     every SaaS-tech accent (no blue, cyan, amber, purple, indigo). */
-  --color-accent: #C8472D;
-  --color-accent-hover: #D85A40;
-  --color-accent-soft: rgb(200 71 45 / 0.08);
-  --color-accent-fg: #FFFDF8;
+  /* accent — signal-green, brighter than Vercel green, more saturated.
+     Reads as "audit pass" universally; doubles as brand chrome. */
+  --color-accent: #07C42C;
+  --color-accent-hover: #1FD945;
+  --color-accent-soft: rgb(7 196 44 / 0.10);
+  --color-accent-fg: #000000;
 
-  /* semantic severity (warmer for paper bg, calibrated to not blur with vermilion) */
-  --color-pass: #0A7C3A;
-  --color-warn: #B45309;
-  --color-crit: #991B1B;
-  --color-pass-bg: rgb(10 124 58 / 0.08);
-  --color-warn-bg: rgb(180 83 9 / 0.08);
-  --color-crit-bg: rgb(153 27 27 / 0.06);
+  /* semantic severity (calibrated for pure-black bg) */
+  --color-pass: #07C42C;
+  --color-warn: #FFC107;
+  --color-crit: #FF4757;
+  --color-pass-bg: rgb(7 196 44 / 0.10);
+  --color-warn-bg: rgb(255 193 7 / 0.10);
+  --color-crit-bg: rgb(255 71 87 / 0.10);
 
   /* fonts */
   --font-display: var(--font-geist-sans);
@@ -80,11 +79,10 @@
   }
 
   body {
-    /* paper-grain texture — radial dot at fixed cadence, not a grid.
-       Editorial publications use grain instead of grid. */
+    /* operator-tool grain — very faint white dot grid on pure black */
     background-image:
-      radial-gradient(circle at 1px 1px, rgb(26 22 20 / 0.045) 1px, transparent 0);
-    background-size: 24px 24px;
+      radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.025) 1px, transparent 0);
+    background-size: 28px 28px;
     background-attachment: fixed;
   }
 
@@ -101,11 +99,11 @@
     background: var(--color-bg);
   }
   ::-webkit-scrollbar-thumb {
-    background: rgb(26 22 20 / 0.18);
+    background: rgb(255 255 255 / 0.14);
     border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgb(26 22 20 / 0.32);
+    background: rgb(7 196 44 / 0.45);
   }
 
   ::placeholder {
@@ -375,9 +373,9 @@
   /* signature data-mesh tile — generative SVG pattern background */
   .data-mesh {
     background-image:
-      linear-gradient(135deg, transparent 48%, rgb(26 22 20 / 0.05) 48%, rgb(26 22 20 / 0.05) 52%, transparent 52%),
-      linear-gradient(45deg, transparent 48%, rgb(26 22 20 / 0.05) 48%, rgb(26 22 20 / 0.05) 52%, transparent 52%),
-      radial-gradient(circle at 8px 8px, rgb(26 22 20 / 0.10) 1px, transparent 1.5px);
+      linear-gradient(135deg, transparent 48%, rgb(7 196 44 / 0.06) 48%, rgb(7 196 44 / 0.06) 52%, transparent 52%),
+      linear-gradient(45deg, transparent 48%, rgb(7 196 44 / 0.06) 48%, rgb(7 196 44 / 0.06) 52%, transparent 52%),
+      radial-gradient(circle at 8px 8px, rgb(7 196 44 / 0.10) 1px, transparent 1.5px);
     background-size: 24px 24px, 24px 24px, 16px 16px;
   }
 

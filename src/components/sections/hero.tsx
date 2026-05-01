@@ -90,8 +90,8 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           backgroundImage: `
-            radial-gradient(ellipse 60% 50% at 15% 0%, rgb(200 71 45 / 0.06), transparent 60%),
-            radial-gradient(ellipse 50% 40% at 100% 100%, rgb(200 71 45 / 0.04), transparent 60%)
+            radial-gradient(ellipse 60% 50% at 15% 0%, rgb(7 196 44 / 0.06), transparent 60%),
+            radial-gradient(ellipse 50% 40% at 100% 100%, rgb(7 196 44 / 0.04), transparent 60%)
           `,
         }}
       />
@@ -187,7 +187,7 @@ export function Hero() {
                     />
                     <Magnetic
                       type="submit"
-                      className="m-1 sm:m-1.5 inline-flex items-center gap-1.5 sm:gap-2 rounded-[6px] bg-[color:var(--color-accent)] px-3 sm:px-5 py-2.5 sm:py-3 font-display text-[12px] sm:text-[13px] font-bold uppercase tracking-wide text-[color:var(--color-accent-fg)] hover:bg-[color:var(--color-accent-hover)] focus-ring shadow-[0_4px_14px_-4px_rgb(200_71_45/_0.4)] btn-tactile"
+                      className="m-1 sm:m-1.5 inline-flex items-center gap-1.5 sm:gap-2 rounded-[6px] bg-[color:var(--color-accent)] px-3 sm:px-5 py-2.5 sm:py-3 font-display text-[12px] sm:text-[13px] font-bold uppercase tracking-wide text-[color:var(--color-accent-fg)] hover:bg-[color:var(--color-accent-hover)] focus-ring shadow-[0_4px_14px_-4px_rgb(7_196_44/_0.4)] btn-tactile"
                     >
                       <Sparkle size={14} weight="fill" />
                       <span className="hidden sm:inline">Run audit</span>
