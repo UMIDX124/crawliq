@@ -146,6 +146,28 @@ function Terminal({ agent, index }: { agent: Agent; index: number }) {
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
+    const reduce =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    const startTyping = () => {
+      if (reduce) {
+        setVisibleLines(agent.lines);
+        setDone(true);
+        return;
+      }
+      const baseDelay = 200 + index * 140;
+      const lineDelay = 240;
+      agent.lines.forEach((line, i) => {
+        setTimeout(() => {
+          setVisibleLines((prev) => [...prev, line]);
+          if (i === agent.lines.length - 1) {
+            setTimeout(() => setDone(true), 200);
+          }
+        }, baseDelay + i * lineDelay);
+      });
+    };
+
     const obs = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && !triggered.current) {
@@ -157,22 +179,11 @@ function Terminal({ agent, index }: { agent: Agent; index: number }) {
     );
     obs.observe(el);
     return () => obs.disconnect();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  function startTyping() {
-    const baseDelay = 250 + index * 180;
-    agent.lines.forEach((line, i) => {
-      setTimeout(() => {
-        setVisibleLines((prev) => [...prev, line]);
-        if (i === agent.lines.length - 1) {
-          setTimeout(() => setDone(true), 250);
-        }
-      }, baseDelay + i * 320);
-    });
-  }
+  }, [agent.lines, index]);
 
   const Icon = agent.Icon;
+  const scoreLine = agent.lines.find((l) => l.startsWith("score:"));
+  const score = scoreLine ? scoreLine.replace("score:", "").trim() : null;
 
   return (
     <div
@@ -192,7 +203,13 @@ function Terminal({ agent, index }: { agent: Agent; index: number }) {
         <span className="font-mono text-[11px] text-fg-muted">
           {agent.id}.agent
         </span>
-        <span className="ml-auto inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)] pulse-dot" />
+        {done && score ? (
+          <span className="ml-auto font-mono text-[10px] tracking-[0.14em] uppercase px-2 py-0.5 rounded-full bg-[color:var(--color-accent-soft)] text-[color:var(--color-accent)] animate-[fadein_300ms_ease-out_forwards]">
+            {score}
+          </span>
+        ) : (
+          <span className="ml-auto inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)] pulse-dot" />
+        )}
       </div>
 
       {/* output */}

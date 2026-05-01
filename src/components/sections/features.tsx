@@ -10,6 +10,7 @@ import {
   Code,
   Calendar,
 } from "@phosphor-icons/react/dist/ssr";
+import { ScoreVisual } from "@/components/sections/score-visual";
 
 export function Features() {
   return (
@@ -58,7 +59,7 @@ export function Features() {
           <Reveal delay={0.1} className="md:col-span-1 lg:col-span-3">
             <BentoCell>
               <PillarTop Icon={MagnifyingGlass} title="On-Page" tag="240+ checks" />
-              <p className="text-[14px] text-fg-muted leading-[1.65] mt-4">
+              <p className="text-[14px] text-fg-muted leading-[1.65] mt-2.5">
                 Title, meta, heading hierarchy, alt-text coverage, internal
                 linking depth, OG/Twitter tags. Every signal a search engine
                 reads on the page.
@@ -71,7 +72,7 @@ export function Features() {
           <Reveal delay={0.15} className="md:col-span-1 lg:col-span-2">
             <BentoCell>
               <PillarTop Icon={GearSix} title="Technical" tag="Real crawl" />
-              <p className="text-[14px] text-fg-muted leading-[1.65] mt-4">
+              <p className="text-[14px] text-fg-muted leading-[1.65] mt-2.5">
                 HTTPS, redirects, sitemap, canonicals, schema, page weight, Core
                 Web Vitals signals.
               </p>
@@ -83,7 +84,7 @@ export function Features() {
           <Reveal delay={0.2} className="md:col-span-1 lg:col-span-2">
             <BentoCell>
               <PillarTop Icon={PencilLine} title="Content" tag="AI-graded" />
-              <p className="text-[14px] text-fg-muted leading-[1.65] mt-4">
+              <p className="text-[14px] text-fg-muted leading-[1.65] mt-2.5">
                 Readability, depth vs competitors, freshness, topical
                 authority, thin pages, keyword opportunities.
               </p>
@@ -95,7 +96,7 @@ export function Features() {
           <Reveal delay={0.25} className="md:col-span-1 lg:col-span-2">
             <BentoCell>
               <PillarTop Icon={LinkSimple} title="Off-Site" tag="Link intel" />
-              <p className="text-[14px] text-fg-muted leading-[1.65] mt-4">
+              <p className="text-[14px] text-fg-muted leading-[1.65] mt-2.5">
                 Domain authority, backlink profile, anchor distribution, toxic
                 link flags, NAP consistency.
               </p>
@@ -107,7 +108,7 @@ export function Features() {
           <Reveal delay={0.3} className="md:col-span-1 lg:col-span-2">
             <BentoCell>
               <PillarTop Icon={Target} title="Competitor" tag="Gap finder" />
-              <p className="text-[14px] text-fg-muted leading-[1.65] mt-4">
+              <p className="text-[14px] text-fg-muted leading-[1.65] mt-2.5">
                 Top 3 SERP rivals identified. Content gaps, backlink gaps,
                 keyword overlap, threat level.
               </p>
@@ -119,7 +120,7 @@ export function Features() {
           <Reveal delay={0.35} className="md:col-span-1 lg:col-span-2">
             <BentoCell>
               <PillarTop Icon={FilePdf} title="PDF Export" tag="White-label" />
-              <p className="text-[14px] text-fg-muted leading-[1.65] mt-4">
+              <p className="text-[14px] text-fg-muted leading-[1.65] mt-2.5">
                 12-page branded report. Drop your logo, your colors, ship to
                 clients in minutes.
               </p>
@@ -131,7 +132,7 @@ export function Features() {
           <Reveal delay={0.4} className="md:col-span-1 lg:col-span-3">
             <BentoCell>
               <PillarTop Icon={Code} title="API + Webhooks" tag="Agency plan" />
-              <p className="text-[14px] text-fg-muted leading-[1.65] mt-4">
+              <p className="text-[14px] text-fg-muted leading-[1.65] mt-2.5">
                 Trigger audits programmatically. JSON findings, webhook events,
                 integrate with your CMS or PM tool.
               </p>
@@ -143,7 +144,7 @@ export function Features() {
           <Reveal delay={0.45} className="md:col-span-1 lg:col-span-3">
             <BentoCell>
               <PillarTop Icon={Calendar} title="Scheduled audits" tag="Auto re-run" />
-              <p className="text-[14px] text-fg-muted leading-[1.65] mt-4">
+              <p className="text-[14px] text-fg-muted leading-[1.65] mt-2.5">
                 Set weekly or monthly cadence. Get email digests when scores
                 shift. Track regressions before clients notice.
               </p>
@@ -184,14 +185,19 @@ function PillarTop({
   tag: string;
 }) {
   return (
-    <div className="flex items-start justify-between">
-      <div className="w-9 h-9 rounded-lg grid place-items-center bg-[color:var(--color-accent-soft)] text-[color:var(--color-accent)]">
-        <Icon size={18} weight="duotone" />
+    <>
+      <div className="flex items-start justify-between">
+        <div className="w-9 h-9 rounded-lg grid place-items-center bg-[color:var(--color-accent-soft)] text-[color:var(--color-accent)] transition-transform duration-300 group-hover:scale-105">
+          <Icon size={18} weight="duotone" />
+        </div>
+        <span className="font-mono text-[10px] tracking-[0.16em] uppercase text-fg-faint border border-[color:var(--color-border)] px-2 py-1 rounded">
+          {tag}
+        </span>
       </div>
-      <span className="font-mono text-[10px] tracking-[0.16em] uppercase text-fg-faint border border-[color:var(--color-border)] px-2 py-1 rounded">
-        {tag}
-      </span>
-    </div>
+      <h3 className="font-display font-bold text-[18px] mt-5 leading-snug tracking-tight">
+        {title}
+      </h3>
+    </>
   );
 }
 
@@ -226,36 +232,6 @@ function SamplePill({
       >
         → {text}
       </div>
-    </div>
-  );
-}
-
-function ScoreVisual() {
-  const pillars = [
-    { name: "On-Page", val: 92 },
-    { name: "Technical", val: 81 },
-    { name: "Content", val: 94 },
-    { name: "Off-Site", val: 88 },
-    { name: "Competitor", val: 86 },
-  ];
-  return (
-    <div className="space-y-3">
-      {pillars.map((p) => (
-        <div key={p.name} className="flex items-center gap-4">
-          <div className="font-mono text-[11px] tracking-[0.14em] uppercase text-fg-muted w-24">
-            {p.name}
-          </div>
-          <div className="flex-1 h-2 rounded-full bg-[color:var(--color-bg-3)] overflow-hidden">
-            <div
-              className="h-full rounded-full bg-[color:var(--color-accent)] transition-all"
-              style={{ width: `${p.val}%` }}
-            />
-          </div>
-          <div className="font-display font-extrabold text-[15px] tabular-nums w-10 text-right">
-            {p.val}
-          </div>
-        </div>
-      ))}
     </div>
   );
 }
