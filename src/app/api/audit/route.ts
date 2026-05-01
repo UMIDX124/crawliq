@@ -8,6 +8,7 @@ import {
   type CrawlSignals,
 } from "@/lib/audit";
 import { rateLimit, getClientIp } from "@/lib/rate-limit";
+import { isAgentsHubConfigured, streamAudit } from "@/lib/agents-hub-client";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -57,6 +58,33 @@ export async function POST(req: NextRequest) {
     async start(controller) {
       const enc = new TextEncoder();
       const send = (e: SseEvent) => controller.enqueue(enc.encode(sse(e)));
+
+      // If AGENTS-HUB is configured, proxy the stream from there and translate
+      // its event shape into CrawlIQ's existing SSE format so the browser
+      // keeps working unchanged.
+      if (isAgentsHubConfigured()) {
+        try {
+          send({ type: "status", phase: "crawling", message: `Fetching ${url} via AGENTS-HUB` });
+          for await (const ev of streamAudit(url, { depth: "teaser" })) {
+            if (ev.type === "agent.line") {
+              send({ type: "delta", chunk: `${ev.text}\n` });
+            } else if (ev.type === "complete") {
+              send({ type: "result", raw: JSON.stringify(ev.result) });
+              send({ type: "status", phase: "done", message: "Audit complete." });
+            } else if (ev.type === "error") {
+              send({ type: "error", message: ev.message });
+              send({ type: "status", phase: "error", message: ev.message });
+            }
+          }
+        } catch (err) {
+          const message =
+            err instanceof Error ? err.message : "AGENTS-HUB upstream failed.";
+          send({ type: "error", message });
+          send({ type: "status", phase: "error", message });
+        }
+        controller.close();
+        return;
+      }
 
       try {
         send({ type: "status", phase: "crawling", message: `Fetching ${url}` });
