@@ -204,7 +204,7 @@ function PlanCard({
       className={cn(
         "relative h-full rounded-xl p-7 flex flex-col",
         featured
-          ? "border border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-[0_24px_48px_-24px_rgb(255_170_0/_0.2)]"
+          ? "border border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-[0_24px_48px_-24px_rgb(200_71_45/_0.2)]"
           : "border border-[color:var(--color-border)] bg-[color:var(--color-surface)]",
       )}
     >

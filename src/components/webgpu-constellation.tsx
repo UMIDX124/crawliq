@@ -79,9 +79,9 @@ export function WebGPUConstellation() {
         camera.position.set(0, 0, 11);
         camera.lookAt(0, 0, 0);
 
-        // Scene with subtle navy fog for depth
+        // Scene with subtle paper-cream fog for depth
         const scene = new THREE.Scene();
-        scene.fog = new THREE.Fog(0x0E1620, 12, 22);
+        scene.fog = new THREE.Fog(0xFAF7F0, 13, 22);
 
         // Storage buffers
         const positions = instancedArray(TOTAL, "vec3");
@@ -163,34 +163,30 @@ export function WebGPUConstellation() {
         renderer.setClearColor(0x000000, 0);
         container.appendChild(renderer.domElement);
 
-        // Particle mesh — small spheres, instanced, with additive blending for natural glow
-        const geo = new THREE.SphereGeometry(0.045, 6, 6);
+        // Particle mesh — small spheres, instanced.
+        // On cream bg we use NORMAL blending so particles look like inked
+        // dots on paper, not whitened-out additive glow.
+        const geo = new THREE.SphereGeometry(0.06, 8, 8);
         const mat = new THREE.MeshBasicNodeMaterial();
         mat.transparent = true;
         mat.depthWrite = false;
-        mat.blending = THREE.AdditiveBlending;
 
         // Position from compute buffer
         mat.positionNode = positions.element(instanceIndex);
 
-        // Color: phosphor amber / warm-yellow / red by deterministic severity
+        // Color: deep ink default, vermilion for findings, no glow on paper.
+        // Most particles are dark ink; ~20% are vermilion (vermilion = a "noted" signal).
         mat.colorNode = Fn(() => {
           const seed = seeds.element(instanceIndex);
           const sev = seed.x;
-          const phosphor = color(0xFFAA00);
-          const warnYellow = color(0xFFD36B);
-          const red = color(0xFF5E5E);
-          const isCrit = sev.lessThan(0.05).toFloat();
-          const inWarnBand = sev.lessThan(0.20).toFloat();
-          const isWarn = inWarnBand.sub(isCrit).max(float(0));
-          const baseColor = phosphor
-            .mul(float(1).sub(isCrit).sub(isWarn))
-            .add(warnYellow.mul(isWarn))
-            .add(red.mul(isCrit));
-          // depth fade: closer particles brighter, farther dimmer
+          const ink = color(0x1A1614);
+          const vermilion = color(0xC8472D);
+          const isMarked = sev.lessThan(0.20).toFloat();
+          const baseColor = ink.mul(float(1).sub(isMarked)).add(vermilion.mul(isMarked));
+          // depth fade — closer particles fully opaque, farther fade toward paper bg
           const dist = positionWorld.sub(cameraPosition).length();
-          const fade = float(1.4).sub(smoothstep(float(7), float(15), dist));
-          return baseColor.mul(fade.clamp(float(0.35), float(1.4)));
+          const fade = float(1).sub(smoothstep(float(8), float(16), dist));
+          return baseColor.mul(fade.clamp(float(0.4), float(1)));
         })();
 
         const mesh = new THREE.InstancedMesh(geo, mat, TOTAL);
@@ -199,17 +195,16 @@ export function WebGPUConstellation() {
         // Center node — solid sphere with subtle additive halo around it
         const centerGeo = new THREE.SphereGeometry(0.42, 24, 24);
         const centerMat = new THREE.MeshBasicNodeMaterial();
-        centerMat.colorNode = color(0xFFAA00);
+        centerMat.colorNode = color(0xC8472D);
         const center = new THREE.Mesh(centerGeo, centerMat);
         scene.add(center);
 
-        // Center halo — additive ring that breathes with the pulse
+        // Center halo — soft ink ring breath (no additive on cream bg)
         const haloGeo = new THREE.RingGeometry(0.5, 0.78, 48);
         const haloMat = new THREE.MeshBasicNodeMaterial();
-        haloMat.colorNode = color(0xFFAA00);
+        haloMat.colorNode = color(0xC8472D);
         haloMat.transparent = true;
-        haloMat.opacity = 0.28;
-        haloMat.blending = THREE.AdditiveBlending;
+        haloMat.opacity = 0.22;
         haloMat.depthWrite = false;
         haloMat.side = THREE.DoubleSide;
         const halo = new THREE.Mesh(haloGeo, haloMat);
@@ -228,37 +223,36 @@ export function WebGPUConstellation() {
         }
         const dashedGeo = new THREE.BufferGeometry().setFromPoints(dashedPts);
         const dashedMat = new THREE.LineBasicNodeMaterial();
-        dashedMat.colorNode = color(0xFFAA00);
+        dashedMat.colorNode = color(0x1A1614); // ink, not vermilion
         dashedMat.transparent = true;
-        dashedMat.opacity = 0.5;
+        dashedMat.opacity = 0.35;
         const dashedRing = new THREE.LineSegments(dashedGeo, dashedMat);
         dashedRing.rotation.x = -Math.PI / 2;
         scene.add(dashedRing);
 
-        // Inner solid ring at cluster radius (2.8) — barely visible until clustered
+        // Inner solid ring at cluster radius (2.8)
         const innerRingGeo = new THREE.RingGeometry(2.78, 2.82, 80);
         const innerRingMat = new THREE.MeshBasicNodeMaterial();
-        innerRingMat.colorNode = color(0xFFAA00);
+        innerRingMat.colorNode = color(0x1A1614);
         innerRingMat.transparent = true;
-        innerRingMat.opacity = 0.18;
+        innerRingMat.opacity = 0.14;
         innerRingMat.side = THREE.DoubleSide;
         const innerRing = new THREE.Mesh(innerRingGeo, innerRingMat);
         innerRing.rotation.x = -Math.PI / 2;
         scene.add(innerRing);
 
-        // 5 always-visible pillar marker dots at cluster targets
+        // 5 always-visible pillar marker dots at cluster targets — vermilion
         const pillarMarkers: THREE.Mesh[] = [];
         for (let i = 0; i < PILLARS; i++) {
           const angle = (Math.PI * 2 * i) / PILLARS;
           const m = new THREE.Mesh(
-            new THREE.SphereGeometry(0.10, 16, 16),
+            new THREE.SphereGeometry(0.12, 16, 16),
             new THREE.MeshBasicNodeMaterial(),
           );
           m.position.set(Math.cos(angle) * 2.8, 0, Math.sin(angle) * 2.8);
-          (m.material as THREE.MeshBasicNodeMaterial).colorNode = color(0xFFAA00);
+          (m.material as THREE.MeshBasicNodeMaterial).colorNode = color(0xC8472D);
           (m.material as THREE.MeshBasicNodeMaterial).transparent = true;
-          (m.material as THREE.MeshBasicNodeMaterial).opacity = 0.45;
-          (m.material as THREE.MeshBasicNodeMaterial).blending = THREE.AdditiveBlending;
+          (m.material as THREE.MeshBasicNodeMaterial).opacity = 0.7;
           (m.material as THREE.MeshBasicNodeMaterial).depthWrite = false;
           scene.add(m);
           pillarMarkers.push(m);
@@ -417,11 +411,11 @@ function FallbackConstellation() {
 
 function CornerLabels() {
   return (
-    <div className="pointer-events-none absolute inset-0 font-mono text-[9.5px] tracking-[0.2em] uppercase text-[color:var(--color-accent)]/55">
+    <div className="pointer-events-none absolute inset-0 font-mono text-[9.5px] tracking-[0.2em] uppercase text-fg-muted/70">
       <span className="absolute top-2 left-2">◇ audit.engine</span>
       <span className="absolute top-2 right-2">{TOTAL} signals</span>
       <span className="absolute bottom-2 left-2">5 pillars</span>
-      <span className="absolute bottom-2 right-2">live · v1</span>
+      <span className="absolute bottom-2 right-2 text-[color:var(--color-accent)]">live · v1</span>
     </div>
   );
 }

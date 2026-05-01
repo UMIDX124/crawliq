@@ -32,7 +32,7 @@ export default async function OG() {
             fontFamily: "monospace",
             letterSpacing: "0.18em",
             textTransform: "uppercase",
-            color: "#FFAA00",
+            color: "#C8472D",
           }}
         >
           <span
@@ -40,7 +40,7 @@ export default async function OG() {
               width: 8,
               height: 8,
               borderRadius: 999,
-              background: "#FFAA00",
+              background: "#C8472D",
             }}
           />
           AI auditors · live
@@ -89,7 +89,7 @@ export default async function OG() {
           }}
         >
           <span style={{ fontFamily: "system-ui, sans-serif", letterSpacing: 0, textTransform: "none", fontWeight: 800, fontSize: 36 }}>
-            Crawl<span style={{ color: "#FFAA00" }}>IQ</span>
+            Crawl<span style={{ color: "#C8472D" }}>IQ</span>
           </span>
           <span>crawliq.ai</span>
         </div>
