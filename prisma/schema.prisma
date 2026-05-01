@@ -83,16 +83,30 @@ model User {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  audits          Audit[]          @relation("AuditCreatedBy")
-  ownedProjects   Project[]        @relation("ProjectOwner")
-  projectMembers  ProjectMember[]
-  assignedTasks   Task[]           @relation("AssignedTasks")
-  createdTasks    Task[]           @relation("CreatedTasks")
-  pins            Pin[]
-  subscription    Subscription?
+  audits                  Audit[]                   @relation("AuditCreatedBy")
+  ownedProjects           Project[]                 @relation("ProjectOwner")
+  projectMembers          ProjectMember[]
+  assignedTasks           Task[]                    @relation("AssignedTasks")
+  createdTasks            Task[]                    @relation("CreatedTasks")
+  pins                    Pin[]
+  subscription            Subscription?
+  searchConsoleConnection SearchConsoleConnection?
 
   @@index([email])
   @@index([clerkUserId])
+}
+
+model SearchConsoleConnection {
+  id            String   @id @default(cuid())
+  userId        String   @unique
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  email         String
+  accessToken   String
+  refreshToken  String
+  expiresAt     DateTime
+  scope         String
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 }
 
 model Subscription {

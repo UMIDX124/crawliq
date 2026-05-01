@@ -267,6 +267,67 @@ function technicalFindings(c: AggregatedChecks): StructuredFinding[] {
     });
   }
 
+  // CrUX — real-user CWV (more important than Lighthouse lab data)
+  if (c.crux) {
+    const crux = c.crux;
+    const m = crux.metrics;
+    out.push({
+      id: "crux-source",
+      agent: "TECHNICAL",
+      category: "performance",
+      severity: "pass",
+      title: `Real-user data: Chrome UX Report (${crux.scope}-level, period ending ${crux.collectionPeriodEnd ?? "n/a"})`,
+      evidence: {
+        scope: crux.scope,
+        period: crux.collectionPeriodEnd,
+      },
+    });
+    if (m.lcp) {
+      out.push({
+        id: "crux-lcp",
+        agent: "TECHNICAL",
+        category: "performance",
+        severity:
+          m.lcp.bucket === "good" ? "pass" : m.lcp.bucket === "ni" ? "warning" : "critical",
+        title: `Real-user LCP p75: ${(m.lcp.p75 / 1000).toFixed(2)}s — ${labelBucket(m.lcp.bucket)}`,
+        evidence: { p75: Math.round(m.lcp.p75), bucket: m.lcp.bucket },
+      });
+    }
+    if (m.cls) {
+      out.push({
+        id: "crux-cls",
+        agent: "TECHNICAL",
+        category: "performance",
+        severity:
+          m.cls.bucket === "good" ? "pass" : m.cls.bucket === "ni" ? "warning" : "critical",
+        title: `Real-user CLS p75: ${m.cls.p75.toFixed(3)} — ${labelBucket(m.cls.bucket)}`,
+        evidence: { p75: m.cls.p75, bucket: m.cls.bucket },
+      });
+    }
+    if (m.inp) {
+      out.push({
+        id: "crux-inp",
+        agent: "TECHNICAL",
+        category: "performance",
+        severity:
+          m.inp.bucket === "good" ? "pass" : m.inp.bucket === "ni" ? "warning" : "critical",
+        title: `Real-user INP p75: ${Math.round(m.inp.p75)}ms — ${labelBucket(m.inp.bucket)}`,
+        evidence: { p75: Math.round(m.inp.p75), bucket: m.inp.bucket },
+      });
+    }
+    if (m.ttfb) {
+      out.push({
+        id: "crux-ttfb",
+        agent: "TECHNICAL",
+        category: "performance",
+        severity:
+          m.ttfb.bucket === "good" ? "pass" : m.ttfb.bucket === "ni" ? "warning" : "critical",
+        title: `Real-user TTFB p75: ${Math.round(m.ttfb.p75)}ms — ${labelBucket(m.ttfb.bucket)}`,
+        evidence: { p75: Math.round(m.ttfb.p75), bucket: m.ttfb.bucket },
+      });
+    }
+  }
+
   // Lighthouse Performance
   if (lh) {
     if (lh.scores.performance !== null) {
@@ -500,21 +561,67 @@ function offsiteFindings(c: AggregatedChecks): StructuredFinding[] {
   const out: StructuredFinding[] = [];
   const s = c.crawl;
 
-  // We do NOT have real backlink data. Be transparent.
-  out.push({
-    id: "offsite-notice",
-    agent: "OFFSITE",
-    category: "off-site",
-    severity: "warning",
-    title:
-      "Off-Site analysis is based on visible page signals only (no backlink API connected)",
-    evidence: {
-      note:
-        "Connect a DataForSEO or Ahrefs API key to enable verified backlink data. Until then, off-site findings are inference-based.",
-    },
-  });
+  // OpenPageRank — real DA-proxy score
+  if (c.openPageRank?.pageRank !== null && c.openPageRank?.pageRank !== undefined) {
+    const pr = c.openPageRank.pageRank;
+    out.push({
+      id: "opr-pagerank",
+      agent: "OFFSITE",
+      category: "off-site",
+      severity: pr >= 5 ? "pass" : pr >= 3 ? "warning" : "critical",
+      title: `Open PageRank: ${pr.toFixed(2)}/10 (global rank #${c.openPageRank.rank?.toLocaleString() ?? "n/a"})`,
+      evidence: {
+        pageRank: pr,
+        globalRank: c.openPageRank.rank,
+        domain: c.openPageRank.domain,
+      },
+    });
+  } else {
+    out.push({
+      id: "opr-not-configured",
+      agent: "OFFSITE",
+      category: "off-site",
+      severity: "warning",
+      title: "Domain authority data unavailable — connect OpenPageRank or DataForSEO for verified DA scores",
+      evidence: {
+        note: "OpenPageRank gives 1000 free queries/day and a 0-10 DA-proxy score.",
+      },
+    });
+  }
 
-  // External link patterns (inferable)
+  // Wayback — domain age signal (Google trusts older domains slightly)
+  if (c.wayback) {
+    const w = c.wayback;
+    if (w.domainAgeYears !== null) {
+      out.push({
+        id: "wayback-age",
+        agent: "OFFSITE",
+        category: "off-site",
+        severity: w.domainAgeYears >= 3 ? "pass" : w.domainAgeYears >= 1 ? "warning" : "critical",
+        title: `Domain age: ${w.domainAgeYears} years (first archived ${formatWaybackDate(w.firstSnapshot)})`,
+        evidence: {
+          domainAgeYears: w.domainAgeYears,
+          firstSnapshot: w.firstSnapshot,
+          lastSnapshot: w.lastSnapshot,
+        },
+      });
+    }
+    if (w.totalSnapshots > 0) {
+      out.push({
+        id: "wayback-history",
+        agent: "OFFSITE",
+        category: "off-site",
+        severity: "pass",
+        title: `Site has been archived ${formatSnapshotCount(w.totalSnapshots)} times in the Wayback Machine`,
+        evidence: {
+          totalSnapshots: w.totalSnapshots,
+          lastSnapshot: w.lastSnapshot,
+        },
+      });
+    }
+  }
+
+  // External link patterns
   if (s.externalLinks > 0) {
     out.push({
       id: "external-link-count",
@@ -530,12 +637,23 @@ function offsiteFindings(c: AggregatedChecks): StructuredFinding[] {
       agent: "OFFSITE",
       category: "off-site",
       severity: "warning",
-      title: "No outbound links found — pages typically benefit from authoritative external references",
+      title:
+        "No outbound links found — pages typically benefit from authoritative external references",
       evidence: { externalLinks: 0 },
     });
   }
 
   return out;
+}
+
+function formatWaybackDate(ts: string | null): string {
+  if (!ts || ts.length < 8) return "unknown";
+  return `${ts.slice(0, 4)}-${ts.slice(4, 6)}-${ts.slice(6, 8)}`;
+}
+
+function formatSnapshotCount(n: number): string {
+  if (n >= 1000) return `${(n / 1000).toFixed(0)}k+`;
+  return String(n);
 }
 
 function competitorFindings(c: AggregatedChecks): StructuredFinding[] {
@@ -585,6 +703,13 @@ export function scoreFindings(findings: StructuredFinding[]): number {
     else if (f.severity === "warning") score -= 5;
   }
   return Math.max(0, Math.min(100, score));
+}
+
+function labelBucket(b: "good" | "ni" | "poor" | null): string {
+  if (b === "good") return "good";
+  if (b === "ni") return "needs improvement";
+  if (b === "poor") return "poor";
+  return "n/a";
 }
 
 export function gradeFromScore(score: number): string {

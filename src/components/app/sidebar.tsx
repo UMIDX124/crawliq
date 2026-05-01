@@ -10,6 +10,7 @@ import {
   Sparkle,
   Gear,
   Plus,
+  GoogleLogo,
 } from "@phosphor-icons/react";
 import { Logo } from "@/components/logo";
 import { cn } from "@/lib/cn";
@@ -19,6 +20,7 @@ const items = [
   { label: "Projects", href: "/projects", icon: FolderOpen },
   { label: "Tasks", href: "/tasks", icon: ListChecks },
   { label: "Reports", href: "/reports", icon: FileText },
+  { label: "Search Console", href: "/search-console", icon: GoogleLogo },
   { label: "Settings", href: "/settings", icon: Gear },
 ];
 
