@@ -1,15 +1,21 @@
 "use client";
 
 import { useRef, useState } from "react";
+import dynamic from "next/dynamic";
 import { motion, useMotionValue, useReducedMotion, useSpring, useTransform } from "framer-motion";
 import { ArrowRight, Sparkle } from "@phosphor-icons/react";
 import { KineticHeading, FadeChildren } from "@/components/kinetic-heading";
 import { LiveTicker } from "@/components/live-ticker";
 import { CountUp } from "@/components/count-up";
 import { InlineAudit } from "@/components/inline-audit";
-import { HeroDashboard } from "@/components/hero-dashboard";
 import { Magnetic } from "@/components/magnetic";
 import { AuditedSeal } from "@/components/audit-stamp";
+
+// Lazy-load the WebGPU + Three.js bundle so the initial page load isn't impacted.
+const WebGPUConstellation = dynamic(
+  () => import("@/components/webgpu-constellation").then((m) => m.WebGPUConstellation),
+  { ssr: false, loading: () => <div className="w-full aspect-square max-w-[560px] mx-auto" aria-hidden /> },
+);
 
 const stats = [
   { to: 267, label: "Checks per audit" },
@@ -84,8 +90,8 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           backgroundImage: `
-            radial-gradient(ellipse 60% 50% at 15% 0%, rgb(31 109 240 / 0.06), transparent 60%),
-            radial-gradient(ellipse 50% 40% at 100% 100%, rgb(31 109 240 / 0.04), transparent 60%)
+            radial-gradient(ellipse 60% 50% at 15% 0%, rgb(0 180 216 / 0.06), transparent 60%),
+            radial-gradient(ellipse 50% 40% at 100% 100%, rgb(0 180 216 / 0.04), transparent 60%)
           `,
         }}
       />
@@ -181,7 +187,7 @@ export function Hero() {
                     />
                     <Magnetic
                       type="submit"
-                      className="m-1 sm:m-1.5 inline-flex items-center gap-1.5 sm:gap-2 rounded-[6px] bg-[color:var(--color-accent)] px-3 sm:px-5 py-2.5 sm:py-3 font-display text-[12px] sm:text-[13px] font-bold uppercase tracking-wide text-[color:var(--color-accent-fg)] hover:bg-[color:var(--color-accent-hover)] focus-ring shadow-[0_4px_14px_-4px_rgb(31_109_240/_0.4)] btn-tactile"
+                      className="m-1 sm:m-1.5 inline-flex items-center gap-1.5 sm:gap-2 rounded-[6px] bg-[color:var(--color-accent)] px-3 sm:px-5 py-2.5 sm:py-3 font-display text-[12px] sm:text-[13px] font-bold uppercase tracking-wide text-[color:var(--color-accent-fg)] hover:bg-[color:var(--color-accent-hover)] focus-ring shadow-[0_4px_14px_-4px_rgb(0_180_216/_0.4)] btn-tactile"
                     >
                       <Sparkle size={14} weight="fill" />
                       <span className="hidden sm:inline">Run audit</span>
@@ -224,9 +230,9 @@ export function Hero() {
               </FadeChildren>
             </div>
 
-            {/* RIGHT — audit dashboard widget (lg+ only) */}
+            {/* RIGHT — WebGPU particle constellation (lg+ only) */}
             <div className="hidden lg:flex justify-center lg:justify-end">
-              <HeroDashboard />
+              <WebGPUConstellation />
             </div>
           </div>
         ) : (

@@ -17,7 +17,7 @@ export function BrandEditor({
 }) {
   const router = useRouter();
   const [name, setName] = useState(initial.brandName ?? "");
-  const [color, setColor] = useState(initial.brandColor ?? "#1f6df0");
+  const [color, setColor] = useState(initial.brandColor ?? "#00B4D8");
   const [logoUrl, setLogoUrl] = useState(initial.brandLogoUrl ?? "");
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
@@ -81,7 +81,7 @@ export function BrandEditor({
             />
             <input
               type="text"
-              placeholder="#1f6df0"
+              placeholder="#00B4D8"
               value={color}
               onChange={(e) => setColor(e.target.value)}
               className="flex-1 rounded-md border border-[color:var(--color-border-strong)] bg-[color:var(--color-bg)] px-3 py-2.5 text-[13.5px] font-mono outline-none focus:border-[color:var(--color-accent)] transition-all"

@@ -544,7 +544,7 @@ function PrimaryButton({
     <button
       type="button"
       onClick={onClick}
-      className="btn-tactile inline-flex items-center gap-2 rounded-md bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-3 font-mono text-[12px] uppercase tracking-[0.14em] shadow-[0_4px_14px_-4px_rgb(31_109_240/_0.4)]"
+      className="btn-tactile inline-flex items-center gap-2 rounded-md bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-3 font-mono text-[12px] uppercase tracking-[0.14em] shadow-[0_4px_14px_-4px_rgb(0_180_216/_0.4)]"
     >
       {children}
     </button>

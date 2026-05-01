@@ -48,7 +48,7 @@ export function Nav() {
           "border-[color:var(--color-border)] backdrop-blur-xl bg-bg/80",
       )}
       style={{
-        backgroundColor: scrolled ? "rgb(245 245 247 / 0.85)" : "transparent",
+        backgroundColor: scrolled ? "rgb(14 22 32 / 0.85)" : "transparent",
       }}
     >
       <div className="container-page flex h-16 items-center justify-between">
