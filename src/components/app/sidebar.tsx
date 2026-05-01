@@ -44,7 +44,7 @@ export function AppSidebar({
 
       <Link
         href="/audit/new"
-        className="btn-tactile mx-4 mt-5 inline-flex items-center justify-center gap-2 rounded-md bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-4 py-2.5 font-mono text-[11px] tracking-[0.16em] uppercase shadow-[0_4px_14px_-4px_rgb(0_102_255/_0.4)]"
+        className="btn-tactile mx-4 mt-5 inline-flex items-center justify-center gap-2 rounded-md bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-4 py-2.5 font-mono text-[11px] tracking-[0.16em] uppercase shadow-[0_4px_14px_-4px_rgb(31_109_240/_0.4)]"
       >
         <Sparkle size={13} weight="fill" />
         New audit

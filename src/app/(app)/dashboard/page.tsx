@@ -95,7 +95,7 @@ export default async function DashboardPage() {
             </div>
             <Link
               href="/audit/new"
-              className="btn-tactile shrink-0 inline-flex items-center gap-2 rounded-md bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-3 font-mono text-[12px] uppercase tracking-[0.14em] shadow-[0_4px_14px_-4px_rgb(0_102_255/_0.4)]"
+              className="btn-tactile shrink-0 inline-flex items-center gap-2 rounded-md bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-3 font-mono text-[12px] uppercase tracking-[0.14em] shadow-[0_4px_14px_-4px_rgb(31_109_240/_0.4)]"
             >
               <Sparkle size={14} weight="fill" />
               New audit

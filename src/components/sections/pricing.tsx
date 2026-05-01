@@ -77,12 +77,8 @@ export function Pricing() {
   return (
     <section id="pricing" className="relative py-20 sm:py-24 md:py-32 lg:py-36">
       <div className="container-page">
-        <Reveal className="max-w-3xl">
-          <span className="eyebrow">
-            <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
-            Pricing
-          </span>
-          <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
+        <Reveal y={40} className="max-w-3xl">
+          <h2 className="font-display font-extrabold text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
             Start free.{" "}
             <span className="italic font-light text-fg-muted">
               Scale when you&rsquo;re ready.
@@ -189,7 +185,7 @@ function PriceCard({
       className={cn(
         "relative h-full rounded-2xl p-8 md:p-9 flex flex-col transition-transform duration-300 overflow-hidden",
         plan.featured
-          ? "border border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-[0_24px_48px_-24px_rgb(0_102_255/_0.25)]"
+          ? "border border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-[0_24px_48px_-24px_rgb(31_109_240/_0.25)]"
           : "border border-[color:var(--color-border)] bg-[color:var(--color-surface)]",
       )}
     >
@@ -198,7 +194,7 @@ function PriceCard({
         className="pointer-events-none absolute inset-0 transition-opacity duration-300"
         style={{
           opacity: glow.active ? 1 : 0,
-          background: `radial-gradient(420px circle at ${glow.x}% ${glow.y}%, rgb(0 102 255 / 0.12), transparent 50%)`,
+          background: `radial-gradient(420px circle at ${glow.x}% ${glow.y}%, rgb(31 109 240 / 0.12), transparent 50%)`,
         }}
       />
       {plan.featured && (

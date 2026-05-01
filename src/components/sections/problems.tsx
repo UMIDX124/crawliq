@@ -46,18 +46,25 @@ export function Problems() {
           </h2>
         </Reveal>
 
-        <div className="mt-16 md:mt-20 grid grid-cols-1 md:grid-cols-3 gap-px bg-[color:var(--color-border)] rounded-xl overflow-hidden border border-[color:var(--color-border)]">
+        {/* asymmetric: feature card spans 2 cols, smaller cards stack on the right */}
+        <div className="mt-16 md:mt-20 grid grid-cols-1 md:grid-cols-5 gap-px bg-[color:var(--color-border)] rounded-xl overflow-hidden border border-[color:var(--color-border)]">
           {problems.map((p, i) => {
             const Icon = p.icon;
+            const big = i === 0;
             return (
               <Reveal
                 key={p.title}
                 delay={i * 0.08}
-                className="bg-[color:var(--color-bg)] p-8 md:p-10 group hover:bg-[color:var(--color-bg-2)] transition-colors"
+                y={big ? 32 : 16}
+                className={`bg-[color:var(--color-bg)] group hover:bg-[color:var(--color-bg-2)] transition-colors ${
+                  big
+                    ? "md:col-span-3 md:row-span-2 p-9 md:p-12 flex flex-col"
+                    : "md:col-span-2 p-7 md:p-9"
+                }`}
               >
-                <div className="flex items-center justify-between mb-7">
+                <div className="flex items-center justify-between mb-6">
                   <Icon
-                    size={28}
+                    size={big ? 34 : 24}
                     weight="duotone"
                     className="text-[color:var(--color-accent)]"
                   />
@@ -65,18 +72,32 @@ export function Problems() {
                     {String(i + 1).padStart(2, "0")} / 03
                   </span>
                 </div>
-                <h3 className="font-display font-bold text-[19px] mb-3 leading-snug">
+                <h3
+                  className={`font-display font-bold mb-3 leading-snug ${
+                    big ? "text-[26px] md:text-[30px] tracking-[-0.015em]" : "text-[17px]"
+                  }`}
+                >
                   {p.title}
                 </h3>
-                <p className="text-[14.5px] leading-[1.65] text-fg-muted">
+                <p
+                  className={`leading-[1.65] text-fg-muted ${
+                    big ? "text-[16px] max-w-[44ch]" : "text-[13.5px]"
+                  }`}
+                >
                   {p.body}
                 </p>
-                <div className="mt-7 pt-5 border-t border-[color:var(--color-border)]">
+                <div
+                  className={`pt-5 border-t border-[color:var(--color-border)] ${
+                    big ? "mt-auto pt-7" : "mt-6"
+                  }`}
+                >
                   <CountUp
                     to={p.metricNum}
                     prefix={p.metricPrefix ?? ""}
                     suffix={p.metricSuffix ?? ""}
-                    className="font-display font-extrabold text-[28px] leading-none tabular-nums text-fg group-hover:text-[color:var(--color-accent)] transition-colors"
+                    className={`font-display font-extrabold leading-none tabular-nums text-fg group-hover:text-[color:var(--color-accent)] transition-colors ${
+                      big ? "text-[44px] md:text-[52px]" : "text-[24px]"
+                    }`}
                   />
                   <div className="mt-2 font-mono text-[10.5px] tracking-[0.14em] uppercase text-fg-faint">
                     {p.metricLabel}

@@ -21,12 +21,12 @@
   /* borders — paper-thin, ink-tinted */
   --color-border: rgb(29 29 31 / 0.08);
   --color-border-strong: rgb(29 29 31 / 0.16);
-  --color-border-accent: rgb(0 102 255 / 0.25);
+  --color-border-accent: rgb(31 109 240 / 0.25);
 
-  /* accent — electric cobalt, single source of color */
-  --color-accent: #0066ff;
-  --color-accent-hover: #1a78ff;
-  --color-accent-soft: rgb(0 102 255 / 0.08);
+  /* accent — cobalt at ~85% sat, premium not candy */
+  --color-accent: #1f6df0;
+  --color-accent-hover: #3a82f7;
+  --color-accent-soft: rgb(31 109 240 / 0.09);
   --color-accent-fg: #ffffff;
 
   /* semantic severity */
@@ -71,7 +71,6 @@
     font-family: var(--font-sans), ui-sans-serif, system-ui, sans-serif;
     font-size: 16px;
     line-height: 1.55;
-    overflow-x: hidden;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-feature-settings: "ss01", "cv11";

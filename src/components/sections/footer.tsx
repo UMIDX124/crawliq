@@ -31,16 +31,23 @@ export function Footer() {
               AI-powered website audits that read your site like an expert and
               tell you exactly what to fix and why.
             </p>
-            <div className="mt-6 inline-flex items-center gap-2 rounded-full border border-[color:var(--color-border)] bg-[color:var(--color-surface)] px-3 py-1.5">
-              <CheckCircle
-                size={13}
-                weight="fill"
-                className="text-[color:var(--color-pass)]"
-              />
-              <span className="font-mono text-[10.5px] tracking-[0.16em] uppercase text-fg-muted">
-                All systems operational
-              </span>
-            </div>
+            {process.env.NEXT_PUBLIC_STATUS_URL && (
+              <a
+                href={process.env.NEXT_PUBLIC_STATUS_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-6 inline-flex items-center gap-2 rounded-full border border-[color:var(--color-border)] bg-[color:var(--color-surface)] px-3 py-1.5 hover:border-[color:var(--color-accent)] transition-colors"
+              >
+                <CheckCircle
+                  size={13}
+                  weight="fill"
+                  className="text-[color:var(--color-pass)]"
+                />
+                <span className="font-mono text-[10.5px] tracking-[0.16em] uppercase text-fg-muted">
+                  All systems operational
+                </span>
+              </a>
+            )}
           </div>
 
           <FooterCol title="Product" links={product} />
@@ -51,10 +58,12 @@ export function Footer() {
         <div className="mt-16 pt-7 border-t border-[color:var(--color-border)] flex flex-col md:flex-row md:items-center md:justify-between gap-4 font-mono text-[11px] tracking-[0.14em] uppercase text-fg-faint">
           <span>© {new Date().getFullYear()} CrawlIQ — All rights reserved</span>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
-            <span className="flex items-center gap-2">
-              <span className="inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)] pulse-dot" />
-              Powered by Groq · Next.js · Cheerio
-            </span>
+            <a
+              href="/changelog"
+              className="text-fg-muted hover:text-fg transition-colors"
+            >
+              Changelog
+            </a>
             <span className="text-fg-faint/70">
               build {(process.env.VERCEL_GIT_COMMIT_SHA ?? "local").slice(0, 7)}
             </span>

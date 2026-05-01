@@ -53,7 +53,7 @@ export function EarlyAccess() {
 
             <Link
               href="/sign-up"
-              className="btn-tactile mt-10 inline-flex items-center gap-2 rounded-md bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-3 font-mono text-[12px] uppercase tracking-[0.14em] shadow-[0_4px_14px_-4px_rgb(0_102_255/_0.4)]"
+              className="btn-tactile mt-10 inline-flex items-center gap-2 rounded-md bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-3 font-mono text-[12px] uppercase tracking-[0.14em] shadow-[0_4px_14px_-4px_rgb(31_109_240/_0.4)]"
             >
               <Sparkle size={13} weight="fill" />
               Run your first audit

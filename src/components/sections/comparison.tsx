@@ -30,12 +30,8 @@ export function Comparison() {
       className="relative py-20 sm:py-24 md:py-32 lg:py-36"
     >
       <div className="container-page">
-        <Reveal className="max-w-3xl">
-          <span className="eyebrow">
-            <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
-            Why CrawlIQ
-          </span>
-          <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(28px,5.5vw,56px)] leading-[1.05] tracking-[-0.025em]">
+        <Reveal y={36} className="max-w-3xl">
+          <h2 className="font-display font-extrabold text-balance text-[clamp(28px,5.5vw,56px)] leading-[1.05] tracking-[-0.025em]">
             One tool that{" "}
             <span className="italic font-light text-fg-muted">
               replaces five.

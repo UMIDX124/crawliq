@@ -11,10 +11,9 @@ import { HeroDashboard } from "@/components/hero-dashboard";
 import { Magnetic } from "@/components/magnetic";
 
 const stats = [
-  { to: 240, suffix: "+", label: "Signals checked" },
-  { to: 8, prefix: "<", suffix: "s", label: "Median audit" },
-  { to: 5, label: "AI auditors" },
-  { to: 98, suffix: "%", label: "Detection rate" },
+  { to: 267, label: "Checks per audit" },
+  { to: 8, prefix: "<", suffix: "s", label: "Median run time" },
+  { to: 5, label: "Specialist agents" },
 ];
 
 export function Hero() {
@@ -84,8 +83,8 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           backgroundImage: `
-            radial-gradient(ellipse 60% 50% at 15% 0%, rgb(0 102 255 / 0.06), transparent 60%),
-            radial-gradient(ellipse 50% 40% at 100% 100%, rgb(0 102 255 / 0.04), transparent 60%)
+            radial-gradient(ellipse 60% 50% at 15% 0%, rgb(31 109 240 / 0.06), transparent 60%),
+            radial-gradient(ellipse 50% 40% at 100% 100%, rgb(31 109 240 / 0.04), transparent 60%)
           `,
         }}
       />
@@ -176,7 +175,7 @@ export function Hero() {
                     />
                     <Magnetic
                       type="submit"
-                      className="m-1 sm:m-1.5 inline-flex items-center gap-1.5 sm:gap-2 rounded-[6px] bg-[color:var(--color-accent)] px-3 sm:px-5 py-2.5 sm:py-3 font-display text-[12px] sm:text-[13px] font-bold uppercase tracking-wide text-[color:var(--color-accent-fg)] hover:bg-[color:var(--color-accent-hover)] focus-ring shadow-[0_4px_14px_-4px_rgb(0_102_255/_0.4)] btn-tactile"
+                      className="m-1 sm:m-1.5 inline-flex items-center gap-1.5 sm:gap-2 rounded-[6px] bg-[color:var(--color-accent)] px-3 sm:px-5 py-2.5 sm:py-3 font-display text-[12px] sm:text-[13px] font-bold uppercase tracking-wide text-[color:var(--color-accent-fg)] hover:bg-[color:var(--color-accent-hover)] focus-ring shadow-[0_4px_14px_-4px_rgb(31_109_240/_0.4)] btn-tactile"
                     >
                       <Sparkle size={14} weight="fill" />
                       <span className="hidden sm:inline">Run audit</span>
@@ -201,7 +200,7 @@ export function Hero() {
 
               {/* stats */}
               <FadeChildren delay={1.8} className="w-full max-w-[560px] mt-12 lg:mt-16">
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-x-6 gap-y-7">
+                <div className="grid grid-cols-3 gap-x-6 gap-y-7">
                   {stats.map((s) => (
                     <div key={s.label}>
                       <CountUp
