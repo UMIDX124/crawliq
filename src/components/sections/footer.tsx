@@ -55,9 +55,27 @@ export function Footer() {
           <FooterCol title="Legal" links={legal} />
         </div>
 
-        <div className="mt-16 pt-7 border-t border-[color:var(--color-border)] flex flex-col md:flex-row md:items-center md:justify-between gap-4 font-mono text-[11px] tracking-[0.14em] uppercase text-fg-faint">
-          <span>© {new Date().getFullYear()} CrawlIQ — All rights reserved</span>
+        <div className="mt-16 pt-7 border-t border-[color:var(--color-border)] flex flex-col gap-5 md:flex-row md:items-center md:justify-between font-mono text-[11px] tracking-[0.14em] uppercase text-fg-faint">
+          <div className="flex flex-col sm:flex-row sm:items-center gap-x-5 gap-y-2">
+            <span>© {new Date().getFullYear()} CrawlIQ</span>
+            <span className="hidden sm:inline text-fg-faint/40">·</span>
+            <span className="text-fg-muted normal-case tracking-normal text-[11.5px]">
+              We never sell or share your audit data.
+            </span>
+          </div>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <Link
+              href="/privacy"
+              className="text-fg-muted hover:text-fg transition-colors"
+            >
+              Privacy
+            </Link>
+            <Link
+              href="/terms"
+              className="text-fg-muted hover:text-fg transition-colors"
+            >
+              Terms
+            </Link>
             <a
               href="/changelog"
               className="text-fg-muted hover:text-fg transition-colors"

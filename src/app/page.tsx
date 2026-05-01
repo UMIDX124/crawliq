@@ -13,6 +13,7 @@ import { Pricing } from "@/components/sections/pricing";
 import { Faq } from "@/components/sections/faq";
 import { FinalCta } from "@/components/sections/cta";
 import { Footer } from "@/components/sections/footer";
+import { WhyBuilt } from "@/components/sections/why-built";
 import { SectionBridge } from "@/components/section-bridge";
 
 export default function Home() {
@@ -30,6 +31,8 @@ export default function Home() {
         <Features />
         <Comparison />
         <PdfPreview />
+        <SectionBridge />
+        <WhyBuilt />
         <SectionBridge />
         <EarlyAccess />
         <Demo />
