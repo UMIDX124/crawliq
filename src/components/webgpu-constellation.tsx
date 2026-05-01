@@ -173,19 +173,19 @@ export function WebGPUConstellation() {
         // Position from compute buffer
         mat.positionNode = positions.element(instanceIndex);
 
-        // Color: cyan / amber / red by deterministic severity, with depth-faded brightness
+        // Color: phosphor amber / warm-yellow / red by deterministic severity
         mat.colorNode = Fn(() => {
           const seed = seeds.element(instanceIndex);
           const sev = seed.x;
-          const cyan = color(0x00B4D8);
-          const amber = color(0xFFC857);
-          const red = color(0xFF6B6B);
+          const phosphor = color(0xFFAA00);
+          const warnYellow = color(0xFFD36B);
+          const red = color(0xFF5E5E);
           const isCrit = sev.lessThan(0.05).toFloat();
           const inWarnBand = sev.lessThan(0.20).toFloat();
           const isWarn = inWarnBand.sub(isCrit).max(float(0));
-          const baseColor = cyan
+          const baseColor = phosphor
             .mul(float(1).sub(isCrit).sub(isWarn))
-            .add(amber.mul(isWarn))
+            .add(warnYellow.mul(isWarn))
             .add(red.mul(isCrit));
           // depth fade: closer particles brighter, farther dimmer
           const dist = positionWorld.sub(cameraPosition).length();
@@ -199,14 +199,14 @@ export function WebGPUConstellation() {
         // Center node — solid sphere with subtle additive halo around it
         const centerGeo = new THREE.SphereGeometry(0.42, 24, 24);
         const centerMat = new THREE.MeshBasicNodeMaterial();
-        centerMat.colorNode = color(0x00B4D8);
+        centerMat.colorNode = color(0xFFAA00);
         const center = new THREE.Mesh(centerGeo, centerMat);
         scene.add(center);
 
         // Center halo — additive ring that breathes with the pulse
         const haloGeo = new THREE.RingGeometry(0.5, 0.78, 48);
         const haloMat = new THREE.MeshBasicNodeMaterial();
-        haloMat.colorNode = color(0x00B4D8);
+        haloMat.colorNode = color(0xFFAA00);
         haloMat.transparent = true;
         haloMat.opacity = 0.28;
         haloMat.blending = THREE.AdditiveBlending;
@@ -228,7 +228,7 @@ export function WebGPUConstellation() {
         }
         const dashedGeo = new THREE.BufferGeometry().setFromPoints(dashedPts);
         const dashedMat = new THREE.LineBasicNodeMaterial();
-        dashedMat.colorNode = color(0x00B4D8);
+        dashedMat.colorNode = color(0xFFAA00);
         dashedMat.transparent = true;
         dashedMat.opacity = 0.5;
         const dashedRing = new THREE.LineSegments(dashedGeo, dashedMat);
@@ -238,7 +238,7 @@ export function WebGPUConstellation() {
         // Inner solid ring at cluster radius (2.8) — barely visible until clustered
         const innerRingGeo = new THREE.RingGeometry(2.78, 2.82, 80);
         const innerRingMat = new THREE.MeshBasicNodeMaterial();
-        innerRingMat.colorNode = color(0x00B4D8);
+        innerRingMat.colorNode = color(0xFFAA00);
         innerRingMat.transparent = true;
         innerRingMat.opacity = 0.18;
         innerRingMat.side = THREE.DoubleSide;
@@ -255,7 +255,7 @@ export function WebGPUConstellation() {
             new THREE.MeshBasicNodeMaterial(),
           );
           m.position.set(Math.cos(angle) * 2.8, 0, Math.sin(angle) * 2.8);
-          (m.material as THREE.MeshBasicNodeMaterial).colorNode = color(0x00B4D8);
+          (m.material as THREE.MeshBasicNodeMaterial).colorNode = color(0xFFAA00);
           (m.material as THREE.MeshBasicNodeMaterial).transparent = true;
           (m.material as THREE.MeshBasicNodeMaterial).opacity = 0.45;
           (m.material as THREE.MeshBasicNodeMaterial).blending = THREE.AdditiveBlending;

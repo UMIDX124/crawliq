@@ -19,27 +19,26 @@
   --color-fg-subtle: #6B8194;
   --color-fg-faint: #4F6478;
 
-  /* borders — cyan-tinted hairlines */
-  --color-border: rgb(0 180 216 / 0.10);
-  --color-border-strong: rgb(0 180 216 / 0.22);
-  --color-border-accent: rgb(0 180 216 / 0.45);
+  /* borders — warm-tinted hairlines that match the phosphor accent */
+  --color-border: rgb(255 170 0 / 0.10);
+  --color-border-strong: rgb(255 170 0 / 0.22);
+  --color-border-accent: rgb(255 170 0 / 0.45);
 
-  /* accent — drafting cyan, signature line color */
-  --color-accent: #00B4D8;
-  --color-accent-hover: #1AC4E8;
-  --color-accent-soft: rgb(0 180 216 / 0.10);
+  /* accent — phosphor amber, Bloomberg-terminal signature.
+     Deliberately not cyan/blue/purple/indigo — distinct from every
+     generic SaaS palette. Pairs with deep navy without feeling cold. */
+  --color-accent: #FFAA00;
+  --color-accent-hover: #FFB81A;
+  --color-accent-soft: rgb(255 170 0 / 0.10);
   --color-accent-fg: #0E1620;
 
-  /* secondary accent — amber for warnings + register marks */
-  --color-warn-accent: #FFC857;
-
-  /* semantic severity (calibrated for dark blueprint) */
+  /* semantic severity (calibrated to never blur with phosphor accent) */
   --color-pass: #00DC82;
-  --color-warn: #FFC857;
-  --color-crit: #FF6B6B;
+  --color-warn: #FFD36B;
+  --color-crit: #FF5E5E;
   --color-pass-bg: rgb(0 220 130 / 0.10);
-  --color-warn-bg: rgb(255 200 87 / 0.10);
-  --color-crit-bg: rgb(255 107 107 / 0.10);
+  --color-warn-bg: rgb(255 211 107 / 0.10);
+  --color-crit-bg: rgb(255 94 94 / 0.10);
 
   /* fonts */
   --font-display: var(--font-geist-sans);
@@ -81,10 +80,11 @@
   }
 
   body {
-    /* persistent drafting-paper cyan grid — signature blueprint background */
+    /* persistent drafting-paper grid — neutral warm-grey, NOT colored,
+       so the amber accent never has to compete with the background */
     background-image:
-      linear-gradient(to right, rgb(0 180 216 / 0.045) 1px, transparent 1px),
-      linear-gradient(to bottom, rgb(0 180 216 / 0.045) 1px, transparent 1px);
+      linear-gradient(to right, rgb(196 217 232 / 0.038) 1px, transparent 1px),
+      linear-gradient(to bottom, rgb(196 217 232 / 0.038) 1px, transparent 1px);
     background-size: 32px 32px;
     background-attachment: fixed;
   }
@@ -102,11 +102,11 @@
     background: var(--color-bg);
   }
   ::-webkit-scrollbar-thumb {
-    background: rgb(0 180 216 / 0.25);
+    background: rgb(255 170 0 / 0.22);
     border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgb(0 180 216 / 0.45);
+    background: rgb(255 170 0 / 0.42);
   }
 
   ::placeholder {
@@ -376,9 +376,9 @@
   /* signature data-mesh tile — generative SVG pattern background */
   .data-mesh {
     background-image:
-      linear-gradient(135deg, transparent 48%, rgb(0 180 216 / 0.06) 48%, rgb(0 180 216 / 0.06) 52%, transparent 52%),
-      linear-gradient(45deg, transparent 48%, rgb(0 180 216 / 0.06) 48%, rgb(0 180 216 / 0.06) 52%, transparent 52%),
-      radial-gradient(circle at 8px 8px, rgb(0 180 216 / 0.10) 1px, transparent 1.5px);
+      linear-gradient(135deg, transparent 48%, rgb(255 170 0 / 0.06) 48%, rgb(255 170 0 / 0.06) 52%, transparent 52%),
+      linear-gradient(45deg, transparent 48%, rgb(255 170 0 / 0.06) 48%, rgb(255 170 0 / 0.06) 52%, transparent 52%),
+      radial-gradient(circle at 8px 8px, rgb(255 170 0 / 0.10) 1px, transparent 1.5px);
     background-size: 24px 24px, 24px 24px, 16px 16px;
   }
 

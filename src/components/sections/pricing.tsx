@@ -186,7 +186,7 @@ function PriceCard({
       className={cn(
         "relative h-full rounded-2xl p-8 md:p-9 flex flex-col transition-transform duration-300 overflow-hidden",
         plan.featured
-          ? "border border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-[0_24px_48px_-24px_rgb(0_180_216/_0.25)]"
+          ? "border border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-[0_24px_48px_-24px_rgb(255_170_0/_0.25)]"
           : "border border-[color:var(--color-border)] bg-[color:var(--color-surface)]",
       )}
     >
@@ -195,7 +195,7 @@ function PriceCard({
         className="pointer-events-none absolute inset-0 transition-opacity duration-300"
         style={{
           opacity: glow.active ? 1 : 0,
-          background: `radial-gradient(420px circle at ${glow.x}% ${glow.y}%, rgb(0 180 216 / 0.12), transparent 50%)`,
+          background: `radial-gradient(420px circle at ${glow.x}% ${glow.y}%, rgb(255 170 0 / 0.12), transparent 50%)`,
         }}
       />
       {plan.featured && (

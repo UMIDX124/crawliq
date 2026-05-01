@@ -4,7 +4,7 @@ const themes = [
   {
     href: "/preview/blueprint",
     name: "Blueprint / CAD",
-    blurb: "Drafting paper navy + cyan grid. Engineering precision.",
+    blurb: "Drafting paper navy + cyan grid (alt theme, not in use).",
     swatch: ["#0E1620", "#00B4D8", "#FFC857"],
   },
   {
