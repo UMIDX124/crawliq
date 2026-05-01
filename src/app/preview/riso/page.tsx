@@ -207,7 +207,7 @@ export default function RisoPreview() {
       <footer style={{ borderTop: `2px solid ${INK}` }}>
         <div className="max-w-[1100px] mx-auto px-8 py-6 flex items-center justify-between font-mono text-[10px] tracking-[0.22em] uppercase opacity-60">
           <span>Risograph theme · printed on warm cream paper</span>
-          <span>{new Date().getFullYear()} · DPL press</span>
+          <span>{new Date().getFullYear()} · CrawlIQ press</span>
         </div>
       </footer>
     </main>

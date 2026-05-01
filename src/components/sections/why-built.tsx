@@ -56,7 +56,7 @@ export function WhyBuilt() {
                     Umer Farooq
                   </div>
                   <div className="mt-1 font-mono text-[10.5px] tracking-[0.14em] uppercase text-fg-muted">
-                    Founder · Digital Point LLC · Pakistan
+                    Founder · CrawlIQ
                   </div>
                 </div>
               </div>
