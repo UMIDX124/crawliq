@@ -73,18 +73,23 @@ export default function PageLoadPreview() {
     <main className="min-h-[100dvh] bg-[color:var(--color-bg)] text-[color:var(--color-fg)] flex flex-col items-center justify-center px-6">
       <Link
         href="/preview"
-        className="fixed top-4 left-4 z-50 font-mono text-[10px] tracking-[0.2em] uppercase text-fg-muted/70 hover:text-[color:var(--color-accent)] px-3 py-1.5 border border-[color:var(--color-border)] rounded backdrop-blur"
+        className="btn-tactile fixed top-4 left-4 z-50 px-3.5 py-2 backdrop-blur-md font-mono text-[10px] tracking-[0.22em] uppercase border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)]/70 rounded-full text-fg-muted hover:text-[color:var(--color-accent)] hover:border-[color:var(--color-accent)]"
       >
         ← preview index
       </Link>
       <button
         onClick={replay}
-        className="fixed top-4 right-4 z-50 font-mono text-[10px] tracking-[0.2em] uppercase text-fg-muted hover:text-[color:var(--color-accent)] px-3 py-1.5 border border-[color:var(--color-border-strong)] rounded backdrop-blur"
+        className="btn-tactile fixed top-4 right-4 z-50 px-3.5 py-2 backdrop-blur-md font-mono text-[10px] tracking-[0.22em] uppercase border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)]/70 rounded-full text-[color:var(--color-fg-muted)] hover:text-[color:var(--color-accent)] hover:border-[color:var(--color-accent)]"
       >
         replay sequence ↺
       </button>
 
       <div className="max-w-[820px] mx-auto text-center">
+        {/* Chapter label */}
+        <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)] mb-6">
+          &lt; 08 / 12 · FILM-OPENING SEQUENCE &gt;
+        </div>
+
         {/* Act 1 — Brand mark */}
         <AnimatePresence>
           {stage >= 1 && (
@@ -143,7 +148,7 @@ export default function PageLoadPreview() {
                     delay: skip ? 0 : i * 0.05,
                     ease: [0.16, 1, 0.3, 1],
                   }}
-                  className="font-display font-black text-[clamp(48px,9vw,120px)] tracking-[-0.04em] leading-none"
+                  className="font-display font-black text-[clamp(48px,9vw,120px)] tracking-[-0.045em] leading-[0.92]"
                   style={{ color: i >= 5 ? "var(--color-accent)" : "var(--color-fg)" }}
                 >
                   {letter}
@@ -152,6 +157,27 @@ export default function PageLoadPreview() {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Stage progress bar with scan-line shimmer */}
+        <div className="mx-auto mb-8 max-w-[420px]">
+          <div className="flex items-center justify-between mb-2 font-mono text-[9.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-faint)]">
+            <span>boot · stage {stage} / 4</span>
+            <span className="inline-flex items-center gap-1.5 text-[color:var(--color-accent)]">
+              <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)] pulse-dot" />
+              {stage >= 4 ? "ready" : "loading"}
+            </span>
+          </div>
+          <div className="relative">
+            <div className="h-[3px] rounded-full bg-[color:var(--color-border)] overflow-hidden">
+              <motion.div
+                animate={{ width: `${(stage / 4) * 100}%` }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className="h-full bg-[color:var(--color-accent)] rounded-full"
+              />
+            </div>
+            {stage < 4 && <div className="scan-line absolute inset-x-0 -bottom-1 h-[2px] rounded-full" />}
+          </div>
+        </div>
 
         {/* Act 3 — Hero copy */}
         <AnimatePresence>
@@ -162,7 +188,7 @@ export default function PageLoadPreview() {
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
               className="mb-10"
             >
-              <p className="text-fg-muted text-[clamp(15px,1.5vw,19px)] leading-[1.55] max-w-[600px] mx-auto">
+              <p className="text-balance text-[color:var(--color-fg-muted)] text-[clamp(15px,1.5vw,19px)] leading-[1.55] max-w-[600px] mx-auto">
                 Five AI auditors. Eight named data sources. One ranked action plan in under ten seconds.
               </p>
             </motion.div>
@@ -202,11 +228,11 @@ export default function PageLoadPreview() {
                 value={url}
                 onChange={(e) => setUrl(e.target.value.replace(/^https?:\/\//, ""))}
                 placeholder="yourwebsite.com"
-                className="flex-1 min-w-0 bg-transparent px-3 py-3 outline-none text-[14px] sm:text-[15px] placeholder:text-fg-faint"
+                className="flex-1 min-w-0 bg-transparent px-3 py-3 outline-none text-[14px] sm:text-[15px] placeholder:text-[color:var(--color-fg-faint)]"
               />
               <button
                 type="submit"
-                className="btn-tactile shrink-0 inline-flex items-center gap-2 rounded-full bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.14em] font-bold hover:bg-[color:var(--color-accent-hover)]"
+                className="btn-tactile shrink-0 inline-flex items-center gap-2 rounded-full bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.22em] font-bold hover:bg-[color:var(--color-accent-hover)]"
               >
                 <Sparkle size={13} weight="fill" />
                 <span className="hidden sm:inline">Run audit</span>
@@ -217,8 +243,9 @@ export default function PageLoadPreview() {
         </AnimatePresence>
       </div>
 
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 font-mono text-[10px] tracking-[0.22em] uppercase text-fg-faint">
-        ◇ Phase 8 · stage {stage} / 4
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 font-mono text-[10px] tracking-[0.22em] uppercase text-[color:var(--color-fg-faint)] flex flex-col items-center gap-1">
+        <span>◇ Phase 8 · stage {stage} / 4</span>
+        <span>&lt; 08 / 12 · END OF PHASE &gt;</span>
       </div>
     </main>
   );

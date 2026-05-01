@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Figtree, Geist_Mono } from "next/font/google";
+import { Figtree, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 import { SmoothScroll } from "@/components/smooth-scroll";
@@ -19,6 +19,17 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
   weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+// Instrument Serif — italic-only display serif used as the editorial "voice"
+// for accent words in headlines. Pairs against Figtree's grotesque baseline
+// to give the page a magazine-pull-quote feel rather than washed-out italics.
+const instrumentSerif = Instrument_Serif({
+  variable: "--font-serif",
+  subsets: ["latin"],
+  weight: ["400"],
+  style: ["italic", "normal"],
   display: "swap",
 });
 
@@ -60,7 +71,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f5f5f7",
+  themeColor: "#EFE5D0",
   width: "device-width",
   initialScale: 1,
 };
@@ -74,22 +85,22 @@ export default function RootLayout({
       appearance={{
         variables: {
           colorPrimary: "#FF5E1A",
-          colorBackground: "#0A0A0A",
-          colorText: "#FFFFFF",
-          colorTextSecondary: "#A1A1AA",
-          colorInputBackground: "#16171A",
-          colorInputText: "#FFFFFF",
+          colorBackground: "#F8EFD8",
+          colorText: "#1A1612",
+          colorTextSecondary: "#5C544A",
+          colorInputBackground: "#EFE5D0",
+          colorInputText: "#1A1612",
           borderRadius: "8px",
           fontFamily: "var(--font-geist-sans)",
         },
         elements: {
           formButtonPrimary:
-            "bg-[#FF5E1A] hover:bg-[#FF7438] text-black font-mono uppercase tracking-[0.14em] text-[12px]",
-          card: "shadow-none border border-[rgb(255_255_255_/_0.08)] bg-[#16171A]",
+            "bg-[#FF5E1A] hover:bg-[#E84F0F] text-white font-mono uppercase tracking-[0.14em] text-[12px]",
+          card: "shadow-none border border-[rgb(26_22_18_/_0.10)] bg-[#FAF6EE]",
         },
       }}
     >
-      <html lang="en" className={`${figtree.variable} ${geistMono.variable}`}>
+      <html lang="en" className={`${figtree.variable} ${geistMono.variable} ${instrumentSerif.variable}`}>
         <body className="min-h-[100dvh] bg-[color:var(--color-bg)] text-[color:var(--color-fg)] antialiased">
           <a
             href="#hero"

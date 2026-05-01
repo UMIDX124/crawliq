@@ -64,7 +64,7 @@ export function Faq() {
         <Reveal y={32} className="max-w-3xl">
           <h2 className="font-display font-extrabold text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
             Questions worth{" "}
-            <span className="italic font-light text-fg-muted">
+            <span className="italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]">
               asking.
             </span>
           </h2>

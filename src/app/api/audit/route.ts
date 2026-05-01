@@ -59,17 +59,93 @@ export async function POST(req: NextRequest) {
       const enc = new TextEncoder();
       const send = (e: SseEvent) => controller.enqueue(enc.encode(sse(e)));
 
-      // If AGENTS-HUB is configured, proxy the stream from there and translate
-      // its event shape into CrawlIQ's existing SSE format so the browser
-      // keeps working unchanged.
+      // AGENTS-HUB proxy branch: when configured, the upstream emits the v1
+      // contract events (agent.start / agent.line / agent.score / finding /
+      // complete / error). We translate them into CrawlIQ's existing SSE
+      // shape so InlineAudit keeps rendering unchanged AND the on-screen UX
+      // matches the local-fallback path 1-for-1.
       if (isAgentsHubConfigured()) {
+        const PILLAR_LABEL: Record<string, string> = {
+          "on-page": "On-Page",
+          technical: "Technical",
+          content: "Content",
+          "off-site": "Off-Site",
+          competitor: "Competitor",
+        };
+        const grade = (n: number): "A+" | "A" | "B" | "C" | "D" | "F" =>
+          n >= 95 ? "A+" : n >= 85 ? "A" : n >= 75 ? "B" : n >= 65 ? "C" : n >= 50 ? "D" : "F";
+        const sevToLocal = (s: "critical" | "warn" | "win"): "critical" | "warning" | "pass" =>
+          s === "critical" ? "critical" : s === "warn" ? "warning" : "pass";
+        const pillarToCategory = (
+          p: string,
+        ): "on-page" | "technical" | "content" | "performance" | "accessibility" => {
+          if (p === "on-page" || p === "technical" || p === "content") return p;
+          // off-site + competitor map to "content" so the local UI's category
+          // taxonomy keeps working (UI doesn't render off-site/competitor yet).
+          return "content";
+        };
+
         try {
-          send({ type: "status", phase: "crawling", message: `Fetching ${url} via AGENTS-HUB` });
+          send({
+            type: "status",
+            phase: "crawling",
+            message: `Fetching ${url} via AGENTS-HUB`,
+          });
+
           for await (const ev of streamAudit(url, { depth: "teaser" })) {
-            if (ev.type === "agent.line") {
+            if (ev.type === "agent.start") {
+              send({
+                type: "status",
+                phase: "analyzing",
+                message: `Auditor: ${PILLAR_LABEL[ev.pillar] ?? ev.pillar}`,
+              });
+            } else if (ev.type === "agent.line") {
+              // Real measured signal text — stream it as a delta so the
+              // user sees the "thinking" output exactly like the local path.
               send({ type: "delta", chunk: `${ev.text}\n` });
+            } else if (ev.type === "agent.score") {
+              send({
+                type: "status",
+                phase: "analyzing",
+                message: `${PILLAR_LABEL[ev.pillar] ?? ev.pillar}: ${ev.value}/100`,
+              });
+            } else if (ev.type === "finding") {
+              // Stream each finding line so the streaming view shows progress.
+              const f = ev.finding;
+              send({
+                type: "delta",
+                chunk: `[${f.severity.toUpperCase()}] ${f.title} — signal: ${f.signal}\n`,
+              });
             } else if (ev.type === "complete") {
-              send({ type: "result", raw: JSON.stringify(ev.result) });
+              // Translate v1 AuditResult → local AuditPayload shape so the
+              // UI's JSON.parse(raw) continues to render correctly.
+              const r = ev.result;
+              const localFindings = r.findings.map((f) => ({
+                title: f.title,
+                severity: sevToLocal(f.severity),
+                detail: f.body,
+                category: pillarToCategory(f.pillar),
+                signal: f.signal,
+                source: f.source,
+              }));
+              const wins = r.findings
+                .filter((f) => f.severity === "win")
+                .slice(0, 5)
+                .map((f) => f.title);
+              const summary =
+                `Audit of ${r.finalUrl} — overall ${r.overall}/100 across ${r.scores.length} pillars. ` +
+                `${r.findings.filter((f) => f.severity === "critical").length} critical, ` +
+                `${r.findings.filter((f) => f.severity === "warn").length} warnings, ` +
+                `${r.findings.filter((f) => f.severity === "win").length} wins.`;
+              const payload = {
+                score: r.overall,
+                grade: grade(r.overall),
+                summary,
+                findings: localFindings,
+                quickWins: wins,
+                source: r.source, // surfaces "agents-hub" so the UI can show provenance later
+              };
+              send({ type: "result", raw: JSON.stringify(payload) });
               send({ type: "status", phase: "done", message: "Audit complete." });
             } else if (ev.type === "error") {
               send({ type: "error", message: ev.message });

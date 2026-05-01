@@ -90,24 +90,28 @@ export default function WatchThinkPreview() {
     <main className="min-h-[100dvh] bg-[color:var(--color-bg)] text-[color:var(--color-fg)]">
       <Link
         href="/preview"
-        className="fixed top-4 left-4 z-50 font-mono text-[10px] tracking-[0.2em] uppercase text-fg-muted/70 hover:text-[color:var(--color-accent)] px-3 py-1.5 border border-[color:var(--color-border)] rounded backdrop-blur"
+        className="btn-tactile fixed top-4 left-4 z-50 px-3.5 py-2 backdrop-blur-md font-mono text-[10px] tracking-[0.22em] uppercase border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)]/70 rounded-full text-fg-muted hover:text-[color:var(--color-accent)] hover:border-[color:var(--color-accent)]"
       >
         ← preview index
       </Link>
 
       {/* intro */}
-      <section className="relative pt-32 pb-16 px-6 md:px-10 text-center">
+      <section className="relative pt-40 pb-20 px-6 md:px-10 text-center">
         <div className="max-w-[820px] mx-auto">
-          <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-5">
-            ◇ Phase 2 · scroll choreography
+          <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)] mb-4">
+            &lt; 02 / 12 · SCROLL CHOREOGRAPHY &gt;
           </div>
-          <h1 className="font-display font-black text-[clamp(36px,6vw,80px)] leading-[0.95] tracking-[-0.03em] mb-6">
+          <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-6 inline-flex items-center gap-2">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)] pulse-dot" />
+            Phase 2 · live agents engaged
+          </div>
+          <h1 className="font-display font-black text-balance text-[clamp(36px,6vw,80px)] leading-[0.92] tracking-[-0.035em] mb-6">
             Watch the auditors think.
           </h1>
-          <p className="text-fg-muted text-[16px] leading-[1.6] mb-3">
+          <p className="text-balance text-[color:var(--color-fg-muted)] text-[16px] leading-[1.6] mb-4 max-w-[60ch] mx-auto">
             Scroll. Each agent activates in sequence. Their findings stream as you progress.
           </p>
-          <div className="font-mono text-[10px] tracking-[0.22em] uppercase text-fg-faint">
+          <div className="font-mono text-[10px] tracking-[0.22em] uppercase text-[color:var(--color-fg-faint)]">
             ↓ scroll
           </div>
         </div>
@@ -138,9 +142,12 @@ export default function WatchThinkPreview() {
       </section>
 
       {/* exit */}
-      <section className="py-32 px-6 md:px-10 text-center">
-        <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-fg-muted">
+      <section className="py-40 px-6 md:px-10 text-center">
+        <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)]">
           ◇ end of choreography · {AGENTS.length} agents · all signals real
+        </p>
+        <p className="mt-4 font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-faint)]">
+          &lt; 02 / 12 · END OF PHASE &gt;
         </p>
       </section>
     </main>
@@ -152,12 +159,12 @@ function ProgressRail({ progress }: { progress: MotionValue<number> }) {
   const stagePct = useTransform(progress, (v) => `${Math.round(v * 100)}%`);
   return (
     <div className="flex items-center gap-4">
-      <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-fg-muted shrink-0">
+      <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)] shrink-0">
         Progress
       </span>
-      <div className="flex-1 h-[2px] bg-[color:var(--color-bg-3)] relative overflow-hidden">
+      <div className="flex-1 h-[2px] bg-[color:var(--color-border)] relative overflow-hidden rounded-full">
         <motion.div
-          className="absolute inset-y-0 left-0"
+          className="absolute inset-y-0 left-0 rounded-full"
           style={{
             width: widthPct,
             background: ACCENT,
@@ -209,19 +216,23 @@ function Terminal({
           opacity: borderOpacity,
         }}
       />
-      <div className="rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden h-full flex flex-col">
-        {/* terminal bar */}
-        <div className="flex items-center gap-1.5 px-3 py-2 border-b border-[color:var(--color-border)] bg-[color:var(--color-bg-2)]">
+      <div className="card-lift rounded-xl border border-[color:var(--color-border)] hover:border-[color:var(--color-accent)] bg-[color:var(--color-surface)] overflow-hidden h-full flex flex-col">
+        {/* terminal bar — uniform 32px height */}
+        <div className="flex items-center gap-1.5 px-3 h-8 border-b border-[color:var(--color-border)] bg-[color:var(--color-bg-2)]">
           <span className="w-2 h-2 rounded-full bg-[#ff5f57] shrink-0" />
           <span className="w-2 h-2 rounded-full bg-[#febc2e] shrink-0" />
           <span className="w-2 h-2 rounded-full bg-[#28c840] shrink-0" />
-          <span className="ml-2 font-mono text-[10px] text-fg-muted truncate">
+          <span className="ml-2 font-mono text-[10px] tracking-[0.08em] text-[color:var(--color-fg-muted)] truncate">
             {agent.id}.agent
+          </span>
+          <span className="ml-auto inline-flex items-center gap-1.5 font-mono text-[9px] tracking-[0.22em] uppercase text-[color:var(--color-pass)] shrink-0">
+            <span className="inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-pass)] pulse-dot" />
+            live
           </span>
         </div>
         {/* output */}
-        <div className="p-3 font-mono text-[10.5px] leading-[1.7] flex-1 min-h-[200px]">
-          <div className="text-[color:var(--color-accent)] mb-1.5">▷ {agent.name}</div>
+        <div className="p-3 font-mono text-[10.5px] leading-[1.7] flex-1 min-h-[208px]">
+          <div className="text-[color:var(--color-accent)] mb-1.5 tracking-[0.04em]">▷ {agent.name}</div>
           <Lines progress={lineFraction} lines={agent.lines} />
         </div>
       </div>
@@ -279,13 +290,13 @@ function FinalSummary({ progress }: { progress: MotionValue<number> }) {
       style={{ opacity, y }}
       className="mt-10 rounded-xl border border-[color:var(--color-accent)] bg-[color:var(--color-accent-soft)] p-6 max-w-2xl mx-auto text-center"
     >
-      <div className="font-mono text-[10.5px] tracking-[0.18em] uppercase text-[color:var(--color-accent)] mb-3">
+      <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-3">
         ◇ overall score
       </div>
-      <div className="font-display font-black text-[64px] leading-none tabular-nums">
+      <div className="font-display font-black text-[64px] leading-none tabular-nums tracking-[-0.035em]">
         68
       </div>
-      <div className="mt-2 font-mono text-[10.5px] tracking-[0.16em] uppercase text-fg-muted">
+      <div className="mt-2 font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)]">
         15 critical · 22 warnings · 18 passes
       </div>
     </motion.div>

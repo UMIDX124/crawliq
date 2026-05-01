@@ -145,7 +145,7 @@ export function InlineAudit({
       </div>
 
       {/* main panel */}
-      <div className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden shadow-[0_1px_0_rgb(255_255_255/_0.5)_inset,0_24px_48px_-24px_rgb(29_29_31/_0.18)]">
+      <div className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden shadow-[0_1px_0_rgb(255_255_255/_0.6)_inset,0_24px_48px_-24px_rgb(26_22_18/_0.16)]">
         {/* terminal bar */}
         <div className="flex items-center gap-2 px-5 py-3 border-b border-[color:var(--color-border)] bg-[color:var(--color-bg-2)]">
           <span className="w-2.5 h-2.5 rounded-full bg-[#ff5f57]" />

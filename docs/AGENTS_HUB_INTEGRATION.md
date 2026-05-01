@@ -131,16 +131,35 @@ AGENTS-HUB's existing agent IDs (`on-page`, `technical`, `content`, `off-site`, 
 
 ---
 
-## Tasks for AGENTS-HUB-side implementation
+## AGENTS-HUB-side implementation (shipped)
 
-1. **Add `src/app/api/v1/audit/route.ts`** — POST handler matching the contract above. Wraps existing audit logic, returns one-shot result.
-2. **Add `src/app/api/v1/audit/stream/route.ts`** — SSE handler. Reuses the same audit pipeline but emits per-line events.
-3. **Add API key model** — Prisma table `ApiKey { id, key (hashed), label, scope ("public" | "internal"), rateLimit, createdAt, lastUsedAt }` + middleware `requireApiKey()` for the `/api/v1/*` routes.
-4. **Add CORS** — allow CrawlIQ's deployed origin (`crawliq-sage.vercel.app` + custom domain when set) on the v1 endpoints. Use Next.js middleware or per-route headers.
-5. **Add per-key rate limit** — Upstash Redis or in-memory map keyed by API key, configurable per key.
-6. **Generate two keys for CrawlIQ** — one public, one internal. Hand to CrawlIQ via env vars.
+Status as of 2026-05-01 — all of the following landed in the AGENTS-HUB repo:
 
-Estimated effort: 1-2 days on AGENTS-HUB.
+| File | Purpose |
+|---|---|
+| `prisma/schema.prisma` | `ApiKey` model — `hashedKey` unique, `prefix` index, `scope`, `rateLimit`, `lastUsedAt` |
+| `src/lib/api-key.ts` | `hashKey`, `requireApiKey`, in-memory `checkRateLimit` (60-min sliding window) |
+| `src/lib/v1-signals.ts` | **Real** signal extraction — single fetch produces cheerio + security-headers + schema-org signals per pillar. Off-site / competitor return explicit gap-notes. |
+| `src/lib/v1-runner.ts` | LLM-as-explainer-only pipeline — score + severity computed in code from numeric thresholds; the LLM only writes prose around pre-measured signals. |
+| `src/lib/v1-translator.ts` | v1 contract types (kept in lock-step with `agents-hub-client.ts`) |
+| `src/lib/v1-cors.ts` | `v1CorsHeaders()` reading `CORS_ALLOW_ORIGIN` |
+| `src/lib/v1-validation.ts` | Zod `auditBodySchema` |
+| `src/app/api/v1/audit/route.ts` | POST one-shot — single crawl → 5 parallel pillar runs → assembled `AuditResult` |
+| `src/app/api/v1/audit/stream/route.ts` | POST SSE — emits real `agent.line` events from extracted signals (not synthetic mocks) |
+| `scripts/generate-api-key.ts` | `pnpm tsx scripts/generate-api-key.ts --label=... --scope=public|internal --rateLimit=60` |
+
+**Hard rules enforced by the pipeline (not by convention):**
+- Severity is set by `severityFromBands` in `v1-signals.ts` — the LLM never picks it.
+- Score is `Math.round(avg(SEVERITY_WEIGHT[severity]))` over the pillar's signals — deterministic.
+- `signal` and `source` on every `AuditFinding` come directly from the extractor; the LLM cannot rewrite them.
+- Off-site / competitor pillars return explicit gap-notes (`"open-pagerank: API not configured"`) until those data sources are wired up — no fabricated metrics.
+
+**What still needs to ship before AGENTS-HUB is fully wired:**
+1. `pnpm prisma migrate dev --name add_api_key` — apply the new model
+2. `pnpm tsx scripts/generate-api-key.ts --label="crawliq-prod" --scope=public --rateLimit=60`
+3. `pnpm tsx scripts/generate-api-key.ts --label="crawliq-prod-internal" --scope=internal`
+4. Add the two keys + `AGENTS_HUB_URL` to CrawlIQ Vercel env, redeploy CrawlIQ.
+5. Wire OpenPageRank + Wayback API keys into AGENTS-HUB to replace the off-site / competitor gap-notes with real measurements.
 
 ---
 

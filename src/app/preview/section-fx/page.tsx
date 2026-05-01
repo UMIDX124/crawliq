@@ -21,14 +21,14 @@ export default function SectionFxPreview() {
         ← preview index
       </Link>
 
-      <header className="pt-32 pb-12 px-6 md:px-10 text-center">
-        <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-5">
+      <header className="pt-24 pb-10 px-6 md:px-10 text-center">
+        <div className="font-mono text-[10px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-4">
           ◇ Phase 7 · accent sweep section transitions
         </div>
-        <h1 className="font-display font-black text-[clamp(36px,6vw,80px)] leading-[0.95] tracking-[-0.03em] mb-6 max-w-[820px] mx-auto">
+        <h1 className="font-display font-black text-[clamp(26px,4.2vw,54px)] leading-[1] tracking-[-0.03em] mb-5 max-w-[680px] mx-auto">
           Scroll. Each section enters with a sweep.
         </h1>
-        <p className="text-fg-muted text-[16px] leading-[1.6] max-w-[640px] mx-auto">
+        <p className="text-fg-muted text-[14px] leading-[1.6] max-w-[540px] mx-auto">
           Pure CSS + Framer Motion + IntersectionObserver. No WebGL needed for this; runs at 60fps even on integrated graphics.
         </p>
       </header>
@@ -37,16 +37,16 @@ export default function SectionFxPreview() {
         <SweepSection
           key={s.num}
           id={`section-${s.num}`}
-          className={`min-h-[80vh] flex items-center px-6 md:px-10 ${i % 2 === 0 ? "bg-[color:var(--color-bg)]" : "bg-[color:var(--color-bg-2)]"}`}
+          className={`min-h-[55vh] flex items-center px-6 md:px-10 py-16 ${i % 2 === 0 ? "bg-[color:var(--color-bg)]" : "bg-[color:var(--color-bg-2)]"}`}
         >
-          <div className="max-w-[920px] mx-auto w-full">
-            <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-6">
+          <div className="max-w-[760px] mx-auto w-full">
+            <div className="font-mono text-[10px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-5">
               ◇ § {s.num} / 05 · {s.label}
             </div>
-            <h2 className="font-display font-black text-[clamp(26px,4.2vw,52px)] leading-[1.1] tracking-[-0.025em] mb-6 max-w-[26ch]">
+            <h2 className="font-display font-black text-[clamp(20px,3vw,36px)] leading-[1.15] tracking-[-0.02em] mb-5 max-w-[28ch]">
               {s.body}
             </h2>
-            <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-fg-faint">
+            <div className="font-mono text-[10px] tracking-[0.22em] uppercase text-fg-faint">
               ↓ scroll to next section
             </div>
           </div>

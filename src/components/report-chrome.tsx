@@ -18,15 +18,17 @@ export function ReportTopBar() {
   });
 
   return (
-    <div className="sticky top-0 z-30 border-b border-[color:var(--color-border-strong)] bg-[color:var(--color-bg)]/85 backdrop-blur-md">
-      <div className="max-w-[1280px] mx-auto px-5 md:px-8 py-2 flex items-center justify-between gap-3 font-mono text-[10px] tracking-[0.18em] uppercase text-fg-muted overflow-hidden">
+    <div className="sticky top-0 z-30 bg-[color:var(--color-bg-2)] border-b border-[color:var(--color-border-strong)] shadow-[0_1px_0_0_rgb(26_22_18_/_0.04),0_8px_18px_-12px_rgb(26_22_18_/_0.10)]">
+      {/* hairline accent rail at the top — the "this is a report cover" cue */}
+      <div className="h-[2px] w-full bg-[color:var(--color-accent)]" aria-hidden />
+      <div className="max-w-[1480px] mx-auto px-5 md:px-10 py-2.5 flex items-center justify-between gap-3 font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)] overflow-hidden">
         <div className="flex items-center gap-3 min-w-0">
           <FileText size={12} weight="bold" className="text-[color:var(--color-accent)] shrink-0" />
           <span className="hidden sm:inline whitespace-nowrap">Audit report</span>
-          <span className="text-fg-faint hidden sm:inline">·</span>
+          <span className="text-[color:var(--color-fg-faint)] hidden sm:inline">·</span>
           <span className="whitespace-nowrap truncate">
-            <span className="text-fg-faint">Subject:</span>{" "}
-            <span className="text-fg">crawliq.io</span>
+            <span className="text-[color:var(--color-fg-faint)]">Subject:</span>{" "}
+            <span className="text-[color:var(--color-fg)] font-semibold">crawliq.io</span>
           </span>
         </div>
         <div className="flex items-center gap-3 shrink-0">
@@ -34,11 +36,11 @@ export function ReportTopBar() {
             <CalendarBlank size={11} weight="bold" />
             {dateStr}
           </span>
-          <span className="hidden md:inline text-fg-faint">·</span>
+          <span className="hidden md:inline text-[color:var(--color-fg-faint)]">·</span>
           <span className="flex items-center gap-1.5 whitespace-nowrap">
             <Hash size={11} weight="bold" />
-            <span className="text-fg-faint">Rev</span>
-            <span className="text-fg">{(process.env.VERCEL_GIT_COMMIT_SHA ?? "local").slice(0, 7)}</span>
+            <span className="text-[color:var(--color-fg-faint)]">Rev</span>
+            <span className="text-[color:var(--color-fg)] font-semibold">{(process.env.VERCEL_GIT_COMMIT_SHA ?? "local").slice(0, 7)}</span>
           </span>
         </div>
       </div>

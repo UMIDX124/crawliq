@@ -13,14 +13,14 @@ export const metadata = {
 };
 
 const PALETTE = [
-  { name: "canvas", hex: "#0A0A0A", role: "Page background — pure black, no warm tint" },
-  { name: "surface", hex: "#16171A", role: "Raised surfaces, cards, modals" },
-  { name: "ink", hex: "#FFFFFF", role: "Primary text, accent on accent" },
-  { name: "ink-muted", hex: "#A1A1AA", role: "Secondary text, captions" },
+  { name: "canvas", hex: "#F5F0E8", role: "Page background — warm cream, no clinical white" },
+  { name: "surface", hex: "#FAF6EE", role: "Raised surfaces, cards, modals" },
+  { name: "ink", hex: "#1A1612", role: "Primary text — warm near-black on cream" },
+  { name: "ink-muted", hex: "#5C544A", role: "Secondary text, captions" },
   { name: "accent", hex: "#FF5E1A", role: "Primary brand accent, single chromatic move" },
-  { name: "pass", hex: "#00DC82", role: "Severity: passed check" },
-  { name: "warn", hex: "#FFC107", role: "Severity: warning finding" },
-  { name: "crit", hex: "#FF4757", role: "Severity: critical finding" },
+  { name: "pass", hex: "#047857", role: "Severity: passed check" },
+  { name: "warn", hex: "#B45309", role: "Severity: warning finding" },
+  { name: "crit", hex: "#B91C1C", role: "Severity: critical finding" },
 ];
 
 const TYPE = [
@@ -130,22 +130,22 @@ export default function BrandPage() {
               {/* grid */}
               {[40, 80, 120, 160].map((p) => (
                 <g key={p}>
-                  <line x1={p} y1="0" x2={p} y2="200" stroke="rgb(255 255 255 / 0.08)" strokeWidth="0.5" />
-                  <line x1="0" y1={p} x2="200" y2={p} stroke="rgb(255 255 255 / 0.08)" strokeWidth="0.5" />
+                  <line x1={p} y1="0" x2={p} y2="200" stroke="rgb(26 22 18 / 0.10)" strokeWidth="0.5" />
+                  <line x1="0" y1={p} x2="200" y2={p} stroke="rgb(26 22 18 / 0.10)" strokeWidth="0.5" />
                 </g>
               ))}
               {/* outer broken ring */}
-              <circle cx="100" cy="100" r="84" fill="none" stroke="#FFFFFF" strokeWidth="2" strokeDasharray="3 6" opacity="0.6" />
+              <circle cx="100" cy="100" r="84" fill="none" stroke="#1A1612" strokeWidth="2" strokeDasharray="3 6" opacity="0.55" />
               {/* inner solid 3/4 arc */}
-              <path d="M 100 36 A 64 64 0 1 1 36 100" fill="none" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
+              <path d="M 100 36 A 64 64 0 1 1 36 100" fill="none" stroke="#1A1612" strokeWidth="2" strokeLinecap="round" />
               {/* core dot */}
-              <circle cx="100" cy="100" r="10" fill="#FFFFFF" />
+              <circle cx="100" cy="100" r="10" fill="#1A1612" />
               {/* finding dot NE */}
               <circle cx="148" cy="64" r="6" fill="#FF5E1A" />
               {/* connector */}
               <line x1="100" y1="100" x2="148" y2="64" stroke="#FF5E1A" strokeWidth="1.5" />
               {/* labels */}
-              <text x="100" y="195" textAnchor="middle" fontSize="6" fill="rgb(255 255 255 / 0.5)" fontFamily="ui-monospace, monospace" letterSpacing="2">
+              <text x="100" y="195" textAnchor="middle" fontSize="6" fill="rgb(26 22 18 / 0.55)" fontFamily="ui-monospace, monospace" letterSpacing="2">
                 R = 84 · DASH 3·6
               </text>
               <text x="155" y="60" fontSize="6" fill="rgb(255 94 26 / 0.85)" fontFamily="ui-monospace, monospace" letterSpacing="1">

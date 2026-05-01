@@ -145,11 +145,13 @@ export function LiveAuditMargin() {
       aria-label="Live page audit"
       className="hidden 2xl:block fixed right-4 top-28 z-40 w-[208px] font-mono"
     >
-      <div className="rounded-md border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)]/85 backdrop-blur-md shadow-[0_8px_24px_-12px_rgb(0_0_0_/_0.18)] overflow-hidden">
+      <div className="rounded-lg border border-[color:var(--color-border-strong)] bg-[color:var(--color-bg-2)] shadow-[0_14px_40px_-18px_rgb(26_22_18_/_0.22),0_2px_6px_-3px_rgb(26_22_18_/_0.08)] overflow-hidden ring-1 ring-[color:var(--color-accent)]/20">
+        {/* tiny accent rail along the top edge — gives the widget instrument-feel */}
+        <div className="h-[2px] w-full bg-gradient-to-r from-[color:var(--color-accent)] via-[color:var(--color-accent-hover)] to-[color:var(--color-accent)]" aria-hidden />
         <button
           type="button"
           onClick={() => setCollapsed((c) => !c)}
-          className="w-full flex items-center justify-between gap-2 px-3 py-2.5 border-b border-[color:var(--color-border)] hover:bg-[color:var(--color-bg-2)] transition-colors text-left"
+          className="w-full flex items-center justify-between gap-2 px-3 py-2.5 border-b border-[color:var(--color-border)] hover:bg-[color:var(--color-bg-3)] transition-colors text-left"
         >
           <span className="flex items-center gap-2">
             <span className="inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-pass)] pulse-dot" />

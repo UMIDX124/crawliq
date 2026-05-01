@@ -29,7 +29,7 @@ export function PdfPreview() {
             <ReportEyebrow num="06">Deliverable</ReportEyebrow>
             <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
               A 12-page report{" "}
-              <span className="italic font-light text-fg-muted">
+              <span className="italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]">
                 your team can actually ship from.
               </span>
             </h2>

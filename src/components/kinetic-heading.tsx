@@ -33,7 +33,7 @@ export function KineticHeading({
                 }}
                 className={
                   isItalic
-                    ? "inline-block italic font-light text-[color:var(--color-fg-muted)]"
+                    ? "inline-block italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]"
                     : "inline-block"
                 }
               >

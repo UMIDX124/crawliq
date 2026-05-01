@@ -33,7 +33,7 @@ export function Comparison() {
         <Reveal y={36} className="max-w-3xl">
           <h2 className="font-display font-extrabold text-balance text-[clamp(28px,5.5vw,56px)] leading-[1.05] tracking-[-0.025em]">
             One tool that{" "}
-            <span className="italic font-light text-fg-muted">
+            <span className="italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]">
               replaces five.
             </span>
           </h2>

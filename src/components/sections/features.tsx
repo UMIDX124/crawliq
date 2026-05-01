@@ -22,7 +22,7 @@ export function Features() {
           <ReportEyebrow num="04">Five auditors · one report</ReportEyebrow>
           <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
             Every angle, every issue,{" "}
-            <span className="italic font-light text-fg-muted">
+            <span className="italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]">
               one merged report.
             </span>
           </h2>

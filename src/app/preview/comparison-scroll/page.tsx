@@ -36,20 +36,23 @@ export default function ComparisonScrollPreview() {
     <main className="min-h-[100dvh] bg-[color:var(--color-bg)] text-[color:var(--color-fg)]">
       <Link
         href="/preview"
-        className="fixed top-4 left-4 z-50 font-mono text-[10px] tracking-[0.2em] uppercase text-fg-muted/70 hover:text-[color:var(--color-accent)] px-3 py-1.5 border border-[color:var(--color-border)] rounded backdrop-blur"
+        className="btn-tactile fixed top-4 left-4 z-50 px-3.5 py-2 backdrop-blur-md font-mono text-[10px] tracking-[0.22em] uppercase border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)]/70 rounded-full text-fg-muted hover:text-[color:var(--color-accent)] hover:border-[color:var(--color-accent)]"
       >
         ← preview index
       </Link>
 
-      <section className="pt-32 pb-12 px-6 md:px-10 text-center">
+      <section className="pt-40 pb-16 px-6 md:px-10 text-center">
         <div className="max-w-[820px] mx-auto">
-          <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-5">
+          <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)] mb-4">
+            &lt; 04 / 12 · COMPETITIVE COMPARISON &gt;
+          </div>
+          <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-6">
             ◇ Phase 4 · pinned table reveal
           </div>
-          <h1 className="font-display font-black text-[clamp(36px,6vw,80px)] leading-[0.95] tracking-[-0.03em] mb-6">
+          <h1 className="font-display font-black text-balance text-[clamp(36px,6vw,80px)] leading-[0.92] tracking-[-0.035em] mb-6">
             One tool. Replaces five.
           </h1>
-          <p className="text-fg-muted text-[16px] leading-[1.6]">
+          <p className="text-balance text-[color:var(--color-fg-muted)] text-[16px] leading-[1.6] max-w-[60ch] mx-auto">
             Scroll. Each row appears. The CrawlIQ check arrives first, then the competitor marks settle.
           </p>
         </div>
@@ -59,40 +62,43 @@ export default function ComparisonScrollPreview() {
         <div className="sticky top-0 h-screen flex flex-col items-center justify-center px-6 md:px-10">
           <div className="w-full max-w-[1100px]">
             <div className="flex items-center gap-4 mb-6">
-              <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-fg-muted shrink-0">
-                ◇ rows revealed
+              <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)] shrink-0 inline-flex items-center gap-2">
+                <span className="inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)] pulse-dot" />
+                rows revealed
               </span>
-              <div className="flex-1 h-[2px] bg-[color:var(--color-bg-3)] relative overflow-hidden">
+              <div className="flex-1 h-[2px] bg-[color:var(--color-border)] relative overflow-hidden rounded-full">
                 <motion.div
-                  className="absolute inset-y-0 left-0 bg-[color:var(--color-accent)]"
+                  className="absolute inset-y-0 left-0 bg-[color:var(--color-accent)] rounded-full"
                   style={{ width: widthPct }}
                 />
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden">
-              {/* header */}
-              <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] border-b border-[color:var(--color-border)] bg-[color:var(--color-bg-2)]">
-                <div className="px-5 md:px-7 py-5 font-mono text-[10.5px] tracking-[0.18em] uppercase text-fg-muted">
+            <div className="rounded-2xl border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] overflow-hidden shadow-[0_18px_44px_-32px_rgb(26_22_18/_0.35)]">
+              {/* header — sticky inside scroll container */}
+              <div className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] border-b border-[color:var(--color-border-strong)] bg-[color:var(--color-bg-2)] sticky top-0 z-10">
+                <div className="px-5 md:px-7 py-5 font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)]">
                   Capability
                 </div>
-                <div className="px-3 py-5 text-center font-display font-extrabold text-[14px] text-[color:var(--color-accent)] bg-[color:var(--color-accent-soft)] border-l border-[color:var(--color-border)]">
+                <div className="px-3 py-5 text-center font-display font-extrabold text-[14px] tracking-[-0.025em] text-[color:var(--color-accent)] bg-[color:var(--color-accent-soft)] border-l border-[color:var(--color-border)]">
                   CrawlIQ
                 </div>
-                <div className="px-3 py-5 text-center font-display font-bold text-[13px] border-l border-[color:var(--color-border)]">
+                <div className="px-3 py-5 text-center font-display font-bold text-[13px] tracking-[-0.02em] border-l border-[color:var(--color-border)]">
                   Lighthouse
                 </div>
-                <div className="px-3 py-5 text-center font-display font-bold text-[13px] border-l border-[color:var(--color-border)]">
+                <div className="px-3 py-5 text-center font-display font-bold text-[13px] tracking-[-0.02em] border-l border-[color:var(--color-border)]">
                   Ahrefs
                 </div>
-                <div className="px-3 py-5 text-center font-display font-bold text-[13px] border-l border-[color:var(--color-border)]">
+                <div className="px-3 py-5 text-center font-display font-bold text-[13px] tracking-[-0.02em] border-l border-[color:var(--color-border)]">
                   Manual
                 </div>
               </div>
 
-              {ROWS.map((row, i) => (
-                <Row key={row.label} row={row} index={i} total={ROWS.length} progress={sp} />
-              ))}
+              <div className="divide-y divide-[color:var(--color-border)]">
+                {ROWS.map((row, i) => (
+                  <Row key={row.label} row={row} index={i} total={ROWS.length} progress={sp} />
+                ))}
+              </div>
             </div>
 
             <Summary progress={sp} />
@@ -100,9 +106,12 @@ export default function ComparisonScrollPreview() {
         </div>
       </section>
 
-      <section className="py-32 px-6 md:px-10 text-center">
-        <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-fg-muted">
+      <section className="py-40 px-6 md:px-10 text-center">
+        <p className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)]">
           ◇ end of comparison
+        </p>
+        <p className="mt-4 font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-faint)]">
+          &lt; 04 / 12 · END OF PHASE &gt;
         </p>
       </section>
     </main>
@@ -127,9 +136,9 @@ function Row({
   return (
     <motion.div
       style={{ opacity, y }}
-      className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] items-center border-b border-[color:var(--color-border)] last:border-b-0"
+      className="grid grid-cols-[2fr_1fr_1fr_1fr_1fr] items-stretch hover:bg-[color:var(--color-bg-2)]/40 transition-colors"
     >
-      <div className="px-5 md:px-7 py-4 text-[14px]">{row.label}</div>
+      <div className="px-5 md:px-7 py-4 text-[14px] tracking-[-0.005em] flex items-center">{row.label}</div>
       <Cell value={row.us} progress={progress} start={start} delay={0.1} accent />
       <Cell value={row.lh} progress={progress} start={start} delay={0.18} />
       <Cell value={row.ah} progress={progress} start={start} delay={0.26} />
@@ -156,16 +165,16 @@ function Cell({
   return (
     <motion.div
       style={{ opacity: o, scale: s }}
-      className={`py-4 text-center border-l border-[color:var(--color-border)] ${accent ? "bg-[color:var(--color-accent-soft)]" : ""}`}
+      className={`py-4 text-center border-l border-[color:var(--color-border)] flex items-center justify-center ${accent ? "bg-[color:var(--color-accent-soft)]" : ""}`}
     >
       {value === true ? (
         <Check size={18} weight="bold" className={accent ? "mx-auto text-[color:var(--color-accent)]" : "mx-auto text-[color:var(--color-pass)]"} />
       ) : value === false ? (
-        <Minus size={16} weight="bold" className="mx-auto text-fg-faint" />
+        <Minus size={16} weight="bold" className="mx-auto text-[color:var(--color-fg-faint)]" />
       ) : value === "partial" ? (
-        <span className="font-mono text-[10px] tracking-[0.14em] uppercase text-fg-muted">partial</span>
+        <span className="font-mono text-[10px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)]">partial</span>
       ) : (
-        <span className={`font-mono text-[10.5px] tracking-[0.12em] uppercase ${accent ? "text-[color:var(--color-accent)]" : "text-fg-muted"}`}>
+        <span className={`font-mono text-[10.5px] tracking-[0.18em] uppercase tabular-nums ${accent ? "text-[color:var(--color-accent)]" : "text-[color:var(--color-fg-muted)]"}`}>
           {value}
         </span>
       )}
@@ -181,10 +190,10 @@ function Summary({ progress }: { progress: MotionValue<number> }) {
       style={{ opacity, scale }}
       className="mt-6 rounded-2xl border border-[color:var(--color-accent)] bg-[color:var(--color-accent-soft)] p-6 text-center max-w-md mx-auto"
     >
-      <div className="font-mono text-[10.5px] tracking-[0.18em] uppercase text-[color:var(--color-accent)] mb-2">
+      <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-2">
         ◇ verdict
       </div>
-      <div className="font-display font-black text-[28px] leading-tight">
+      <div className="font-display font-black text-[28px] leading-tight tracking-[-0.025em] tabular-nums">
         9 / 9 capabilities · 1 tool
       </div>
     </motion.div>

@@ -19,7 +19,7 @@ export function EarlyAccess() {
             <ReportEyebrow num="09">Honest note</ReportEyebrow>
             <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(28px,4.5vw,52px)] leading-[1.05] tracking-[-0.025em]">
               We&rsquo;re new.{" "}
-              <span className="italic font-light text-fg-muted">
+              <span className="italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]">
                 Your audit becomes the proof.
               </span>
             </h2>

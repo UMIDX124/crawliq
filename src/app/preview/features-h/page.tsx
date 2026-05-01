@@ -117,11 +117,15 @@ function FeatureCard({
   progress: MotionValue<number>;
   total: number;
 }) {
-  // Each card has its own focus window in the scroll progress
-  const start = Math.max(0, (index - 0.5) / total);
-  const end = Math.min(1, (index + 1) / total);
-  const focusOpacity = useTransform(progress, [start, (start + end) / 2, end], [0.45, 1, 0.85]);
-  const scale = useTransform(progress, [start, (start + end) / 2, end], [0.95, 1.02, 1]);
+  // Each card has its own focus window in the scroll progress.
+  // Guard against degenerate ranges — useTransform requires strictly ascending input.
+  const rawStart = Math.max(0, (index - 0.5) / total);
+  const rawEnd = Math.min(1, (index + 1) / total);
+  const start = Math.min(rawStart, rawEnd - 0.002);
+  const end = Math.max(rawEnd, start + 0.002);
+  const mid = (start + end) / 2;
+  const focusOpacity = useTransform(progress, [start, mid, end], [0.45, 1, 0.85]);
+  const scale = useTransform(progress, [start, mid, end], [0.95, 1.02, 1]);
 
   const Icon = feature.icon;
   return (

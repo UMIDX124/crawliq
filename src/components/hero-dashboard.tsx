@@ -91,7 +91,7 @@ export function HeroDashboard() {
       className="relative w-full max-w-[460px] mx-auto"
     >
       {/* main card */}
-      <div className="relative rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden shadow-[0_1px_0_rgb(255_255_255/_0.6)_inset,0_24px_56px_-24px_rgb(29_29_31/_0.22)]">
+      <div className="relative rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden shadow-[0_1px_0_rgb(255_255_255/_0.7)_inset,0_24px_56px_-24px_rgb(26_22_18/_0.18)]">
         {/* terminal bar */}
         <div className="flex items-center gap-1.5 px-4 py-3 border-b border-[color:var(--color-border)] bg-[color:var(--color-bg-2)]">
           <span className="w-2 h-2 rounded-full bg-[#ff5f57]" />
@@ -132,7 +132,7 @@ export function HeroDashboard() {
                   cx="36"
                   cy="36"
                   r="30"
-                  stroke="rgb(29 29 31 / 0.08)"
+                  stroke="rgb(26 22 18 / 0.10)"
                   strokeWidth="4"
                   fill="none"
                 />
@@ -252,7 +252,7 @@ export function HeroDashboard() {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: 1.2 }}
-        className="hidden lg:flex absolute -bottom-5 -left-5 items-center gap-2 rounded-full bg-[color:var(--color-fg)] text-[color:var(--color-bg)] pl-2.5 pr-4 py-2 shadow-[0_12px_32px_-12px_rgb(29_29_31/_0.4)]"
+        className="hidden lg:flex absolute -bottom-5 -left-5 items-center gap-2 rounded-full bg-[color:var(--color-fg)] text-[color:var(--color-bg)] pl-2.5 pr-4 py-2 shadow-[0_12px_32px_-12px_rgb(26_22_18/_0.32)]"
       >
         <span className="inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)] pulse-dot" />
         <span className="font-mono text-[11px] tracking-[0.16em] uppercase">
@@ -265,7 +265,7 @@ export function HeroDashboard() {
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5, delay: 1.4 }}
-        className="hidden lg:block absolute -top-6 -right-6 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-3.5 shadow-[0_12px_32px_-12px_rgb(29_29_31/_0.32)]"
+        className="hidden lg:block absolute -top-6 -right-6 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-3.5 shadow-[0_12px_32px_-12px_rgb(26_22_18/_0.24)]"
       >
         <div className="font-mono text-[9px] tracking-[0.18em] uppercase text-fg-muted mb-1.5">
           Critical

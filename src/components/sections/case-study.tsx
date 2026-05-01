@@ -13,7 +13,7 @@ export function CaseStudy() {
             </span>
             <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(30px,4.5vw,52px)] leading-[1.05] tracking-[-0.025em]">
               How a 24-page agency site recovered{" "}
-              <span className="italic font-light text-fg-muted">
+              <span className="italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]">
                 47% organic traffic
               </span>{" "}
               in 11 weeks.

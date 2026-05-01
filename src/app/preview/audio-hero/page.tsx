@@ -133,24 +133,28 @@ export default function AudioHeroPreview() {
     <main className="min-h-[100dvh] bg-[color:var(--color-bg)] text-[color:var(--color-fg)] flex flex-col">
       <Link
         href="/preview"
-        className="fixed top-4 left-4 z-50 font-mono text-[10px] tracking-[0.2em] uppercase text-fg-muted/70 hover:text-[color:var(--color-accent)] px-3 py-1.5 border border-[color:var(--color-border)] rounded backdrop-blur"
+        className="btn-tactile fixed top-4 left-4 z-50 px-3.5 py-2 backdrop-blur-md font-mono text-[10px] tracking-[0.22em] uppercase border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)]/70 rounded-full text-fg-muted hover:text-[color:var(--color-accent)] hover:border-[color:var(--color-accent)]"
       >
         ← preview index
       </Link>
 
-      <section className="flex-1 flex items-center justify-center px-6 md:px-10 py-24">
+      <section className="flex-1 flex items-center justify-center px-6 md:px-10 py-32">
         <div className="max-w-[820px] mx-auto text-center w-full">
-          <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-5">
-            ◇ Phase 9 · audio-reactive (synthesized)
+          <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)] mb-4">
+            &lt; 09 / 12 · AUDIO-REACTIVE HERO &gt;
           </div>
-          <h1 className="font-display font-black text-[clamp(36px,6vw,80px)] leading-[0.95] tracking-[-0.03em] mb-7">
+          <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-6 inline-flex items-center gap-2">
+            <span className={`inline-block w-1.5 h-1.5 rounded-full ${enabled ? "bg-[color:var(--color-accent)] pulse-dot" : "bg-[color:var(--color-fg-faint)]"}`} />
+            Phase 9 · audio-reactive (synthesized)
+          </div>
+          <h1 className="font-display font-black text-balance text-[clamp(36px,6vw,80px)] leading-[0.92] tracking-[-0.035em] mb-8">
             Hear the audit{" "}
-            <span className="italic font-light text-fg-muted">begin.</span>
+            <span className="italic font-light text-[color:var(--color-fg-muted)]">begin.</span>
           </h1>
 
-          {/* Visualizer bar */}
-          <div className="mx-auto max-w-[480px] mb-6">
-            <div className="flex items-end gap-1 h-12">
+          {/* Visualizer bar with overlay hint when muted */}
+          <div className="mx-auto max-w-[480px] mb-7 relative">
+            <div className="flex items-end gap-1 h-14 px-3 py-2 rounded-md bg-[color:var(--color-bg-2)] border border-[color:var(--color-border)]">
               {Array.from({ length: 40 }).map((_, i) => {
                 const phase = i / 40;
                 const heightPct =
@@ -174,6 +178,18 @@ export default function AudioHeroPreview() {
                 );
               })}
             </div>
+            {!enabled && (
+              <button
+                type="button"
+                onClick={() => setEnabled(true)}
+                className="btn-tactile absolute inset-0 flex items-center justify-center rounded-md bg-[color:var(--color-bg)]/55 backdrop-blur-[2px] hover:bg-[color:var(--color-bg)]/35 transition-colors"
+              >
+                <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)]/90 font-mono text-[10px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)] hover:text-[color:var(--color-accent)] hover:border-[color:var(--color-accent)]">
+                  <SpeakerSlash size={11} weight="fill" />
+                  muted · tap to hear
+                </span>
+              </button>
+            )}
           </div>
 
           {/* URL input — keystrokes trigger bumps */}
@@ -195,11 +211,11 @@ export default function AudioHeroPreview() {
                 if (enabled) triggerBump();
               }}
               placeholder="type to hear the hum react"
-              className="flex-1 min-w-0 bg-transparent px-3 py-3 outline-none text-[14px] sm:text-[15px] placeholder:text-fg-faint"
+              className="flex-1 min-w-0 bg-transparent px-3 py-3 outline-none text-[14px] sm:text-[15px] placeholder:text-[color:var(--color-fg-faint)]"
             />
             <button
               type="submit"
-              className="btn-tactile shrink-0 inline-flex items-center gap-2 rounded-full bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.14em] font-bold hover:bg-[color:var(--color-accent-hover)]"
+              className="btn-tactile shrink-0 inline-flex items-center gap-2 rounded-full bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-2.5 font-mono text-[12px] uppercase tracking-[0.22em] font-bold hover:bg-[color:var(--color-accent-hover)]"
             >
               <Sparkle size={13} weight="fill" />
               <span className="hidden sm:inline">Run audit</span>
@@ -207,8 +223,8 @@ export default function AudioHeroPreview() {
             </button>
           </form>
 
-          <p className="mt-8 text-fg-muted text-[14px] leading-[1.6]">
-            Audio default: <span className="text-fg">muted</span>. Toggle below to enable a barely-audible hum that reacts to typing.
+          <p className="mt-8 text-balance text-[color:var(--color-fg-muted)] text-[14px] leading-[1.6] max-w-[60ch] mx-auto">
+            Audio default: <span className="text-[color:var(--color-fg)]">muted</span>. Toggle below to enable a barely-audible hum that reacts to typing.
             <br />
             All audio synthesized in-browser via Web Audio API. Zero assets shipped.
           </p>
@@ -217,13 +233,13 @@ export default function AudioHeroPreview() {
 
       {/* Footer audio toggle */}
       <footer className="border-t border-[color:var(--color-border)] py-5 px-6 md:px-10">
-        <div className="max-w-[1100px] mx-auto flex items-center justify-between">
-          <div className="font-mono text-[10px] tracking-[0.22em] uppercase text-fg-faint">
-            ◇ Phase 9 · audio-reactive · synthesized hum
+        <div className="max-w-[1100px] mx-auto flex items-center justify-between gap-4 flex-wrap">
+          <div className="font-mono text-[10px] tracking-[0.22em] uppercase text-[color:var(--color-fg-faint)]">
+            &lt; 09 / 12 · END OF PHASE &gt;
           </div>
           <button
             onClick={() => setEnabled((v) => !v)}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[color:var(--color-border-strong)] hover:border-[color:var(--color-accent)] transition-colors font-mono text-[10.5px] tracking-[0.18em] uppercase"
+            className="btn-tactile inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[color:var(--color-border-strong)] hover:border-[color:var(--color-accent)] transition-colors font-mono text-[10.5px] tracking-[0.22em] uppercase"
           >
             {enabled ? (
               <>
@@ -232,7 +248,7 @@ export default function AudioHeroPreview() {
               </>
             ) : (
               <>
-                <SpeakerSlash size={14} weight="fill" className="text-fg-muted" />
+                <SpeakerSlash size={14} weight="fill" className="text-[color:var(--color-fg-muted)]" />
                 <span>Sound off</span>
               </>
             )}

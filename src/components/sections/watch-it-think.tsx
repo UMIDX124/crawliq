@@ -112,7 +112,7 @@ export function WatchItThink() {
           <ReportEyebrow num="02">Watch the auditors think</ReportEyebrow>
           <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
             Five auditors. Five terminals.{" "}
-            <span className="italic font-light text-fg-muted">
+            <span className="italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]">
               All running in parallel.
             </span>
           </h2>
