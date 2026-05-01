@@ -179,7 +179,7 @@ export function Hero() {
                       className="m-1 sm:m-1.5 inline-flex items-center gap-1.5 sm:gap-2 rounded-[6px] bg-[color:var(--color-accent)] px-3 sm:px-5 py-2.5 sm:py-3 font-display text-[12px] sm:text-[13px] font-bold uppercase tracking-wide text-[color:var(--color-accent-fg)] hover:bg-[color:var(--color-accent-hover)] focus-ring shadow-[0_4px_14px_-4px_rgb(0_102_255/_0.4)] btn-tactile"
                     >
                       <Sparkle size={14} weight="fill" />
-                      <span className="hidden xs:inline">Run audit</span>
+                      <span className="hidden sm:inline">Run audit</span>
                       <ArrowRight size={14} weight="bold" />
                     </Magnetic>
                   </div>
