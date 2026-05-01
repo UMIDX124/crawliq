@@ -39,11 +39,11 @@ export default function SectionFxPreview() {
           id={`section-${s.num}`}
           className={`min-h-[80vh] flex items-center px-6 md:px-10 ${i % 2 === 0 ? "bg-[color:var(--color-bg)]" : "bg-[color:var(--color-bg-2)]"}`}
         >
-          <div className="max-w-[1100px] mx-auto w-full">
+          <div className="max-w-[920px] mx-auto w-full">
             <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-accent)] mb-6">
               ◇ § {s.num} / 05 · {s.label}
             </div>
-            <h2 className="font-display font-black text-[clamp(40px,7vw,96px)] leading-[0.95] tracking-[-0.03em] mb-7 max-w-[18ch]">
+            <h2 className="font-display font-black text-[clamp(26px,4.2vw,52px)] leading-[1.1] tracking-[-0.025em] mb-6 max-w-[26ch]">
               {s.body}
             </h2>
             <div className="font-mono text-[10.5px] tracking-[0.22em] uppercase text-fg-faint">

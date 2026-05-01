@@ -33,9 +33,10 @@ export default function FeaturesHPreview() {
   });
   const sp = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
 
-  // Inner track translates horizontally as vertical scroll progresses.
-  // 9 cards, ~360px each + gaps, total ~3600px. Translate by full width.
-  const x = useTransform(sp, [0, 1], ["0%", "-83%"]);
+  // Inner track translates horizontally. Calculate: 9 cards ~ 420px wide
+  // + 20px gaps = ~3940px track. Container is ~1280px. So we need to
+  // translate ~2660px = ~67% of track width to expose the last card.
+  const x = useTransform(sp, [0, 1], ["0%", "-66%"]);
 
   // Progress bar
   const widthPct = useTransform(sp, [0, 1], ["0%", "100%"]);
