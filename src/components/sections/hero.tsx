@@ -20,6 +20,7 @@ const stats = [
 export function Hero() {
   const [submittedUrl, setSubmittedUrl] = useState<string | null>(null);
   const [url, setUrl] = useState("");
+  const [error, setError] = useState<string | null>(null);
   const heroRef = useRef<HTMLElement>(null);
 
   // cursor parallax for badge
@@ -40,11 +41,25 @@ export function Hero() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!url.trim()) return;
-    let v = url.trim();
+    const raw = url.trim();
+    if (!raw) {
+      setError("Enter a URL to audit.");
+      return;
+    }
+    let v = raw;
     if (!v.startsWith("http://") && !v.startsWith("https://")) {
       v = "https://" + v;
     }
+    try {
+      const u = new URL(v);
+      if (!u.hostname.includes(".") || u.hostname.length < 4) {
+        throw new Error("invalid host");
+      }
+    } catch {
+      setError("That doesn't look like a valid URL.");
+      return;
+    }
+    setError(null);
     setSubmittedUrl(v);
     requestAnimationFrame(() => {
       heroRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -132,8 +147,14 @@ export function Hero() {
 
               {/* URL input */}
               <FadeChildren delay={1.5} className="w-full max-w-[560px] mt-8 lg:mt-10">
-                <form onSubmit={handleSubmit}>
-                  <div className="group relative flex items-center rounded-md border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] focus-within:border-[color:var(--color-accent)] focus-within:shadow-[0_0_0_4px_var(--color-accent-soft)] transition-all">
+                <form onSubmit={handleSubmit} noValidate>
+                  <div
+                    className={`group relative flex items-center rounded-md border bg-[color:var(--color-surface)] transition-all ${
+                      error
+                        ? "border-[color:var(--color-crit)] shadow-[0_0_0_4px_rgb(239_68_68/_0.18)]"
+                        : "border-[color:var(--color-border-strong)] focus-within:border-[color:var(--color-accent)] focus-within:shadow-[0_0_0_4px_var(--color-accent-soft)]"
+                    }`}
+                  >
                     <span className="pl-3 sm:pl-4 pr-1.5 sm:pr-2 text-fg-faint font-mono text-[12px] sm:text-sm shrink-0">
                       https://
                     </span>
@@ -142,13 +163,16 @@ export function Hero() {
                       inputMode="url"
                       placeholder="yourwebsite.com"
                       value={url}
-                      onChange={(e) =>
-                        setUrl(e.target.value.replace(/^https?:\/\//, ""))
-                      }
+                      onChange={(e) => {
+                        setUrl(e.target.value.replace(/^https?:\/\//, ""));
+                        if (error) setError(null);
+                      }}
                       className="flex-1 min-w-0 bg-transparent py-3.5 sm:py-4 pr-2 sm:pr-3 text-[14px] sm:text-[15px] outline-none placeholder:text-fg-faint"
                       autoComplete="off"
                       spellCheck={false}
                       aria-label="Website URL"
+                      aria-invalid={!!error}
+                      aria-describedby={error ? "hero-url-error" : undefined}
                     />
                     <Magnetic
                       type="submit"
@@ -159,6 +183,15 @@ export function Hero() {
                       <ArrowRight size={14} weight="bold" />
                     </Magnetic>
                   </div>
+                  {error && (
+                    <p
+                      id="hero-url-error"
+                      role="alert"
+                      className="mt-2 font-mono text-[11px] tracking-[0.06em] text-[color:var(--color-crit)]"
+                    >
+                      {error}
+                    </p>
+                  )}
                 </form>
 
                 <div className="mt-4 sm:mt-5">

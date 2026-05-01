@@ -166,7 +166,7 @@ function BentoCell({
 }) {
   return (
     <div
-      className={`group h-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:border-[color:var(--color-accent)] transition-colors ${
+      className={`card-lift group h-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:border-[color:var(--color-accent)] ${
         big ? "p-8" : "p-7"
       } flex flex-col`}
     >

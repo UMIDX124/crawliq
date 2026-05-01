@@ -3,6 +3,8 @@
  * No Recharts dep — keeps the bundle small and the look on-brand.
  */
 
+import { ChartLine } from "@phosphor-icons/react/dist/ssr";
+
 type Point = { date: Date; score: number };
 
 export function AuditTrendChart({
@@ -14,10 +16,23 @@ export function AuditTrendChart({
 }) {
   if (points.length === 0) {
     return (
-      <div className="h-[140px] grid place-items-center">
-        <span className="font-mono text-[11px] tracking-[0.16em] uppercase text-fg-faint">
-          No data yet
-        </span>
+      <div
+        className="rounded-lg border border-dashed border-[color:var(--color-border)] grid place-items-center px-6 py-8 text-center"
+        style={{ minHeight: height }}
+      >
+        <div>
+          <ChartLine
+            size={22}
+            weight="duotone"
+            className="text-fg-faint mx-auto mb-2.5"
+          />
+          <div className="font-display font-medium text-[14px] text-fg">
+            Run your first audit to see the trend
+          </div>
+          <div className="mt-1.5 font-mono text-[10.5px] tracking-[0.14em] uppercase text-fg-faint">
+            Score history populates after 2+ audits
+          </div>
+        </div>
       </div>
     );
   }
