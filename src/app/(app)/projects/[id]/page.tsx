@@ -11,6 +11,7 @@ import {
 import { AppTopbar } from "@/components/app/topbar";
 import { requireUser } from "@/lib/auth-helpers";
 import { db } from "@/lib/db";
+import { CadencePicker } from "@/components/app/cadence-picker";
 
 export const metadata = { title: "Project detail" };
 
@@ -94,6 +95,19 @@ export default async function ProjectDetailPage({
             <Stat label="Avg score" value={avgScore ?? "—"} accent />
             <Stat label="Latest grade" value={latest?.grade ?? "—"} />
             <Stat label="Open tasks" value={project.tasks.filter((t) => t.status !== "DONE" && t.status !== "CANCELLED").length} />
+          </div>
+
+          {/* cadence picker */}
+          <div className="mt-10">
+            <CadencePicker
+              projectId={project.id}
+              initialCadence={project.cadence}
+              initialNextRunAt={
+                project.nextRunAt
+                  ? project.nextRunAt.toISOString()
+                  : null
+              }
+            />
           </div>
 
           {/* audits table */}
