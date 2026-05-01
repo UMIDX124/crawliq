@@ -173,18 +173,18 @@ export function WebGPUConstellation() {
         // Position from compute buffer
         mat.positionNode = positions.element(instanceIndex);
 
-        // Color: signal-green default, warn yellow for ~15%, red for ~5%.
+        // Color: hot magenta default, warn yellow for ~15%, red for ~5%.
         // Severity is deterministic from per-particle hash seed.
         mat.colorNode = Fn(() => {
           const seed = seeds.element(instanceIndex);
           const sev = seed.x;
-          const green = color(0x07C42C);
+          const magenta = color(0xFF1A6E);
           const warnYellow = color(0xFFC107);
           const red = color(0xFF4757);
           const isCrit = sev.lessThan(0.05).toFloat();
           const inWarnBand = sev.lessThan(0.20).toFloat();
           const isWarn = inWarnBand.sub(isCrit).max(float(0));
-          const baseColor = green
+          const baseColor = magenta
             .mul(float(1).sub(isCrit).sub(isWarn))
             .add(warnYellow.mul(isWarn))
             .add(red.mul(isCrit));
@@ -200,14 +200,14 @@ export function WebGPUConstellation() {
         // Center node — solid sphere with subtle additive halo around it
         const centerGeo = new THREE.SphereGeometry(0.42, 24, 24);
         const centerMat = new THREE.MeshBasicNodeMaterial();
-        centerMat.colorNode = color(0x07C42C);
+        centerMat.colorNode = color(0xFF1A6E);
         const center = new THREE.Mesh(centerGeo, centerMat);
         scene.add(center);
 
         // Center halo — additive green glow that breathes with the pulse
         const haloGeo = new THREE.RingGeometry(0.5, 0.78, 48);
         const haloMat = new THREE.MeshBasicNodeMaterial();
-        haloMat.colorNode = color(0x07C42C);
+        haloMat.colorNode = color(0xFF1A6E);
         haloMat.transparent = true;
         haloMat.opacity = 0.28;
         haloMat.blending = THREE.AdditiveBlending;
@@ -256,7 +256,7 @@ export function WebGPUConstellation() {
             new THREE.MeshBasicNodeMaterial(),
           );
           m.position.set(Math.cos(angle) * 2.8, 0, Math.sin(angle) * 2.8);
-          (m.material as THREE.MeshBasicNodeMaterial).colorNode = color(0x07C42C);
+          (m.material as THREE.MeshBasicNodeMaterial).colorNode = color(0xFF1A6E);
           (m.material as THREE.MeshBasicNodeMaterial).transparent = true;
           (m.material as THREE.MeshBasicNodeMaterial).opacity = 0.6;
           (m.material as THREE.MeshBasicNodeMaterial).blending = THREE.AdditiveBlending;

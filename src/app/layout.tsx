@@ -72,7 +72,7 @@ export default function RootLayout({
       afterSignOutUrl="/"
       appearance={{
         variables: {
-          colorPrimary: "#07C42C",
+          colorPrimary: "#FF1A6E",
           colorBackground: "#0A0A0A",
           colorText: "#FFFFFF",
           colorTextSecondary: "#A1A1AA",
@@ -83,7 +83,7 @@ export default function RootLayout({
         },
         elements: {
           formButtonPrimary:
-            "bg-[#07C42C] hover:bg-[#1FD945] text-black font-mono uppercase tracking-[0.14em] text-[12px]",
+            "bg-[#FF1A6E] hover:bg-[#FF3D85] text-white font-mono uppercase tracking-[0.14em] text-[12px]",
           card: "shadow-none border border-[rgb(255_255_255_/_0.08)] bg-[#16171A]",
         },
       }}

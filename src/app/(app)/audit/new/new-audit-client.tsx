@@ -340,7 +340,7 @@ export function NewAuditClient({
           <button
             type="submit"
             disabled={phase === "crawling" || phase === "analyzing" || exceeded || !url.trim()}
-            className="btn-tactile inline-flex items-center gap-2 rounded-md bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-3 font-mono text-[12px] uppercase tracking-[0.14em] disabled:opacity-50 shadow-[0_4px_14px_-4px_rgb(7_196_44/_0.4)]"
+            className="btn-tactile inline-flex items-center gap-2 rounded-md bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] px-5 py-3 font-mono text-[12px] uppercase tracking-[0.14em] disabled:opacity-50 shadow-[0_4px_14px_-4px_rgb(255_26_110/_0.4)]"
           >
             <Sparkle size={14} weight="fill" />
             {phase === "crawling" || phase === "analyzing"
