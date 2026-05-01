@@ -1,49 +1,49 @@
 @import "tailwindcss";
 
 /* === CrawlIQ design tokens ===
- *  OPERATOR theme — pure black surface + signal-green accent + Figtree.
- *  Combo deliberately picked to avoid: cobalt, cyan, amber, vermilion (all rejected),
- *  plus AI tech-palette and Linear/Vercel default greens (we use a more saturated lime-green).
+ *  EDITORIAL theme — warm cream surface + tangerine accent + Figtree.
+ *  Cream chosen over pure-white to avoid clinical SaaS feel; dark warm-charcoal
+ *  text instead of pure-black for editorial softness. Accent stays tangerine.
  */
 
 @theme {
-  /* surfaces — pure black with subtle warmth in raised surfaces */
-  --color-bg: #0A0A0A;
-  --color-bg-2: #161412;
-  --color-bg-3: #1F1B17;
-  --color-surface: #1A1612;
+  /* surfaces — REAL paper cream, warmer than off-white. Tuned to match
+     editorial reference (NYT magazine, Aesop, Patagonia) — readable as
+     "cream paper" on every monitor, not "almost-white". */
+  --color-bg: #EFE5D0;        /* page base — warm paper */
+  --color-bg-2: #E5D9BF;      /* section bands — deeper paper */
+  --color-bg-3: #DBCEB1;      /* raised wells — sand */
+  --color-surface: #F8EFD8;   /* lifted cards — slightly luminous cream */
 
-  /* ink — warm cream text (not pure white — adds warmth, less sterile) */
-  --color-fg: #F5F0E8;
-  --color-fg-muted: #A39C92;
-  --color-fg-subtle: #7A736A;
-  --color-fg-faint: #524C44;
+  /* ink — warm near-black text (not pure black — softer on cream) */
+  --color-fg: #1A1612;
+  --color-fg-muted: #5C544A;
+  --color-fg-subtle: #877E72;
+  --color-fg-faint: #B5AC9F;
 
-  /* borders — warm-cream hairlines at low alpha */
-  --color-border: rgb(245 240 232 / 0.08);
-  --color-border-strong: rgb(245 240 232 / 0.20);
-  --color-border-accent: rgb(255 94 26 / 0.40);
+  /* borders — warm-charcoal hairlines at low alpha */
+  --color-border: rgb(26 22 18 / 0.10);
+  --color-border-strong: rgb(26 22 18 / 0.22);
+  --color-border-accent: rgb(255 94 26 / 0.45);
 
-  /* accent — ELECTRIC TANGERINE. Not blue/cyan/amber/magenta/green/purple.
-     Warm orange-red, distinct from severity-crit (#FF4757 is hotter pink-red).
-     Rare in B2B SaaS — almost no audit/dev tool uses orange this saturated. */
+  /* accent — ELECTRIC TANGERINE. Stays the brand mark across theme flip. */
   --color-accent: #FF5E1A;
-  --color-accent-hover: #FF7438;
-  --color-accent-soft: rgb(255 94 26 / 0.10);
-  --color-accent-fg: #0A0A0A;
+  --color-accent-hover: #E84F0F;
+  --color-accent-soft: rgb(255 94 26 / 0.12);
+  --color-accent-fg: #FFFFFF;
 
   /* gradient stops for full-bleed CTA bands — tangerine fade */
   --grad-stop-1: #FF5E1A;
   --grad-stop-2: #E84F0F;
   --grad-stop-3: #C44308;
 
-  /* semantic severity (calibrated for pure-black bg) */
-  --color-pass: #00DC82;
-  --color-warn: #FFC107;
-  --color-crit: #FF4757;
-  --color-pass-bg: rgb(0 220 130 / 0.10);
-  --color-warn-bg: rgb(255 193 7 / 0.10);
-  --color-crit-bg: rgb(255 71 87 / 0.10);
+  /* semantic severity (calibrated for cream bg — darker for legibility) */
+  --color-pass: #047857;
+  --color-warn: #B45309;
+  --color-crit: #B91C1C;
+  --color-pass-bg: rgb(4 120 87 / 0.10);
+  --color-warn-bg: rgb(180 83 9 / 0.10);
+  --color-crit-bg: rgb(185 28 28 / 0.10);
 
   /* fonts */
   --font-display: var(--font-geist-sans);
@@ -85,11 +85,18 @@
   }
 
   body {
-    /* operator-tool grain — very faint warm-cream dot grid on pure black */
+    /* editorial grain — micro warm-charcoal dot grid on cream, gentler than before */
     background-image:
-      radial-gradient(circle at 1px 1px, rgb(245 240 232 / 0.025) 1px, transparent 0);
-    background-size: 28px 28px;
+      radial-gradient(circle at 1px 1px, rgb(26 22 18 / 0.030) 1px, transparent 0);
+    background-size: 32px 32px;
     background-attachment: fixed;
+  }
+
+  /* serif voice helper — used for accent / pull-quote words inside Figtree H1s */
+  .font-serif {
+    font-family: var(--font-serif), ui-serif, Georgia, "Times New Roman", serif;
+    font-style: italic;
+    font-weight: 400;
   }
 
   ::selection {
@@ -105,11 +112,11 @@
     background: var(--color-bg);
   }
   ::-webkit-scrollbar-thumb {
-    background: rgb(245 240 232 / 0.14);
+    background: rgb(26 22 18 / 0.18);
     border-radius: 999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: rgb(255 94 26 / 0.45);
+    background: rgb(255 94 26 / 0.55);
   }
 
   ::placeholder {
@@ -144,14 +151,27 @@
   .text-balance { text-wrap: balance; }
   .text-pretty { text-wrap: pretty; }
 
-  /* container */
+  /* container — looser editorial widths so the site stops feeling like a centered 1280px box */
   .container-page {
-    max-width: 1280px;
+    max-width: 1480px;
     margin-inline: auto;
-    padding-inline: 1.25rem;
+    padding-inline: 1.5rem;
   }
   @media (min-width: 768px) {
-    .container-page { padding-inline: 2rem; }
+    .container-page { padding-inline: 3rem; }
+  }
+  @media (min-width: 1024px) {
+    .container-page { padding-inline: 4rem; }
+  }
+
+  /* container-wide — pure visual sections that may go closer to viewport edges */
+  .container-wide {
+    max-width: 100%;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+  @media (min-width: 768px) {
+    .container-wide { padding-inline: 2.5rem; }
   }
 
   /* hairline divider */
@@ -288,6 +308,13 @@
     border-radius: 6px;
   }
 
+  /* full-bleed sections — premium edge-to-edge layout */
+  .full-bleed {
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
+    margin-right: calc(-50vw + 50%);
+  }
+
   /* card lift on hover — ambient elevation */
   .card-lift {
     transition: transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
@@ -409,5 +436,266 @@
     font-size: 15px;
     line-height: 1.75;
     margin-bottom: 1rem;
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     INNOVATIVE TYPOGRAPHY — editorial drop-cap, pull-quote,
+     dramatic ladder, mixed weight/style display utilities.
+     ─────────────────────────────────────────────────────────── */
+
+  /* drop-cap on first letter — newspaper-feature opener */
+  .drop-cap::first-letter {
+    font-family: var(--font-serif), Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 5.4em;
+    line-height: 0.85;
+    float: left;
+    margin: 0.08em 0.10em 0 -0.04em;
+    color: var(--color-accent);
+    padding: 0.04em 0.08em 0 0;
+  }
+
+  /* pull-quote — magazine-style bordered editorial callout */
+  .pull-quote {
+    font-family: var(--font-serif), Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: clamp(22px, 2.8vw, 36px);
+    line-height: 1.35;
+    color: var(--color-fg);
+    padding-left: 1.5rem;
+    border-left: 3px solid var(--color-accent);
+  }
+
+  /* display ladder — a single utility per magnitude so the type rhythm
+     stays consistent across sections (no random clamp() everywhere). */
+  .display-3xl {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(48px, 9vw, 128px);
+    line-height: 0.92;
+    letter-spacing: -0.038em;
+    text-wrap: balance;
+  }
+  .display-2xl {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(40px, 6vw, 88px);
+    line-height: 0.96;
+    letter-spacing: -0.032em;
+    text-wrap: balance;
+  }
+  .display-xl {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-size: clamp(32px, 4.5vw, 60px);
+    line-height: 1.02;
+    letter-spacing: -0.026em;
+    text-wrap: balance;
+  }
+  .display-lg {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(24px, 3vw, 40px);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* italic-accent voice — pairs Instrument Serif italic with Figtree
+     in the same line so a single H1 has two voices */
+  .voice-italic {
+    font-family: var(--font-serif), Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    letter-spacing: -0.012em;
+  }
+
+  /* mono-tag — micro labels that act like instrument readouts */
+  .mono-tag {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-fg-muted);
+    font-feature-settings: "ss02", "tnum", "zero";
+  }
+  .mono-tag-accent { color: var(--color-accent); }
+
+  /* number display — tabular-nums + tighter tracking, perfect for stats */
+  .num-display {
+    font-family: var(--font-display);
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.03em;
+    line-height: 0.92;
+  }
+
+  /* word-mix — H1 utility that lets every other word italic-serif via
+     :nth-of-type, creates editorial rhythm without manual <span>s */
+  .word-mix > span:nth-child(even) {
+    font-family: var(--font-serif), Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    color: var(--color-fg-muted);
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     LAYERED SHADOW SYSTEM — premium agency tier.
+     Each layer composes: top inner highlight, contact shadow, mid
+     ambient, long ambient. Variants for resting / hover / accent.
+     ─────────────────────────────────────────────────────────── */
+
+  .shadow-layered-sm {
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.55) inset,
+      0 1px 2px -1px rgb(26 22 18 / 0.05),
+      0 4px 8px -3px rgb(26 22 18 / 0.08),
+      0 12px 24px -10px rgb(26 22 18 / 0.10);
+  }
+  .shadow-layered {
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.55) inset,
+      0 1px 2px -1px rgb(26 22 18 / 0.05),
+      0 8px 16px -6px rgb(26 22 18 / 0.10),
+      0 24px 48px -18px rgb(26 22 18 / 0.16);
+  }
+  .shadow-layered-lg {
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.55) inset,
+      0 2px 4px -1px rgb(26 22 18 / 0.06),
+      0 12px 24px -8px rgb(26 22 18 / 0.12),
+      0 36px 72px -24px rgb(26 22 18 / 0.22);
+  }
+  .shadow-layered-xl {
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.6) inset,
+      0 2px 4px -1px rgb(26 22 18 / 0.06),
+      0 16px 32px -10px rgb(26 22 18 / 0.14),
+      0 48px 96px -28px rgb(26 22 18 / 0.28);
+  }
+
+  /* hover-elevated — pairs with .shadow-layered for a lift transition */
+  .shadow-layered-hover {
+    transition: box-shadow 320ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .shadow-layered-hover:hover {
+    transform: translateY(-2px);
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.6) inset,
+      0 2px 4px -1px rgb(26 22 18 / 0.07),
+      0 14px 28px -8px rgb(26 22 18 / 0.14),
+      0 40px 80px -20px rgb(26 22 18 / 0.22);
+  }
+
+  /* accent-tinted shadow — used on featured / active elements */
+  .shadow-accent {
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.6) inset,
+      0 1px 2px -1px rgb(255 94 26 / 0.10),
+      0 12px 28px -8px rgb(255 94 26 / 0.32),
+      0 36px 72px -24px rgb(255 94 26 / 0.40),
+      0 0 0 1px rgb(255 94 26 / 0.18);
+  }
+
+  /* inset-only — for inputs / wells where the surface should sink */
+  .shadow-well {
+    box-shadow:
+      inset 0 1px 2px 0 rgb(26 22 18 / 0.06),
+      inset 0 0 0 1px rgb(26 22 18 / 0.06);
+  }
+
+  /* ───────────────────────────────────────────────────────────
+     MOTION SYSTEM — nano / micro / big.
+     Nano = 1-2px ambient drift. Micro = hover/focus reactions.
+     Big = scroll-triggered reveals & parallax (already supplied
+     by Reveal/Framer; these are the always-on ambient ones).
+     ─────────────────────────────────────────────────────────── */
+
+  /* nano-drift — 6px Y-loop, ~14s cycle, premium "instrument breathing" */
+  @keyframes nano-drift {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50%      { transform: translateY(-6px) rotate(0.4deg); }
+  }
+  .motion-nano-drift  { animation: nano-drift 14s ease-in-out infinite; }
+  .motion-nano-drift-slow { animation: nano-drift 22s ease-in-out infinite; }
+
+  /* nano-pulse — opacity 0.7→1 sway, perfect for status dots */
+  @keyframes nano-pulse {
+    0%, 100% { opacity: 0.7; }
+    50%      { opacity: 1; }
+  }
+  .motion-nano-pulse { animation: nano-pulse 3.2s ease-in-out infinite; }
+
+  /* nano-blink — number/digit flash for "live" tickers */
+  @keyframes nano-blink {
+    0%, 96%, 100% { opacity: 1; }
+    98%           { opacity: 0.4; }
+  }
+  .motion-nano-blink { animation: nano-blink 2.8s ease-in-out infinite; }
+
+  /* micro-rise — hover/focus tilt up by 1-2px with shadow growth */
+  .motion-micro-rise {
+    transition: transform 200ms cubic-bezier(0.16, 1, 0.3, 1),
+                box-shadow 240ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .motion-micro-rise:hover { transform: translateY(-2px); }
+  .motion-micro-rise:active { transform: translateY(0); }
+
+  /* micro-glow — accent halo on focus / hover */
+  .motion-micro-glow {
+    transition: box-shadow 240ms ease, border-color 200ms ease;
+  }
+  .motion-micro-glow:hover,
+  .motion-micro-glow:focus-visible {
+    box-shadow: 0 0 0 4px var(--color-accent-soft),
+                0 14px 28px -10px rgb(255 94 26 / 0.30);
+    border-color: var(--color-accent);
+  }
+
+  /* big-reveal — scroll-into-view utility (use with IntersectionObserver
+     class toggle; the Reveal component already handles framer variant) */
+  @keyframes big-reveal {
+    from { opacity: 0; transform: translateY(40px) scale(0.98); filter: blur(6px); }
+    to   { opacity: 1; transform: translateY(0)    scale(1);    filter: blur(0); }
+  }
+  .motion-big-reveal { animation: big-reveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+  /* big-shine — slow sweeping accent gradient across hero/CTA bands */
+  @keyframes big-shine {
+    0%   { background-position: -100% 0; }
+    100% { background-position: 200%  0; }
+  }
+  .motion-big-shine {
+    background: linear-gradient(
+      105deg,
+      transparent 30%,
+      rgb(255 94 26 / 0.10) 45%,
+      rgb(255 94 26 / 0.18) 50%,
+      rgb(255 94 26 / 0.10) 55%,
+      transparent 70%
+    );
+    background-size: 200% 100%;
+    animation: big-shine 6s ease-in-out infinite;
+  }
+
+  /* parallax-hint — backgrounds at <100% scroll feel for cheap parallax */
+  .motion-parallax-slow {
+    background-attachment: fixed;
+    will-change: background-position;
+  }
+
+  /* underline-trace — link hover where underline draws left→right */
+  .motion-underline-trace {
+    background-image: linear-gradient(var(--color-accent), var(--color-accent));
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    background-size: 0 1px;
+    transition: background-size 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .motion-underline-trace:hover {
+    background-size: 100% 1px;
   }
 }
