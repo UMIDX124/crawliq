@@ -16,6 +16,7 @@
  */
 
 import { useEffect, useRef, useState } from "react";
+import type * as THREE from "three/webgpu";
 
 const TOTAL = 267; // matches the "Checks per audit" stat
 const PILLARS = 5;
@@ -65,6 +66,8 @@ export function WebGPUConstellation() {
           Fn,
           mix,
           smoothstep,
+          positionWorld,
+          cameraPosition,
         } = TSL;
 
         const container = containerRef.current!;
@@ -73,11 +76,12 @@ export function WebGPUConstellation() {
 
         // Camera
         const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 100);
-        camera.position.set(0, 0, 12);
+        camera.position.set(0, 0, 11);
         camera.lookAt(0, 0, 0);
 
-        // Scene
+        // Scene with subtle navy fog for depth
         const scene = new THREE.Scene();
+        scene.fog = new THREE.Fog(0x0E1620, 12, 22);
 
         // Storage buffers
         const positions = instancedArray(TOTAL, "vec3");
@@ -159,45 +163,106 @@ export function WebGPUConstellation() {
         renderer.setClearColor(0x000000, 0);
         container.appendChild(renderer.domElement);
 
-        // Particle mesh — small spheres, instanced
-        const geo = new THREE.SphereGeometry(0.055, 8, 8);
+        // Particle mesh — small spheres, instanced, with additive blending for natural glow
+        const geo = new THREE.SphereGeometry(0.045, 6, 6);
         const mat = new THREE.MeshBasicNodeMaterial();
+        mat.transparent = true;
+        mat.depthWrite = false;
+        mat.blending = THREE.AdditiveBlending;
 
         // Position from compute buffer
         mat.positionNode = positions.element(instanceIndex);
 
-        // Color: cyan accent w/ slight pillar-driven tint, severity-mock via deterministic hash
+        // Color: cyan / amber / red by deterministic severity, with depth-faded brightness
         mat.colorNode = Fn(() => {
           const seed = seeds.element(instanceIndex);
-          const sev = seed.x; // 0..1 — deterministic per particle
+          const sev = seed.x;
           const cyan = color(0x00B4D8);
           const amber = color(0xFFC857);
           const red = color(0xFF6B6B);
-          // 5% critical, 15% warning, rest cyan
           const isCrit = sev.lessThan(0.05).toFloat();
           const inWarnBand = sev.lessThan(0.20).toFloat();
           const isWarn = inWarnBand.sub(isCrit).max(float(0));
-          const base = cyan.mul(float(1).sub(isCrit).sub(isWarn));
-          return base.add(amber.mul(isWarn)).add(red.mul(isCrit));
+          const baseColor = cyan
+            .mul(float(1).sub(isCrit).sub(isWarn))
+            .add(amber.mul(isWarn))
+            .add(red.mul(isCrit));
+          // depth fade: closer particles brighter, farther dimmer
+          const dist = positionWorld.sub(cameraPosition).length();
+          const fade = float(1.4).sub(smoothstep(float(7), float(15), dist));
+          return baseColor.mul(fade.clamp(float(0.35), float(1.4)));
         })();
 
         const mesh = new THREE.InstancedMesh(geo, mat, TOTAL);
         scene.add(mesh);
 
-        // Center node — solid sphere
-        const centerGeo = new THREE.SphereGeometry(0.45, 32, 32);
+        // Center node — solid sphere with subtle additive halo around it
+        const centerGeo = new THREE.SphereGeometry(0.42, 24, 24);
         const centerMat = new THREE.MeshBasicNodeMaterial();
         centerMat.colorNode = color(0x00B4D8);
         const center = new THREE.Mesh(centerGeo, centerMat);
         scene.add(center);
 
-        // Outer thin ring guide
-        const ringGeo = new THREE.RingGeometry(3.55, 3.6, 96);
-        const ringMat = new THREE.MeshBasicNodeMaterial();
-        ringMat.colorNode = color(0x00B4D8).mul(0.35);
-        const ring = new THREE.Mesh(ringGeo, ringMat);
-        ring.rotation.x = -Math.PI / 2;
-        scene.add(ring);
+        // Center halo — additive ring that breathes with the pulse
+        const haloGeo = new THREE.RingGeometry(0.5, 0.78, 48);
+        const haloMat = new THREE.MeshBasicNodeMaterial();
+        haloMat.colorNode = color(0x00B4D8);
+        haloMat.transparent = true;
+        haloMat.opacity = 0.28;
+        haloMat.blending = THREE.AdditiveBlending;
+        haloMat.depthWrite = false;
+        haloMat.side = THREE.DoubleSide;
+        const halo = new THREE.Mesh(haloGeo, haloMat);
+        scene.add(halo);
+
+        // Outer dashed ring (orbit guide) — built from line segments
+        const dashedPts: THREE.Vector3[] = [];
+        const dashedSegs = 80;
+        const outerR = 4.0;
+        for (let i = 0; i < dashedSegs; i++) {
+          if (i % 2) continue; // skip alternating to make dashes
+          const a1 = (Math.PI * 2 * i) / dashedSegs;
+          const a2 = (Math.PI * 2 * (i + 1)) / dashedSegs;
+          dashedPts.push(new THREE.Vector3(Math.cos(a1) * outerR, 0, Math.sin(a1) * outerR));
+          dashedPts.push(new THREE.Vector3(Math.cos(a2) * outerR, 0, Math.sin(a2) * outerR));
+        }
+        const dashedGeo = new THREE.BufferGeometry().setFromPoints(dashedPts);
+        const dashedMat = new THREE.LineBasicNodeMaterial();
+        dashedMat.colorNode = color(0x00B4D8);
+        dashedMat.transparent = true;
+        dashedMat.opacity = 0.5;
+        const dashedRing = new THREE.LineSegments(dashedGeo, dashedMat);
+        dashedRing.rotation.x = -Math.PI / 2;
+        scene.add(dashedRing);
+
+        // Inner solid ring at cluster radius (2.8) — barely visible until clustered
+        const innerRingGeo = new THREE.RingGeometry(2.78, 2.82, 80);
+        const innerRingMat = new THREE.MeshBasicNodeMaterial();
+        innerRingMat.colorNode = color(0x00B4D8);
+        innerRingMat.transparent = true;
+        innerRingMat.opacity = 0.18;
+        innerRingMat.side = THREE.DoubleSide;
+        const innerRing = new THREE.Mesh(innerRingGeo, innerRingMat);
+        innerRing.rotation.x = -Math.PI / 2;
+        scene.add(innerRing);
+
+        // 5 always-visible pillar marker dots at cluster targets
+        const pillarMarkers: THREE.Mesh[] = [];
+        for (let i = 0; i < PILLARS; i++) {
+          const angle = (Math.PI * 2 * i) / PILLARS;
+          const m = new THREE.Mesh(
+            new THREE.SphereGeometry(0.10, 16, 16),
+            new THREE.MeshBasicNodeMaterial(),
+          );
+          m.position.set(Math.cos(angle) * 2.8, 0, Math.sin(angle) * 2.8);
+          (m.material as THREE.MeshBasicNodeMaterial).colorNode = color(0x00B4D8);
+          (m.material as THREE.MeshBasicNodeMaterial).transparent = true;
+          (m.material as THREE.MeshBasicNodeMaterial).opacity = 0.45;
+          (m.material as THREE.MeshBasicNodeMaterial).blending = THREE.AdditiveBlending;
+          (m.material as THREE.MeshBasicNodeMaterial).depthWrite = false;
+          scene.add(m);
+          pillarMarkers.push(m);
+        }
 
         // Initialize particle positions
         renderer.compute(init);
@@ -245,12 +310,24 @@ export function WebGPUConstellation() {
           camera.position.y += (target.y - camera.position.y) * 0.04;
           camera.lookAt(0, 0, 0);
 
-          // gentle center pulse
+          // gentle center pulse + halo breath
           const pulse = 1 + Math.sin(t * 1.6) * 0.07;
           center.scale.setScalar(pulse);
+          halo.scale.setScalar(1 + Math.sin(t * 1.2) * 0.18);
+          haloMat.opacity = 0.18 + Math.sin(t * 1.2) * 0.10;
 
-          // ring slow rotation
-          ring.rotation.z = t * 0.2;
+          // pillar markers brighten as cluster forms
+          const k = cluster.value;
+          for (const m of pillarMarkers) {
+            const pm = m.material as THREE.MeshBasicNodeMaterial;
+            pm.opacity = 0.45 + k * 0.4;
+            m.scale.setScalar(1 + k * 0.4);
+          }
+
+          // dashed outer ring slow rotation; inner ring opposite slow
+          dashedRing.rotation.z = t * 0.18;
+          innerRing.rotation.z = -t * 0.12;
+          innerRingMat.opacity = 0.14 + k * 0.18;
 
           renderer.compute(update);
           renderer.render(scene, camera);
@@ -271,7 +348,12 @@ export function WebGPUConstellation() {
           }
           geo.dispose();
           centerGeo.dispose();
-          ringGeo.dispose();
+          haloGeo.dispose();
+          dashedGeo.dispose();
+          innerRingGeo.dispose();
+          for (const m of pillarMarkers) {
+            (m.geometry as THREE.BufferGeometry).dispose();
+          }
         };
       } catch (err) {
         console.warn("[constellation] WebGPU init failed, falling back", err);
