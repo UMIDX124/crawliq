@@ -32,10 +32,12 @@ export function FinalCta() {
             />
 
             <div className="relative p-10 md:p-16 lg:p-20 text-center max-w-3xl mx-auto">
-              <span className="eyebrow eyebrow-accent">
+              <div className="inline-flex items-center gap-2.5 font-mono text-[10.5px] tracking-[0.2em] uppercase text-[color:var(--color-accent)]">
                 <span className="pulse-dot inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)]" />
-                Ready to audit
-              </span>
+                <span className="text-fg-faint">§ 12 / 12</span>
+                <span className="text-fg-faint">·</span>
+                <span>Action item</span>
+              </div>
 
               <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(36px,5.5vw,72px)] leading-[1.02] tracking-tight">
                 See what's actually{" "}

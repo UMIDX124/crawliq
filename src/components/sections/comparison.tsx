@@ -46,7 +46,7 @@ export function Comparison() {
 
         {/* DESKTOP TABLE — md and up */}
         <Reveal delay={0.15} className="hidden md:block">
-          <div className="mt-12 md:mt-14 rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden">
+          <div className="mt-12 md:mt-14 rounded-xl audit-clip border border-[color:var(--color-border)] bg-[color:var(--color-surface)] overflow-hidden">
             <div className="grid grid-cols-[1.5fr_1fr_1fr_1fr_1fr] border-b border-[color:var(--color-border)] bg-[color:var(--color-bg-2)]">
               <div className="px-5 md:px-7 py-5 font-mono text-[11px] tracking-[0.16em] uppercase text-fg-muted">
                 Capability

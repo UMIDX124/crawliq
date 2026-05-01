@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Reveal } from "@/components/reveal";
 import { cn } from "@/lib/cn";
+import { ReportEyebrow } from "@/components/glyph";
 
 const steps = [
   {
@@ -45,10 +46,7 @@ export function HowItWorks() {
     <section id="how" className="relative py-20 sm:py-24 md:py-32 lg:py-36 bg-[color:var(--color-bg-2)]">
       <div className="container-page">
         <Reveal className="max-w-3xl">
-          <span className="eyebrow">
-            <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
-            How it works
-          </span>
+          <ReportEyebrow num="03">Method</ReportEyebrow>
           <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-tight">
             Three steps from URL{" "}
             <span className="text-fg-muted italic font-normal">

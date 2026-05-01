@@ -43,14 +43,16 @@ export function DataSourcesStrip() {
           transition={{ duration: 0.6 }}
           className="text-center mb-10"
         >
-          <span className="eyebrow">
-            <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
-            8 trusted sources · zero LLM-invented metrics
-          </span>
+          <div className="inline-flex items-center gap-2.5 font-mono text-[10.5px] tracking-[0.2em] uppercase text-fg-muted">
+            <span className="text-[color:var(--color-accent)]">◇</span>
+            <span className="text-fg-faint">8 sources</span>
+            <span className="text-fg-faint">·</span>
+            <span>zero LLM-invented metrics</span>
+          </div>
           <h2 className="font-display font-extrabold mt-4 text-[clamp(22px,3.2vw,36px)] leading-[1.1] tracking-[-0.025em] max-w-2xl mx-auto text-balance">
-            Built from real data,{" "}
+            Real data in.{" "}
             <span className="italic font-light text-fg-muted">
-              not AI guesswork.
+              Real findings out.
             </span>
           </h2>
         </motion.div>

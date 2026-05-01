@@ -184,7 +184,7 @@ function PriceCard({
         transformStyle: "preserve-3d",
       }}
       className={cn(
-        "relative h-full rounded-2xl p-8 md:p-9 flex flex-col transition-transform duration-300 overflow-hidden",
+        "relative h-full rounded-2xl audit-clip p-8 md:p-9 flex flex-col transition-transform duration-300 overflow-hidden",
         plan.featured
           ? "border border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-[0_24px_48px_-24px_rgb(31_109_240/_0.25)]"
           : "border border-[color:var(--color-border)] bg-[color:var(--color-surface)]",

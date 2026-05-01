@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowRight, Sparkle } from "@phosphor-icons/react/dist/ssr";
 import { Reveal } from "@/components/reveal";
+import { ReportEyebrow } from "@/components/glyph";
 
 /**
  * Replaces the placeholder testimonials with an honest "early access"
@@ -15,10 +16,7 @@ export function EarlyAccess() {
       <div className="container-page">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-14 lg:gap-20 items-center">
           <Reveal>
-            <span className="eyebrow">
-              <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
-              Early access · honest version
-            </span>
+            <ReportEyebrow num="09">Honest note</ReportEyebrow>
             <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(28px,4.5vw,52px)] leading-[1.05] tracking-[-0.025em]">
               We&rsquo;re new.{" "}
               <span className="italic font-light text-fg-muted">

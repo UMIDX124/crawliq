@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Reveal } from "@/components/reveal";
 import { cn } from "@/lib/cn";
+import { ReportEyebrow } from "@/components/glyph";
 import {
   CheckCircle,
   WarningCircle,
@@ -126,10 +127,7 @@ export function Demo() {
     >
       <div className="container-page">
         <Reveal className="max-w-3xl">
-          <span className="eyebrow">
-            <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
-            Live preview
-          </span>
+          <ReportEyebrow num="10">Live preview</ReportEyebrow>
           <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-tight">
             See exactly what CrawlIQ finds.
           </h2>

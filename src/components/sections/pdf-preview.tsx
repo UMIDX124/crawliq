@@ -3,6 +3,7 @@
 import { useScroll, useTransform, motion } from "framer-motion";
 import { useRef } from "react";
 import { Reveal } from "@/components/reveal";
+import { ReportEyebrow } from "@/components/glyph";
 import {
   CheckCircle,
   WarningCircle,
@@ -25,10 +26,7 @@ export function PdfPreview() {
       <div className="container-page">
         <div className="grid grid-cols-1 lg:grid-cols-[1fr_1.05fr] gap-16 lg:gap-24 items-center">
           <Reveal>
-            <span className="eyebrow">
-              <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
-              Deliverable
-            </span>
+            <ReportEyebrow num="06">Deliverable</ReportEyebrow>
             <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
               A 12-page report{" "}
               <span className="italic font-light text-fg-muted">
