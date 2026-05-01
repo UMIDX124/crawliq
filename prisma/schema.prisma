@@ -142,6 +142,10 @@ model Project {
   cadence     String          @default("off")
   /** UTC timestamp of next scheduled run */
   nextRunAt   DateTime?
+  /** White-label branding for PDF reports + shareable pages */
+  brandLogoUrl String?
+  brandColor   String?  // hex, e.g. "#0066ff"
+  brandName    String?
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
 
@@ -174,17 +178,24 @@ model Audit {
   url       String
   agent     AgentType
   status    AuditStatus  @default(PENDING)
+  /** "single" or "multi" — single URL vs site-wide crawl */
+  scope     String       @default("single")
+  /** number of pages crawled when scope=multi */
+  pageCount Int          @default(1)
   score     Int?
   grade     String?
   summary   String?
-  // raw signal capture (cheerio crawl output)
+  // raw signal capture (cheerio crawl + per-page array if multi)
   signals   Json?
-  // structured findings list (matches src/lib/audit.ts AuditResult schema)
+  // structured findings list
   data      Json?
   errorMsg  String?
   startedAt DateTime?
   endedAt   DateTime?
   createdAt DateTime     @default(now())
+
+  /** When set, /r/{shareToken} renders this audit publicly without auth */
+  shareToken String?     @unique
 
   userId    String
   user      User         @relation("AuditCreatedBy", fields: [userId], references: [id], onDelete: Cascade)

@@ -46,6 +46,116 @@ function onPageFindings(c: AggregatedChecks): StructuredFinding[] {
   const out: StructuredFinding[] = [];
   const s = c.crawl;
 
+  // === MULTI-PAGE (site-wide) findings — only when crawl scope was multi ===
+  if (c.multiPage) {
+    const mp = c.multiPage;
+    const a = mp.aggregates;
+    const total = mp.pagesSucceeded;
+
+    out.push({
+      id: "multi-overview",
+      agent: "ONPAGE",
+      category: "on-page",
+      severity: "pass",
+      title: `Site-wide crawl: ${mp.pagesSucceeded} of ${mp.pagesAttempted} pages reached`,
+      evidence: {
+        pagesSucceeded: mp.pagesSucceeded,
+        pagesAttempted: mp.pagesAttempted,
+        avgLoadTimeMs: a.avgLoadTimeMs,
+        avgWordCount: a.avgWordCount,
+      },
+    });
+
+    if (total > 0) {
+      const flag = (count: number) =>
+        count === 0 ? ("pass" as const) : count / total > 0.3 ? ("critical" as const) : ("warning" as const);
+
+      if (a.pagesMissingTitle > 0)
+        out.push({
+          id: "multi-missing-title",
+          agent: "ONPAGE",
+          category: "on-page",
+          severity: flag(a.pagesMissingTitle),
+          title: `${a.pagesMissingTitle} of ${total} pages missing <title>`,
+          evidence: { count: a.pagesMissingTitle, total },
+        });
+      if (a.pagesMissingMeta > 0)
+        out.push({
+          id: "multi-missing-meta",
+          agent: "ONPAGE",
+          category: "on-page",
+          severity: flag(a.pagesMissingMeta),
+          title: `${a.pagesMissingMeta} of ${total} pages missing meta description`,
+          evidence: { count: a.pagesMissingMeta, total },
+        });
+      if (a.pagesMissingH1 > 0)
+        out.push({
+          id: "multi-missing-h1",
+          agent: "ONPAGE",
+          category: "on-page",
+          severity: flag(a.pagesMissingH1),
+          title: `${a.pagesMissingH1} of ${total} pages missing H1`,
+          evidence: { count: a.pagesMissingH1, total },
+        });
+      if (a.pagesWithMultipleH1 > 0)
+        out.push({
+          id: "multi-multiple-h1",
+          agent: "ONPAGE",
+          category: "on-page",
+          severity: "warning",
+          title: `${a.pagesWithMultipleH1} of ${total} pages have multiple H1 tags`,
+          evidence: { count: a.pagesWithMultipleH1, total },
+        });
+      if (a.pagesMissingCanonical > 0)
+        out.push({
+          id: "multi-missing-canonical",
+          agent: "ONPAGE",
+          category: "on-page",
+          severity: flag(a.pagesMissingCanonical),
+          title: `${a.pagesMissingCanonical} of ${total} pages missing canonical tag`,
+          evidence: { count: a.pagesMissingCanonical, total },
+        });
+      if (a.pagesWithThinContent > 0)
+        out.push({
+          id: "multi-thin-content",
+          agent: "ONPAGE",
+          category: "content",
+          severity: a.pagesWithThinContent / total > 0.4 ? "critical" : "warning",
+          title: `${a.pagesWithThinContent} of ${total} pages under 300 words (thin content)`,
+          evidence: { count: a.pagesWithThinContent, total },
+        });
+      if (a.slowestPage && a.slowestPage.ms > 3000)
+        out.push({
+          id: "multi-slowest",
+          agent: "ONPAGE",
+          category: "performance",
+          severity: a.slowestPage.ms > 5000 ? "critical" : "warning",
+          title: `Slowest page: ${a.slowestPage.url} loaded in ${(a.slowestPage.ms / 1000).toFixed(1)}s`,
+          evidence: { url: a.slowestPage.url, loadTimeMs: a.slowestPage.ms },
+        });
+      if (a.largestPage && a.largestPage.bytes > 1_500_000)
+        out.push({
+          id: "multi-largest",
+          agent: "ONPAGE",
+          category: "performance",
+          severity: a.largestPage.bytes > 3_000_000 ? "critical" : "warning",
+          title: `Largest page: ${a.largestPage.url} (${(a.largestPage.bytes / 1024 / 1024).toFixed(1)} MB)`,
+          evidence: { url: a.largestPage.url, bytes: a.largestPage.bytes },
+        });
+      if (a.totalImagesMissingAlt > 0 && a.totalImages > 0) {
+        const pct = (a.totalImagesMissingAlt / a.totalImages) * 100;
+        out.push({
+          id: "multi-alts",
+          agent: "ONPAGE",
+          category: "accessibility",
+          severity: pct > 30 ? "critical" : pct > 10 ? "warning" : "pass",
+          title: `${a.totalImagesMissingAlt} of ${a.totalImages} images site-wide missing alt text (${pct.toFixed(0)}%)`,
+          evidence: { missing: a.totalImagesMissingAlt, total: a.totalImages, pct: Math.round(pct) },
+        });
+      }
+    }
+  }
+
   // title
   if (!s.title) {
     out.push({

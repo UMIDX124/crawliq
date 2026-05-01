@@ -16,6 +16,8 @@ const inputSchema = z.object({
   url: z.string().trim().min(1, "URL is required"),
   agent: z.enum(["ONPAGE", "TECHNICAL", "CONTENT", "OFFSITE", "COMPETITOR"]),
   projectId: z.string().optional(),
+  scope: z.enum(["single", "multi"]).optional().default("single"),
+  maxPages: z.number().int().min(2).max(25).optional(),
 });
 
 type SseEvent =
@@ -61,12 +63,13 @@ export async function POST(req: NextRequest) {
     );
   }
   const url = normalizeUrl(parsed.data.url);
-  const { agent, projectId } = parsed.data;
+  const { agent, projectId, scope, maxPages } = parsed.data;
 
   const audit = await db.audit.create({
     data: {
       url,
       agent,
+      scope,
       status: "PENDING",
       userId: user.id,
       projectId: projectId ?? null,
@@ -98,11 +101,13 @@ export async function POST(req: NextRequest) {
           message: `Running real-data checks on ${url}…`,
         });
 
-        const checks = await runAllChecks(url).catch((err) => {
-          throw new Error(
-            err instanceof Error ? err.message : "Failed during checks phase",
-          );
-        });
+        const checks = await runAllChecks(url, { scope, maxPages }).catch(
+          (err) => {
+            throw new Error(
+              err instanceof Error ? err.message : "Failed during checks phase",
+            );
+          },
+        );
 
         send({ type: "signals", signals: checks.crawl });
         if (checks.lighthouse) {
@@ -115,11 +120,16 @@ export async function POST(req: NextRequest) {
         await db.audit.update({
           where: { id: audit.id },
           data: {
+            pageCount: checks.multiPage?.pagesSucceeded ?? 1,
             signals: {
               crawl: checks.crawl,
               lighthouse: checks.lighthouse,
               security: checks.security,
               schema: checks.schema,
+              crux: checks.crux,
+              wayback: checks.wayback,
+              openPageRank: checks.openPageRank,
+              multiPage: checks.multiPage,
             } as unknown as Prisma.InputJsonValue,
           },
         });
@@ -131,7 +141,12 @@ export async function POST(req: NextRequest) {
           message: `${agent} auditor writing explanations for verified findings…`,
         });
 
-        const gen = runAgentStream({ agent: agent as AgentType, url });
+        const gen = runAgentStream({
+          agent: agent as AgentType,
+          url,
+          scope,
+          maxPages,
+        });
         let raw = "";
         let finalResult = null;
         while (true) {

@@ -9,6 +9,8 @@
 import { db } from "@/lib/db";
 import { runAllChecks } from "@/lib/checks";
 import { runAgentStream, severityToEnum } from "@/lib/agent-runner";
+import { getResend } from "@/lib/resend";
+import { env } from "@/lib/env";
 import type { Prisma } from "@prisma/client";
 
 export const runtime = "nodejs";
@@ -115,6 +117,41 @@ export async function GET(req: Request) {
               severity: severityToEnum(f.severity),
             })),
           });
+        }
+
+        // Score-drop alert: compare to previous completed audit on this project
+        const previous = await db.audit.findFirst({
+          where: {
+            projectId: project.id,
+            status: "COMPLETED",
+            id: { not: audit.id },
+            score: { not: null },
+          },
+          orderBy: { createdAt: "desc" },
+          select: { score: true },
+        });
+        if (
+          env.RESEND_API_KEY &&
+          previous?.score != null &&
+          finalResult.score < previous.score - 10
+        ) {
+          const owner = await db.user.findUnique({
+            where: { id: project.ownerId },
+            select: { email: true, name: true },
+          });
+          if (owner?.email) {
+            try {
+              const resend = getResend();
+              await resend.emails.send({
+                from: env.RESEND_FROM_EMAIL,
+                to: [owner.email],
+                subject: `Score dropped: ${project.name} now ${finalResult.score}/100 (was ${previous.score})`,
+                text: `Hey ${owner.name.split(" ")[0]},\n\nScheduled audit on ${project.name} just dropped from ${previous.score} to ${finalResult.score} — a ${previous.score - finalResult.score}-point decline.\n\nOpen the report:\n${env.NEXT_PUBLIC_SITE_URL}/audit/${audit.id}\n\n— CrawlIQ`,
+              });
+            } catch (err) {
+              console.error("[scheduled-audits] alert email failed:", err);
+            }
+          }
         }
       } else {
         await db.audit.update({

@@ -6,6 +6,7 @@ import {
   View,
   StyleSheet,
   Font,
+  Image,
 } from "@react-pdf/renderer";
 import type { Audit, Finding } from "@prisma/client";
 
@@ -206,9 +207,22 @@ export type AuditPdfProps = {
   audit: Audit;
   findings: Finding[];
   ownerName?: string;
+  brand?: {
+    name?: string | null;
+    color?: string | null;
+    logoUrl?: string | null;
+  } | null;
 };
 
-export function AuditReportPdf({ audit, findings, ownerName }: AuditPdfProps) {
+export function AuditReportPdf({
+  audit,
+  findings,
+  ownerName,
+  brand,
+}: AuditPdfProps) {
+  const brandName = brand?.name ?? "CrawlIQ";
+  const brandColor = brand?.color ?? "#0066ff";
+  const brandLogoUrl = brand?.logoUrl ?? null;
   const data = audit.data as {
     score?: number;
     grade?: string;
@@ -218,25 +232,34 @@ export function AuditReportPdf({ audit, findings, ownerName }: AuditPdfProps) {
 
   return (
     <Document
-      title={`CrawlIQ Audit · ${audit.url}`}
-      author="CrawlIQ"
-      creator="CrawlIQ"
-      producer="CrawlIQ"
+      title={`${brandName} Audit · ${audit.url}`}
+      author={brandName}
+      creator={brandName}
+      producer={brandName}
     >
       <Page size="A4" style={styles.page} wrap>
         {/* header */}
         <View style={styles.headerRow}>
           <View>
-            <Text style={styles.brand}>
-              Crawl<Text style={styles.brandIQ}>IQ</Text>
-            </Text>
+            {brandLogoUrl ? (
+              // eslint-disable-next-line jsx-a11y/alt-text
+              <Image src={brandLogoUrl} style={{ height: 24, width: "auto" }} />
+            ) : (
+              <Text style={styles.brand}>
+                Crawl<Text style={[styles.brandIQ, { color: brandColor }]}>IQ</Text>
+              </Text>
+            )}
             <Text style={[styles.eyebrow, { marginTop: 4 }]}>
-              {audit.agent} audit · {ownerName ?? "CrawlIQ user"}
+              {audit.agent} audit · {ownerName ?? brandName}
             </Text>
           </View>
           <View style={styles.metaRight}>
-            <Text style={styles.scoreBig}>{audit.score ?? "—"}</Text>
-            <Text style={styles.grade}>Grade {audit.grade ?? "—"}</Text>
+            <Text style={[styles.scoreBig, { color: brandColor }]}>
+              {audit.score ?? "—"}
+            </Text>
+            <Text style={[styles.grade, { color: brandColor }]}>
+              Grade {audit.grade ?? "—"}
+            </Text>
           </View>
         </View>
 

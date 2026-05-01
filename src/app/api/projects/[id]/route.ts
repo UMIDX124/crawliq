@@ -9,6 +9,20 @@ const patchSchema = z.object({
   name: z.string().trim().min(1).max(120).optional(),
   url: z.string().trim().min(3).max(300).optional(),
   description: z.string().trim().max(500).nullable().optional(),
+  brandName: z.string().trim().max(120).nullable().optional(),
+  brandColor: z
+    .string()
+    .trim()
+    .regex(/^#[0-9a-fA-F]{6}$/, "Must be hex like #0066ff")
+    .nullable()
+    .optional(),
+  brandLogoUrl: z
+    .string()
+    .trim()
+    .url()
+    .max(500)
+    .nullable()
+    .optional(),
 });
 
 async function getOwnedProject(id: string, userId: string) {
@@ -80,6 +94,14 @@ export async function PATCH(
         parsed.data.description === undefined
           ? undefined
           : parsed.data.description,
+      brandName:
+        parsed.data.brandName === undefined ? undefined : parsed.data.brandName,
+      brandColor:
+        parsed.data.brandColor === undefined ? undefined : parsed.data.brandColor,
+      brandLogoUrl:
+        parsed.data.brandLogoUrl === undefined
+          ? undefined
+          : parsed.data.brandLogoUrl,
     },
   });
   return Response.json({ project: updated });

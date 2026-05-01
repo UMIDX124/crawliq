@@ -43,6 +43,7 @@ export function NewAuditClient({
   const router = useRouter();
   const [url, setUrl] = useState(initialUrl.replace(/^https?:\/\//, ""));
   const [agent, setAgent] = useState<AgentType>("ONPAGE");
+  const [scope, setScope] = useState<"single" | "multi">("single");
   const [projectId, setProjectId] = useState<string | "">(
     initialProjectId ?? "",
   );
@@ -87,6 +88,7 @@ export function NewAuditClient({
         body: JSON.stringify({
           url: v,
           agent,
+          scope,
           ...(projectId ? { projectId } : {}),
         }),
         signal: ctrl.signal,
@@ -254,6 +256,43 @@ export function NewAuditClient({
             </div>
           </div>
         )}
+
+        {/* Scope toggle */}
+        <div className="mt-7">
+          <label className="block font-mono text-[10.5px] tracking-[0.16em] uppercase text-fg-muted mb-2.5">
+            Scope
+          </label>
+          <div className="grid grid-cols-2 gap-3">
+            {(["single", "multi"] as const).map((s) => (
+              <button
+                key={s}
+                type="button"
+                onClick={() => setScope(s)}
+                disabled={phase === "crawling" || phase === "analyzing"}
+                className={cn(
+                  "rounded-lg border p-4 text-left transition-colors disabled:opacity-50",
+                  scope === s
+                    ? "border-[color:var(--color-accent)] bg-[color:var(--color-accent-soft)]"
+                    : "border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:border-[color:var(--color-accent)]",
+                )}
+              >
+                <div
+                  className={cn(
+                    "font-display font-bold text-[14px] mb-1.5",
+                    scope === s && "text-[color:var(--color-accent)]",
+                  )}
+                >
+                  {s === "single" ? "Single page" : "Site-wide"}
+                </div>
+                <div className="text-[12.5px] leading-[1.55] text-fg-muted">
+                  {s === "single"
+                    ? "Just this URL. ~10s. Best for landing pages."
+                    : "Crawl up to 12 pages. ~45s. Aggregate site-wide patterns."}
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
 
         {/* Agent picker */}
         <label className="mt-7 block font-mono text-[10.5px] tracking-[0.16em] uppercase text-fg-muted mb-3">

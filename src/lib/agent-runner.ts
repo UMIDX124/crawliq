@@ -61,6 +61,8 @@ export async function* runAgentStream(opts: {
   agent: AgentType;
   signals?: CrawlSignals; // back-compat: ignored — we now run our own checks
   url?: string;
+  scope?: "single" | "multi";
+  maxPages?: number;
 }): AsyncGenerator<
   { type: "delta"; chunk: string; phase?: "checks" | "explain" }
   | { type: "phase"; phase: "checks" | "explain"; message?: string },
@@ -75,7 +77,10 @@ export async function* runAgentStream(opts: {
   // === PHASE 1: deterministic checks ===
   yield { type: "phase", phase: "checks", message: "Running real-data checks…" };
 
-  const checks = await runAllChecks(url);
+  const checks = await runAllChecks(url, {
+    scope: opts.scope ?? "single",
+    maxPages: opts.maxPages,
+  });
   const findings = buildFindings(opts.agent, checks);
 
   if (findings.length === 0) {

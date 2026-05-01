@@ -12,6 +12,7 @@ import { requireUser } from "@/lib/auth-helpers";
 import { db } from "@/lib/db";
 import { AGENTS } from "@/lib/agents";
 import { TrackFindingButton } from "@/components/app/track-finding-button";
+import { ShareAuditButton } from "@/components/app/share-audit-button";
 import type { CrawlSignals } from "@/lib/audit";
 import type { Severity, AgentType } from "@prisma/client";
 
@@ -98,13 +99,20 @@ export default async function AuditDetailPage({
             </div>
 
             {audit.status === "COMPLETED" && (
-              <a
-                href={`/api/audit/${audit.id}/pdf`}
-                className="btn-tactile shrink-0 inline-flex items-center gap-2 rounded-md border border-[color:var(--color-border-strong)] px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-fg hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
-              >
-                <Download size={13} weight="bold" />
-                Export PDF
-              </a>
+              <div className="flex items-center gap-3 flex-wrap shrink-0">
+                <ShareAuditButton
+                  auditId={audit.id}
+                  initialToken={audit.shareToken ?? null}
+                  siteUrl={process.env.NEXT_PUBLIC_SITE_URL ?? ""}
+                />
+                <a
+                  href={`/api/audit/${audit.id}/pdf`}
+                  className="btn-tactile inline-flex items-center gap-2 rounded-md border border-[color:var(--color-border-strong)] px-4 py-2.5 font-mono text-[11px] uppercase tracking-[0.14em] text-fg hover:border-[color:var(--color-accent)] hover:text-[color:var(--color-accent)]"
+                >
+                  <Download size={13} weight="bold" />
+                  Export PDF
+                </a>
+              </div>
             )}
           </div>
 

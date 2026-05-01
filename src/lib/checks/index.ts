@@ -28,6 +28,7 @@ import {
   getOpenPageRank,
   type OpenPageRankReport,
 } from "@/lib/checks/openpagerank";
+import { crawlMultiPage, type MultiPageReport } from "@/lib/checks/multi-page";
 
 export type AggregatedChecks = {
   crawl: CrawlSignals;
@@ -39,22 +40,40 @@ export type AggregatedChecks = {
   schema: SchemaReport | null;
   wayback: WaybackReport | null;
   openPageRank: OpenPageRankReport | null;
+  /** Only populated when scope === "multi" */
+  multiPage: MultiPageReport | null;
 };
 
-export async function runAllChecks(url: string): Promise<AggregatedChecks> {
+export async function runAllChecks(
+  url: string,
+  opts: { scope?: "single" | "multi"; maxPages?: number } = {},
+): Promise<AggregatedChecks> {
+  const scope = opts.scope ?? "single";
   // crawl first because schema reuses the HTML
   const crawl = await crawlSite(url);
   const finalUrl = crawl.finalUrl;
 
-  // run remaining checks in parallel
-  const [lighthouseRes, securityRes, cruxRes, waybackRes, oprRes] =
-    await Promise.allSettled([
-      runLighthouse(finalUrl, "mobile"),
-      checkSecurityHeaders(finalUrl),
-      getCruxReport(finalUrl),
-      getWaybackReport(finalUrl),
-      getOpenPageRank(finalUrl),
-    ]);
+  // run remaining checks in parallel — multi-page also runs in parallel
+  const promises: Promise<unknown>[] = [
+    runLighthouse(finalUrl, "mobile"),
+    checkSecurityHeaders(finalUrl),
+    getCruxReport(finalUrl),
+    getWaybackReport(finalUrl),
+    getOpenPageRank(finalUrl),
+  ];
+  if (scope === "multi") {
+    promises.push(crawlMultiPage(finalUrl, opts.maxPages ?? 12));
+  }
+  const settled = await Promise.allSettled(promises);
+  const [lighthouseRes, securityRes, cruxRes, waybackRes, oprRes, multiRes] =
+    settled as [
+      PromiseSettledResult<LighthouseReport>,
+      PromiseSettledResult<SecurityHeadersReport>,
+      PromiseSettledResult<CruxReport | null>,
+      PromiseSettledResult<WaybackReport | null>,
+      PromiseSettledResult<OpenPageRankReport | null>,
+      PromiseSettledResult<MultiPageReport> | undefined,
+    ];
 
   // schema validation needs raw HTML — re-fetch (fast, cached)
   let schema: SchemaReport | null = null;
@@ -95,5 +114,7 @@ export async function runAllChecks(url: string): Promise<AggregatedChecks> {
     schema,
     wayback: waybackRes.status === "fulfilled" ? waybackRes.value : null,
     openPageRank: oprRes.status === "fulfilled" ? oprRes.value : null,
+    multiPage:
+      multiRes && multiRes.status === "fulfilled" ? multiRes.value : null,
   };
 }

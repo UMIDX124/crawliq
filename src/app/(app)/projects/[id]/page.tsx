@@ -12,6 +12,7 @@ import { AppTopbar } from "@/components/app/topbar";
 import { requireUser } from "@/lib/auth-helpers";
 import { db } from "@/lib/db";
 import { CadencePicker } from "@/components/app/cadence-picker";
+import { BrandEditor } from "@/components/app/brand-editor";
 
 export const metadata = { title: "Project detail" };
 
@@ -107,6 +108,18 @@ export default async function ProjectDetailPage({
                   ? project.nextRunAt.toISOString()
                   : null
               }
+            />
+          </div>
+
+          {/* brand editor */}
+          <div className="mt-6">
+            <BrandEditor
+              projectId={project.id}
+              initial={{
+                brandName: project.brandName,
+                brandColor: project.brandColor,
+                brandLogoUrl: project.brandLogoUrl,
+              }}
             />
           </div>
 

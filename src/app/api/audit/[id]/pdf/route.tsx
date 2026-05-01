@@ -20,7 +20,7 @@ export async function GET(
 
   const audit = await db.audit.findFirst({
     where: { id, userId: user.id },
-    include: { findings: true },
+    include: { findings: true, project: true },
   });
   if (!audit) {
     return Response.json({ error: "Not found" }, { status: 404 });
@@ -31,6 +31,15 @@ export async function GET(
       audit={audit}
       findings={audit.findings}
       ownerName={user.name}
+      brand={
+        audit.project
+          ? {
+              name: audit.project.brandName,
+              color: audit.project.brandColor,
+              logoUrl: audit.project.brandLogoUrl,
+            }
+          : null
+      }
     />,
   );
 
