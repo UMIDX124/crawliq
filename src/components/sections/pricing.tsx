@@ -80,7 +80,7 @@ export function Pricing() {
         <Reveal y={40} className="max-w-3xl">
           <h2 className="font-display font-extrabold text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
             Start free.{" "}
-            <span className="italic font-light text-fg-muted">
+            <span className="italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]">
               Scale when you&rsquo;re ready.
             </span>
           </h2>
@@ -184,22 +184,23 @@ function PriceCard({
         transformStyle: "preserve-3d",
       }}
       className={cn(
-        "relative h-full rounded-2xl p-8 md:p-9 flex flex-col transition-transform duration-300 overflow-hidden",
+        "relative h-full rounded-2xl p-8 md:p-9 flex flex-col transition-transform duration-300",
         plan.featured
-          ? "border border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-[0_24px_48px_-24px_rgb(255_94_26/_0.25)]"
-          : "border border-[color:var(--color-border)] bg-[color:var(--color-surface)]",
+          ? "border-2 border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-[0_30px_64px_-24px_rgb(255_94_26/_0.45),0_0_0_1px_rgb(255_94_26/_0.18)]"
+          : "border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] shadow-[0_8px_28px_-16px_rgb(26_22_18_/_0.14)]",
       )}
     >
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 transition-opacity duration-300"
+        className="pointer-events-none absolute inset-0 rounded-[inherit] overflow-hidden transition-opacity duration-300"
         style={{
           opacity: glow.active ? 1 : 0,
           background: `radial-gradient(420px circle at ${glow.x}% ${glow.y}%, rgb(255 94 26 / 0.12), transparent 50%)`,
         }}
       />
       {plan.featured && (
-        <span className="absolute -top-3 left-7 inline-block whitespace-nowrap bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] font-mono text-[10px] tracking-[0.18em] uppercase px-3 py-1 rounded-full">
+        <span className="absolute top-0 -translate-y-1/2 left-7 inline-flex items-center gap-1.5 whitespace-nowrap bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)] font-mono text-[10px] tracking-[0.22em] uppercase px-3 py-1.5 rounded-full ring-4 ring-[color:var(--color-bg)] shadow-[0_6px_18px_-6px_rgb(255_94_26/_0.55)]">
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent-fg)] pulse-dot" aria-hidden />
           Most popular
         </span>
       )}
@@ -244,7 +245,9 @@ function PriceCard({
             )}
             <span
               className={cn(
-                f.included ? "text-fg" : "text-fg-faint line-through",
+                f.included
+                  ? "text-fg"
+                  : "text-[color:var(--color-fg-subtle)] line-through decoration-[color:var(--color-fg-subtle)] decoration-2 decoration-from-font",
               )}
             >
               {f.text}

@@ -43,12 +43,13 @@ export function Nav() {
     <header
       className={cn(
         "fixed inset-x-0 top-[34px] z-40 transition-all duration-300",
-        "border-b border-transparent",
-        scrolled &&
-          "border-[color:var(--color-border)] backdrop-blur-xl bg-bg/80",
+        "border-b",
+        scrolled
+          ? "border-[color:var(--color-border-strong)] backdrop-blur-xl shadow-[0_1px_0_0_rgb(26_22_18_/_0.04),0_10px_24px_-16px_rgb(26_22_18_/_0.12)]"
+          : "border-transparent",
       )}
       style={{
-        backgroundColor: scrolled ? "rgb(14 22 32 / 0.85)" : "transparent",
+        backgroundColor: scrolled ? "rgb(239 229 208 / 0.88)" : "transparent",
       }}
     >
       <div className="container-page flex h-16 items-center justify-between">
