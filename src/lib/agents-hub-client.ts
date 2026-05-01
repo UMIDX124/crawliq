@@ -17,12 +17,33 @@
 export type Severity = "critical" | "warn" | "win";
 export type Pillar = "on-page" | "technical" | "content" | "off-site" | "competitor";
 
+/**
+ * A finding MUST be grounded in a real measurement.
+ * - `signal` is the raw measurement string ("title: 78c", "LCP: 3.2s", "canonical: missing on 3 routes")
+ * - `source` says WHERE that measurement came from (Lighthouse, CrUX, cheerio crawl, GSC, etc.)
+ * - `body` is LLM-written PROSE explaining what the measurement means
+ *
+ * Findings without a real signal + identifiable source MUST NOT be returned.
+ * The LLM is an explainer, never a fact-generator. This is the deal.
+ */
+export type FindingSource =
+  | "lighthouse"
+  | "crux"
+  | "search-console"
+  | "security-headers"
+  | "schema-org"
+  | "wayback"
+  | "open-pagerank"
+  | "cheerio-crawl"
+  | "multi-page-crawl";
+
 export type AuditFinding = {
   pillar: Pillar;
   severity: Severity;
   title: string;
-  body: string;        // why it matters + how to fix, written as prose
-  signal?: string;     // raw measurement (e.g. "title: 78c", "LCP: 3.2s")
+  body: string;        // prose written by LLM — explains the signal, never invents new facts
+  signal: string;      // REQUIRED: the raw measurement that triggered this finding
+  source: FindingSource; // REQUIRED: where the measurement came from
 };
 
 export type AuditScore = {

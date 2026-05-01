@@ -6,6 +6,27 @@ CrawlIQ-side scaffolding is already shipped: see [`src/lib/agents-hub-client.ts`
 
 ---
 
+## Quality rules — the deal CrawlIQ is selling
+
+Every claim CrawlIQ shows on screen or in a PDF must be a real measurement from a real source. The LLM is an **explainer only** — it writes the "why this matters" prose around a measured signal, it never invents the signal.
+
+**Non-negotiable rules for every audit AGENTS-HUB returns:**
+
+1. **No finding without a signal.** Every `AuditFinding` MUST include both:
+   - `signal`: the raw measurement string ("title: 78 chars", "LCP: 3.2s on origin", "canonical: missing on 3 routes", "schema.org Organization absent")
+   - `source`: the data source that produced it (`lighthouse` | `crux` | `search-console` | `security-headers` | `schema-org` | `wayback` | `open-pagerank` | `cheerio-crawl` | `multi-page-crawl`)
+   - The TypeScript contract enforces this — `signal` and `source` are required, not optional.
+2. **No fabricated competitor data.** Off-site / competitor pillars must call OpenPageRank, Wayback, and the actual SERP analysis pipeline. If those fail, the agent returns fewer findings — never invented ones.
+3. **Severity from thresholds, not vibes.** `critical` / `warn` / `win` levels come from explicit numeric thresholds in the audit code (e.g. `LCP > 4000ms = critical`, `LCP > 2500ms = warn`). The LLM does not pick severity.
+4. **Scores from weighted composites of measured signals.** No "the AI thought it was around 78". Each pillar score is a deterministic function of the underlying signals.
+5. **LLM temperature 0 + seeded.** Same URL on the same day = same prose. The Groq call uses `temperature: 0` and a stable seed (e.g. `hash(finalUrl + pillar)`) so re-running the audit produces identical output.
+6. **If a data source is unavailable, say so.** Missing `GOOGLE_PAGESPEED_API_KEY` → `lighthouse` and `crux` agents return a single finding noting the gap, never fabricated metrics.
+7. **The 8 trusted sources are the floor, not the ceiling.** When a new credible free source becomes available (e.g. WebPageTest public API), add it. Never replace a real source with an LLM "estimate".
+
+These rules are why CrawlIQ exists — they're the entire pitch versus competitors that hallucinate. Every code change in AGENTS-HUB must preserve them. If a contributor proposes a finding type that can't be grounded in a real signal, reject the PR.
+
+---
+
 ## Endpoints AGENTS-HUB must expose
 
 ### `POST /api/v1/audit`
