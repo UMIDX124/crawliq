@@ -42,13 +42,13 @@ export function Nav() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+        "fixed inset-x-0 top-[34px] z-40 transition-all duration-300",
         "border-b border-transparent",
         scrolled &&
           "border-[color:var(--color-border)] backdrop-blur-xl bg-bg/80",
       )}
       style={{
-        backgroundColor: scrolled ? "rgb(10 10 10 / 0.78)" : "transparent",
+        backgroundColor: scrolled ? "rgb(245 245 247 / 0.85)" : "transparent",
       }}
     >
       <div className="container-page flex h-16 items-center justify-between">

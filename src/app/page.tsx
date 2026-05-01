@@ -15,11 +15,15 @@ import { FinalCta } from "@/components/sections/cta";
 import { Footer } from "@/components/sections/footer";
 import { WhyBuilt } from "@/components/sections/why-built";
 import { SectionBridge } from "@/components/section-bridge";
+import { ReportTopBar, ReportAppendixDivider } from "@/components/report-chrome";
+import { LiveAuditMargin } from "@/components/live-audit-margin";
 
 export default function Home() {
   return (
     <>
+      <ReportTopBar />
       <Nav />
+      <LiveAuditMargin />
       <main>
         <Hero />
         <DataSourcesStrip />
@@ -40,6 +44,7 @@ export default function Home() {
         <Pricing />
         <Faq />
         <FinalCta />
+        <ReportAppendixDivider section="Appendix A · methodology" />
       </main>
       <Footer />
     </>
