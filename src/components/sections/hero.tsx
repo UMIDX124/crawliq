@@ -19,6 +19,14 @@ const ThreeSceneHero = dynamic(
   { ssr: false, loading: () => <div className="w-full aspect-square max-w-[560px] mx-auto" aria-hidden /> },
 );
 
+// WebGPU plasma backdrop — premium hero atmosphere. Tangerine cloud field
+// rendered via TSL fragment shader on a single full-viewport quad. Renders
+// nothing on browsers without WebGPU support; static gradient fallback wins.
+const WebGPUPlasma = dynamic(
+  () => import("@/components/webgpu-plasma").then((m) => m.WebGPUPlasma),
+  { ssr: false },
+);
+
 const stats = [
   { to: 267, label: "Checks per audit" },
   { to: 8, prefix: "<", suffix: "s", label: "Median run time" },
@@ -104,12 +112,16 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-10 opacity-[0.45]"
         style={{
           backgroundImage:
-            "linear-gradient(to right, rgb(26 22 18 / 0.07) 1px, transparent 1px), linear-gradient(to bottom, rgb(26 22 18 / 0.07) 1px, transparent 1px)",
+            "linear-gradient(to right, rgb(21 17 13 / 0.07) 1px, transparent 1px), linear-gradient(to bottom, rgb(21 17 13 / 0.07) 1px, transparent 1px)",
           backgroundSize: "56px 56px",
           maskImage:
             "radial-gradient(ellipse 75% 60% at 50% 35%, black 30%, transparent 78%)",
         }}
       />
+
+      {/* WebGPU plasma cloud — sits between grid and content, multiplies a
+          drifting tangerine field over the cream paper. Premium, optional. */}
+      <WebGPUPlasma className="-z-[5]" />
 
       {/* Floating audit-themed instrument cards — drift behind the hero,
           give cream stage real product density without fighting H1 / 3D scene */}

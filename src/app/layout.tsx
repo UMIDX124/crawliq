@@ -71,7 +71,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#EFE5D0",
+  themeColor: "#EBDFC6",
   width: "device-width",
   initialScale: 1,
 };
@@ -85,18 +85,18 @@ export default function RootLayout({
       appearance={{
         variables: {
           colorPrimary: "#FF5E1A",
-          colorBackground: "#F8EFD8",
-          colorText: "#1A1612",
-          colorTextSecondary: "#5C544A",
-          colorInputBackground: "#EFE5D0",
-          colorInputText: "#1A1612",
+          colorBackground: "#F7ECCB",
+          colorText: "#15110D",
+          colorTextSecondary: "#5A5247",
+          colorInputBackground: "#EBDFC6",
+          colorInputText: "#15110D",
           borderRadius: "8px",
           fontFamily: "var(--font-geist-sans)",
         },
         elements: {
           formButtonPrimary:
             "bg-[#FF5E1A] hover:bg-[#E84F0F] text-white font-mono uppercase tracking-[0.14em] text-[12px]",
-          card: "shadow-none border border-[rgb(26_22_18_/_0.10)] bg-[#FAF6EE]",
+          card: "shadow-none border border-[rgb(21_17_13_/_0.10)] bg-[#FCF3D9]",
         },
       }}
     >

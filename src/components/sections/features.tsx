@@ -166,7 +166,7 @@ function BentoCell({
   return (
     <ParallaxCard
       intensity={big ? 0.6 : 1}
-      className={`card-lift audit-clip group h-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:border-[color:var(--color-accent)] ${
+      className={`audit-clip group h-full rounded-xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] hover:border-[color:var(--color-accent)] shadow-layered shadow-layered-hover ${
         big ? "p-8" : "p-7"
       } flex flex-col`}
     >

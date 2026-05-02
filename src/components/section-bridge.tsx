@@ -35,8 +35,8 @@ export function SectionBridge({
           className="h-full w-full"
           style={{
             background:
-              "linear-gradient(90deg, transparent 0%, var(--color-border-strong) 30%, var(--color-accent) 50%, var(--color-border-strong) 70%, transparent 100%)",
-            opacity: 0.6,
+              "linear-gradient(90deg, transparent 0%, var(--color-ink-strong) 28%, var(--color-ink) 48%, var(--color-accent) 52%, var(--color-ink-strong) 72%, transparent 100%)",
+            opacity: 0.55,
           }}
         />
       </motion.div>
@@ -49,8 +49,10 @@ export function SectionBridge({
           transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
           className="absolute inset-x-0 top-1/2 -translate-y-1/2 flex justify-center pointer-events-none"
         >
-          <span className="bg-[color:var(--color-bg)] px-4 font-mono text-[10px] tracking-[0.2em] uppercase text-fg-faint">
-            § {num} / {total} <span className="text-fg-faint/60">— {label}</span>
+          <span className="bg-[color:var(--color-bg)] px-4 font-mono text-[10px] tracking-[0.2em] uppercase">
+            <span className="text-[color:var(--color-ink)] font-bold">§ {num}</span>
+            <span className="text-fg-faint"> / {total} </span>
+            <span className="text-fg-faint/60">— {label}</span>
           </span>
         </motion.div>
       )}

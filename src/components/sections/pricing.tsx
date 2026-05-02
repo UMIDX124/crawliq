@@ -186,8 +186,8 @@ function PriceCard({
       className={cn(
         "relative h-full rounded-2xl p-8 md:p-9 flex flex-col transition-transform duration-300",
         plan.featured
-          ? "border-2 border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-[0_30px_64px_-24px_rgb(255_94_26/_0.45),0_0_0_1px_rgb(255_94_26/_0.18)]"
-          : "border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] shadow-[0_8px_28px_-16px_rgb(26_22_18_/_0.14)]",
+          ? "border-2 border-[color:var(--color-accent)] bg-[color:var(--color-surface)] shadow-accent"
+          : "border border-[color:var(--color-border-strong)] bg-[color:var(--color-surface)] shadow-layered shadow-layered-hover",
       )}
     >
       <div

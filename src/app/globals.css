@@ -7,35 +7,51 @@
  */
 
 @theme {
-  /* surfaces — REAL paper cream, warmer than off-white. Tuned to match
-     editorial reference (NYT magazine, Aesop, Patagonia) — readable as
-     "cream paper" on every monitor, not "almost-white". */
-  --color-bg: #EFE5D0;        /* page base — warm paper */
-  --color-bg-2: #E5D9BF;      /* section bands — deeper paper */
-  --color-bg-3: #DBCEB1;      /* raised wells — sand */
-  --color-surface: #F8EFD8;   /* lifted cards — slightly luminous cream */
+  /* surfaces — DEEPENED paper. Pushed slightly darker + more chromatic so
+     the page reads "aged museum paper" not "off-white". Reference: Aesop
+     packaging, Wallpaper* magazine, Hermès Maison printed catalog. */
+  --color-bg: #EBDFC6;        /* page base — deeper aged paper */
+  --color-bg-2: #E1D3B3;      /* section bands — stronger paper depth */
+  --color-bg-3: #D4C5A1;      /* raised wells — sand */
+  --color-surface: #F7ECCB;   /* lifted cards — warmer luminous cream */
+  --color-surface-raised: #FCF3D9; /* top-elevation surface (modals, popovers) */
 
-  /* ink — warm near-black text (not pure black — softer on cream) */
-  --color-fg: #1A1612;
-  --color-fg-muted: #5C544A;
-  --color-fg-subtle: #877E72;
-  --color-fg-faint: #B5AC9F;
+  /* ink — warm near-black text, slightly richer for crisper editorial type */
+  --color-fg: #15110D;
+  --color-fg-muted: #5A5247;
+  --color-fg-subtle: #837A6E;
+  --color-fg-faint: #B0A799;
 
   /* borders — warm-charcoal hairlines at low alpha */
-  --color-border: rgb(26 22 18 / 0.10);
-  --color-border-strong: rgb(26 22 18 / 0.22);
+  --color-border: rgb(21 17 13 / 0.10);
+  --color-border-strong: rgb(21 17 13 / 0.22);
   --color-border-accent: rgb(255 94 26 / 0.45);
 
-  /* accent — ELECTRIC TANGERINE. Stays the brand mark across theme flip. */
+  /* PRIMARY accent — ELECTRIC TANGERINE. Brand mark, used as PUNCTUATION:
+     CTAs, single accent words, severity dots. Restraint is the premium move. */
   --color-accent: #FF5E1A;
   --color-accent-hover: #E84F0F;
   --color-accent-soft: rgb(255 94 26 / 0.12);
   --color-accent-fg: #FFFFFF;
 
-  /* gradient stops for full-bleed CTA bands — tangerine fade */
+  /* SECONDARY accent — OXIDIZED INK. Deep editorial navy that gives the
+     page magazine-grade gravitas. Used for: section eyebrow numbers,
+     pull-quote borders, hairline dividers, num-display gravitas, headline
+     spans that need weight without shouting tangerine. Editorial tradition:
+     two-color print runs (ink + spot color), never one. */
+  --color-ink: #142433;
+  --color-ink-hover: #1E3144;
+  --color-ink-soft: rgb(20 36 51 / 0.08);
+  --color-ink-strong: rgb(20 36 51 / 0.20);
+  --color-ink-fg: #ECE0C8;
+
+  /* gradient stops for full-bleed CTA bands */
   --grad-stop-1: #FF5E1A;
   --grad-stop-2: #E84F0F;
   --grad-stop-3: #C44308;
+  --grad-ink-1: #0E1A26;
+  --grad-ink-2: #1A2B3D;
+  --grad-ink-3: #243E55;
 
   /* semantic severity (calibrated for cream bg — darker for legibility) */
   --color-pass: #047857;
@@ -85,11 +101,17 @@
   }
 
   body {
-    /* editorial grain — micro warm-charcoal dot grid on cream, gentler than before */
+    /* editorial paper grain — fractal-noise SVG instead of a dot grid.
+       Reads as actual paper fibre rather than "Tailwind starter dots".
+       Layered with a soft warm vignette top + bottom so the page feels
+       like a printed book spread, not a flat browser canvas. */
     background-image:
-      radial-gradient(circle at 1px 1px, rgb(26 22 18 / 0.030) 1px, transparent 0);
-    background-size: 32px 32px;
-    background-attachment: fixed;
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgb(255 94 26 / 0.045), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 50% 110%, rgb(20 36 51 / 0.05), transparent 60%),
+      url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.082 0 0 0 0 0.067 0 0 0 0 0.051 0 0 0 0.055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 100% 100%, 100% 100%, 240px 240px;
+    background-attachment: fixed, fixed, fixed;
+    background-repeat: no-repeat, no-repeat, repeat;
   }
 
   /* serif voice helper — used for accent / pull-quote words inside Figtree H1s */
@@ -603,8 +625,69 @@
   /* inset-only — for inputs / wells where the surface should sink */
   .shadow-well {
     box-shadow:
-      inset 0 1px 2px 0 rgb(26 22 18 / 0.06),
-      inset 0 0 0 1px rgb(26 22 18 / 0.06);
+      inset 0 1px 2px 0 rgb(21 17 13 / 0.06),
+      inset 0 0 0 1px rgb(21 17 13 / 0.06);
+  }
+
+  /* ink-tinted shadow — secondary-accent halo, used on editorial dark moments */
+  .shadow-ink {
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.4) inset,
+      0 1px 2px -1px rgb(20 36 51 / 0.10),
+      0 12px 28px -8px rgb(20 36 51 / 0.32),
+      0 36px 72px -24px rgb(20 36 51 / 0.40),
+      0 0 0 1px rgb(20 36 51 / 0.18);
+  }
+
+  /* ink section variant — flips the surface to deep editorial navy. Use
+     ONCE per page for a "spread break" — magazine-style page turn. */
+  .section-ink {
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 0%, rgb(255 94 26 / 0.10), transparent 55%),
+      linear-gradient(180deg, var(--grad-ink-1), var(--grad-ink-2));
+    color: #ECE0C8;
+  }
+  .section-ink * { border-color: rgb(255 255 255 / 0.10); }
+  .section-ink .text-fg { color: #F4E9CD; }
+  .section-ink .text-fg-muted { color: rgb(244 233 205 / 0.66); }
+  .section-ink .text-fg-faint { color: rgb(244 233 205 / 0.42); }
+
+  /* editorial hairline rule — 2-tone (ink center, fades to bg) */
+  .rule-editorial {
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--color-ink-strong) 30%,
+      var(--color-ink) 50%,
+      var(--color-ink-strong) 70%,
+      transparent 100%
+    );
+    opacity: 0.5;
+  }
+
+  /* register marks — 4 corner ticks, makes a section feel like a printed plate */
+  .register-marks {
+    position: relative;
+  }
+  .register-marks::before,
+  .register-marks::after {
+    content: "";
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    border: 1px solid var(--color-ink);
+    opacity: 0.45;
+  }
+  .register-marks::before {
+    top: 12px; left: 12px;
+    border-right: none;
+    border-bottom: none;
+  }
+  .register-marks::after {
+    bottom: 12px; right: 12px;
+    border-left: none;
+    border-top: none;
   }
 
   /* ───────────────────────────────────────────────────────────

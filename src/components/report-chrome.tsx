@@ -18,9 +18,16 @@ export function ReportTopBar() {
   });
 
   return (
-    <div className="sticky top-0 z-30 bg-[color:var(--color-bg-2)] border-b border-[color:var(--color-border-strong)] shadow-[0_1px_0_0_rgb(26_22_18_/_0.04),0_8px_18px_-12px_rgb(26_22_18_/_0.10)]">
-      {/* hairline accent rail at the top — the "this is a report cover" cue */}
-      <div className="h-[2px] w-full bg-[color:var(--color-accent)]" aria-hidden />
+    <div className="sticky top-0 z-30 bg-[color:var(--color-bg-2)] border-b border-[color:var(--color-border-strong)] shadow-[0_1px_0_0_rgb(21_17_13_/_0.04),0_8px_18px_-12px_rgb(21_17_13_/_0.10)]">
+      {/* hairline accent rail — ink + tangerine 2-color print */}
+      <div
+        className="h-[2px] w-full"
+        style={{
+          background:
+            "linear-gradient(90deg, var(--color-ink) 0%, var(--color-ink) 60%, var(--color-accent) 60%, var(--color-accent) 100%)",
+        }}
+        aria-hidden
+      />
       <div className="max-w-[1480px] mx-auto px-5 md:px-10 py-2.5 flex items-center justify-between gap-3 font-mono text-[10.5px] tracking-[0.22em] uppercase text-[color:var(--color-fg-muted)] overflow-hidden">
         <div className="flex items-center gap-3 min-w-0">
           <FileText size={12} weight="bold" className="text-[color:var(--color-accent)] shrink-0" />
