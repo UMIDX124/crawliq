@@ -148,8 +148,7 @@ export function Hero() {
                 className="font-display font-extrabold mt-7 sm:mt-8 lg:mt-10 text-balance text-[clamp(40px,8.4vw,96px)] leading-[0.92] tracking-[-0.035em]"
                 words={[
                   "Your website,",
-                  "audited",
-                  { italic: "like an" },
+                  "audited like an",
                   { italic: "expert" },
                   "would.",
                 ]}
@@ -160,9 +159,9 @@ export function Hero() {
               <FadeChildren delay={1.3}>
                 <p className="mt-6 lg:mt-8 max-w-[560px] text-balance text-fg-muted text-[16px] sm:text-[17px] lg:text-[18.5px] leading-[1.6]">
                   Five AI auditors crawl your site in parallel — On-Page,
-                  Technical, Content, Off-Site, and Competitor. They explain
-                  exactly what&rsquo;s broken, why it matters, and how to fix
-                  it. No checklists. No fluff.
+                  Technical, Content, Off-Site, and Competitor. Each finding is
+                  written so a developer can ship the fix today, sourced from
+                  Lighthouse, CrUX, and Search Console.
                 </p>
               </FadeChildren>
 

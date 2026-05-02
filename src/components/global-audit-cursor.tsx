@@ -55,23 +55,30 @@ export function GlobalAuditCursor() {
     document.documentElement.style.cursor = "none";
     document.body.style.cursor = "none";
 
+    // mousemove fires hundreds of times per second — keep it cheap. Only
+    // update the motion values here. Mode/cursor-context detection moves to
+    // pointerover so closest() runs only when the target element changes.
     const onMove = (e: MouseEvent) => {
       x.set(e.clientX);
       y.set(e.clientY);
-      const t = e.target as HTMLElement | null;
-      if (!t) return;
-      if (t.closest("input, textarea, [contenteditable='true']")) {
-        setMode("input");
-      } else if (t.closest("a")) {
-        setMode("link");
-      } else if (t.closest("button, [role='button'], label[for], [data-cursor='button']")) {
-        setMode("button");
-      } else if (t.closest("[data-cursor='drag']")) {
-        setMode("drag");
-      } else {
-        setMode("idle");
-      }
     };
+
+    let lastTarget: Element | null = null;
+    const detectMode = (t: Element | null): Mode => {
+      if (!t) return "idle";
+      if (t.closest("input, textarea, [contenteditable='true']")) return "input";
+      if (t.closest("a")) return "link";
+      if (t.closest("button, [role='button'], label[for], [data-cursor='button']")) return "button";
+      if (t.closest("[data-cursor='drag']")) return "drag";
+      return "idle";
+    };
+    const onOver = (e: PointerEvent) => {
+      const t = e.target as Element | null;
+      if (!t || t === lastTarget) return;
+      lastTarget = t;
+      setMode(detectMode(t));
+    };
+
     const onDown = () => setActive(true);
     const onUp = () => setActive(false);
     const onLeaveDoc = () => {
@@ -79,13 +86,15 @@ export function GlobalAuditCursor() {
       y.set(-200);
     };
 
-    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mousemove", onMove, { passive: true });
+    document.addEventListener("pointerover", onOver, { passive: true });
     window.addEventListener("mousedown", onDown);
     window.addEventListener("mouseup", onUp);
     document.addEventListener("mouseleave", onLeaveDoc);
 
     return () => {
       window.removeEventListener("mousemove", onMove);
+      document.removeEventListener("pointerover", onOver);
       window.removeEventListener("mousedown", onDown);
       window.removeEventListener("mouseup", onUp);
       document.removeEventListener("mouseleave", onLeaveDoc);

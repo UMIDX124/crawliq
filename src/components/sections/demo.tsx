@@ -127,14 +127,17 @@ export function Demo() {
     >
       <div className="container-page">
         <Reveal className="max-w-3xl">
-          <ReportEyebrow num="10">Live preview</ReportEyebrow>
+          <ReportEyebrow num="10">Sample report</ReportEyebrow>
           <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-tight">
-            See exactly what CrawlIQ finds.
+            What your CrawlIQ report{" "}
+            <span className="italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]">
+              looks like.
+            </span>
           </h2>
           <p className="mt-6 max-w-2xl text-fg-muted text-[16px] md:text-[17px] leading-[1.65]">
-            A real audit of a real site. No fabricated metrics, no generic
-            advice — every finding is specific, sourced from the crawl, and
-            written so a developer can ship the fix today.
+            Below is the report layout for a sample site. Findings shown are
+            illustrative — your real audit replaces these with your site&rsquo;s
+            actual data, sourced from Lighthouse, CrUX, and Search Console.
           </p>
         </Reveal>
 
@@ -150,9 +153,14 @@ export function Demo() {
                   crawliq · audit/example.com
                 </span>
               </div>
-              <span className="font-mono text-[11px] tracking-[0.14em] uppercase text-fg-faint">
-                completed · 7.4s
-              </span>
+              <div className="flex items-center gap-3">
+                <span className="font-mono text-[10px] tracking-[0.18em] uppercase font-bold rounded-sm px-1.5 py-0.5 bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)]">
+                  Sample
+                </span>
+                <span className="font-mono text-[11px] tracking-[0.14em] uppercase text-fg-faint">
+                  completed · 7.4s
+                </span>
+              </div>
             </div>
 
             {/* body */}

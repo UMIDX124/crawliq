@@ -52,7 +52,7 @@ const CARDS: Array<{
 }> = [
   // top band — frame the H1 with two micro readouts
   {
-    card: { kind: "status", code: 200, path: "/pricing" },
+    card: { kind: "status", code: 200, path: "/—" },
     x: "3%", y: "12%", drift: 14, pulse: 9, rotate: 0.6, delay: 0.2,
     scale: 0.95,
   },
@@ -67,17 +67,17 @@ const CARDS: Array<{
     x: "1%", y: "38%", drift: 16, pulse: 7, rotate: -1.2, delay: 1.0,
   },
   {
-    card: { kind: "metric", label: "LCP", value: "1.42s", status: "pass" },
+    card: { kind: "metric", label: "LCP", value: "1.4s", status: "pass" },
     x: "48%", y: "30%", drift: 12, pulse: 6, rotate: -0.4, delay: 1.4,
   },
   // bottom-left — drift below the URL form (after content scrolls past, the
   // form is centered at ~y:75% on lg screens; cards at y:88% peek under)
   {
-    card: { kind: "finding", severity: "crit", label: "H1 missing", detail: "/blog/post-3" },
+    card: { kind: "finding", severity: "crit", label: "H1 missing", detail: "sample page" },
     x: "2%", y: "66%", drift: 14, pulse: 8, rotate: 0.8, delay: 1.8,
   },
   {
-    card: { kind: "finding", severity: "warn", label: "Alt-text 84%", detail: "23 imgs missing" },
+    card: { kind: "finding", severity: "warn", label: "Alt-text gap", detail: "image scan" },
     x: "44%", y: "88%", drift: 18, pulse: 7, rotate: -1.0, delay: 2.2,
   },
   // mid-right edge — small chips that peek next to the 3D scene without
@@ -329,7 +329,7 @@ export function HeroLiveFinding({ className }: { className?: string }) {
         </span>
         <div className="leading-tight min-w-0">
           <div className="font-mono text-[9px] tracking-[0.18em] uppercase text-fg-faint mb-0.5">
-            live · finding {String(idx + 1).padStart(2, "0")} / {String(LIVE_TICKS.length).padStart(2, "0")}
+            demo · pass {String(idx + 1).padStart(2, "0")} / {String(LIVE_TICKS.length).padStart(2, "0")}
           </div>
           <div className="font-display font-bold text-[12.5px] text-[color:var(--color-fg)] truncate">
             {tick.label}
@@ -344,10 +344,10 @@ export function HeroLiveFinding({ className }: { className?: string }) {
 }
 
 const LIVE_TICKS = [
-  { Icon: ImageIcon, label: "23 images missing alt-text" },
-  { Icon: LinkIcon, label: "4 broken internal links found" },
-  { Icon: Code, label: "JSON-LD schema absent" },
-  { Icon: Lightning, label: "LCP 1.42s · within budget" },
-  { Icon: Warning, label: "Meta description 78c · too short" },
-  { Icon: CheckCircle, label: "Canonical tag set on every page" },
+  { Icon: ImageIcon, label: "scanning image alt-text" },
+  { Icon: LinkIcon, label: "checking internal links" },
+  { Icon: Code, label: "parsing JSON-LD schema" },
+  { Icon: Lightning, label: "measuring Core Web Vitals" },
+  { Icon: Warning, label: "validating meta tags" },
+  { Icon: CheckCircle, label: "verifying canonical tags" },
 ];

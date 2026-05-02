@@ -28,23 +28,23 @@ export default function Home() {
         <Hero />
         <DataSourcesStrip />
         <Problems />
-        <SectionBridge num="01" label="problem stated" />
+        <SectionBridge num="01" total="06" label="problem stated" />
         <div className="bg-[color:var(--color-bg-2)]/40">
           <WatchItThink />
           <HowItWorks />
         </div>
-        <SectionBridge num="03" label="mechanism shown" />
+        <SectionBridge num="02" total="06" label="mechanism shown" />
         <Features />
         <Comparison />
         <PdfPreview />
-        <SectionBridge num="06" label="comparisons drawn" />
+        <SectionBridge num="03" total="06" label="comparisons drawn" />
         <div className="bg-[color:var(--color-bg-2)]/40">
           <WhyBuilt />
         </div>
-        <SectionBridge num="08" label="founder note" />
+        <SectionBridge num="04" total="06" label="founder note" />
         <EarlyAccess />
         <Demo />
-        <SectionBridge num="10" label="proof shown" />
+        <SectionBridge num="05" total="06" label="report sample" />
         <Pricing />
         <Faq />
         <FinalCta />

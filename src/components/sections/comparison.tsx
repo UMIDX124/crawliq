@@ -9,12 +9,12 @@ const rows: { label: string; crawliq: Cell; lighthouse: Cell; ahrefs: Cell; manu
   { label: "On-page audit", crawliq: true, lighthouse: true, ahrefs: true, manual: true },
   { label: "Technical crawl", crawliq: true, lighthouse: true, ahrefs: true, manual: "partial" },
   { label: "AI-written explanations (why + how)", crawliq: true, lighthouse: false, ahrefs: false, manual: true },
-  { label: "Content depth + topic gap", crawliq: true, lighthouse: false, ahrefs: "partial", manual: "partial" },
+  { label: "Backlink index depth", crawliq: "partial", lighthouse: false, ahrefs: true, manual: "partial" },
   { label: "Competitor gap analysis", crawliq: true, lighthouse: false, ahrefs: true, manual: "partial" },
   { label: "Streaming results in <10s", crawliq: true, lighthouse: "partial", ahrefs: false, manual: false },
   { label: "Prioritized fix list", crawliq: true, lighthouse: false, ahrefs: false, manual: "partial" },
+  { label: "Free tier / no signup", crawliq: "partial", lighthouse: true, ahrefs: false, manual: false },
   { label: "PDF / white-label export", crawliq: true, lighthouse: false, ahrefs: true, manual: true },
-  { label: "Cost per audit", crawliq: true, lighthouse: true, ahrefs: false, manual: false },
 ];
 
 const competitors = [
@@ -38,9 +38,10 @@ export function Comparison() {
             </span>
           </h2>
           <p className="mt-5 sm:mt-6 max-w-2xl text-fg-muted text-[15px] sm:text-[16px] md:text-[17px] leading-[1.65]">
-            Lighthouse only checks performance. Ahrefs only does backlinks.
-            Manual audits take three weeks and cost five figures. CrawlIQ does
-            all of it, in eight seconds, for the price of a coffee.
+            Lighthouse is browser-native and free for ad-hoc checks. Ahrefs has
+            a deeper backlink index. Manual audits go deepest of all. CrawlIQ
+            optimizes for speed and clarity — so you ship fixes today, not next
+            quarter.
           </p>
         </Reveal>
 

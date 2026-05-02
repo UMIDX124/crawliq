@@ -1,5 +1,4 @@
 import { Reveal } from "@/components/reveal";
-import { CountUp } from "@/components/count-up";
 import { MagnifyingGlass, ChartLineDown, Hourglass } from "@phosphor-icons/react/dist/ssr";
 import { ReportEyebrow } from "@/components/glyph";
 
@@ -8,25 +7,22 @@ const problems = [
     icon: MagnifyingGlass,
     title: "Hidden technical debt",
     body: "Broken canonicals, missing meta, slow Core Web Vitals — issues your team never sees until rankings start sliding. By then it's a quarter of work to claw back.",
-    metricNum: 73,
-    metricSuffix: "%",
-    metricLabel: "of sites have at least 1 critical SEO bug",
+    tagline: "Silent decay",
+    detail: "Months of regression before the dashboard reacts",
   },
   {
     icon: ChartLineDown,
     title: "Reports without priorities",
-    body: "Agencies hand over 80-page audit PDFs that list every nit. No ranking by impact, no effort estimate, no clear first action. Teams freeze and nothing ships.",
-    metricNum: 2400,
-    metricPrefix: "$",
-    metricLabel: "average spend per shelved audit",
+    body: "Agencies hand over long audit PDFs that list every nit. No ranking by impact, no effort estimate, no clear first action. Teams freeze and nothing ships.",
+    tagline: "Frozen by data",
+    detail: "Every finding looks equally urgent — so nothing moves",
   },
   {
     icon: Hourglass,
     title: "Weeks, not minutes",
     body: "Manual audits take days. Your competitor finds the same gap and ships fixes inside a sprint. The window for organic recovery closes while you wait.",
-    metricNum: 18,
-    metricSuffix: " days",
-    metricLabel: "typical audit turnaround",
+    tagline: "Closing window",
+    detail: "Recovery cost compounds with every week of delay",
   },
 ];
 
@@ -89,16 +85,15 @@ export function Problems() {
                     big ? "mt-auto pt-7" : "mt-6"
                   }`}
                 >
-                  <CountUp
-                    to={p.metricNum}
-                    prefix={p.metricPrefix ?? ""}
-                    suffix={p.metricSuffix ?? ""}
-                    className={`font-display font-extrabold leading-none tabular-nums text-fg group-hover:text-[color:var(--color-accent)] transition-colors ${
-                      big ? "text-[44px] md:text-[52px]" : "text-[24px]"
+                  <div
+                    className={`font-display font-extrabold leading-tight text-fg group-hover:text-[color:var(--color-accent)] transition-colors tracking-[-0.02em] ${
+                      big ? "text-[28px] md:text-[34px]" : "text-[18px]"
                     }`}
-                  />
+                  >
+                    {p.tagline}
+                  </div>
                   <div className="mt-2 font-mono text-[10.5px] tracking-[0.14em] uppercase text-fg-faint">
-                    {p.metricLabel}
+                    {p.detail}
                   </div>
                 </div>
               </Reveal>

@@ -20,7 +20,7 @@ export default function TermsPage() {
             Terms of service
           </h1>
           <p className="mt-3 font-mono text-[11px] tracking-[0.16em] uppercase text-fg-muted">
-            Last updated · placeholder before launch
+            Last updated · pre-launch draft
           </p>
 
           <div className="mt-12 prose-policy">
