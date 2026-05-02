@@ -37,7 +37,10 @@ type FloatCard =
 
 const CARDS: Array<{
   card: FloatCard;
-  // position percentages relative to the hero box
+  // position percentages relative to the hero box.
+  // Right side > 60% intentionally avoided where the 3D scene lives — only
+  // small chips peek into that zone. Left/center/bottom densify the text
+  // half so the page reads as an "instrument panel", not an empty stage.
   x: string;
   y: string;
   // animation timing
@@ -47,39 +50,46 @@ const CARDS: Array<{
   delay: number;
   scale?: number;
 }> = [
+  // top band — frame the H1 with two micro readouts
+  {
+    card: { kind: "status", code: 200, path: "/pricing" },
+    x: "3%", y: "12%", drift: 14, pulse: 9, rotate: 0.6, delay: 0.2,
+    scale: 0.95,
+  },
+  {
+    card: { kind: "signal", label: "canonical", state: "set" },
+    x: "44%", y: "6%", drift: 12, pulse: 7, rotate: -0.8, delay: 0.6,
+    scale: 0.95,
+  },
+  // mid-left — sits next to the H1 verb, becomes part of typography
   {
     card: { kind: "score", pillar: "On-Page", score: 87, trend: "up" },
-    x: "78%", y: "8%", drift: 18, pulse: 7, rotate: -1.2, delay: 0.0,
-  },
-  {
-    card: { kind: "finding", severity: "crit", label: "H1 missing", detail: "/blog/post-3" },
-    x: "8%", y: "70%", drift: 14, pulse: 8, rotate: 0.8, delay: 0.4,
-  },
-  {
-    card: { kind: "status", code: 301, path: "/about → /company" },
-    x: "85%", y: "62%", drift: 22, pulse: 9, rotate: 1.4, delay: 0.8,
+    x: "1%", y: "38%", drift: 16, pulse: 7, rotate: -1.2, delay: 1.0,
   },
   {
     card: { kind: "metric", label: "LCP", value: "1.42s", status: "pass" },
-    x: "70%", y: "30%", drift: 12, pulse: 6, rotate: -0.6, delay: 1.2,
+    x: "48%", y: "30%", drift: 12, pulse: 6, rotate: -0.4, delay: 1.4,
   },
+  // bottom-left — drift below the URL form (after content scrolls past, the
+  // form is centered at ~y:75% on lg screens; cards at y:88% peek under)
   {
-    card: { kind: "signal", label: "schema.org", state: "set" },
-    x: "12%", y: "32%", drift: 16, pulse: 8, rotate: 1.0, delay: 1.6,
-    scale: 0.92,
+    card: { kind: "finding", severity: "crit", label: "H1 missing", detail: "/blog/post-3" },
+    x: "2%", y: "66%", drift: 14, pulse: 8, rotate: 0.8, delay: 1.8,
   },
   {
     card: { kind: "finding", severity: "warn", label: "Alt-text 84%", detail: "23 imgs missing" },
-    x: "62%", y: "82%", drift: 20, pulse: 7, rotate: -1.0, delay: 2.0,
+    x: "44%", y: "88%", drift: 18, pulse: 7, rotate: -1.0, delay: 2.2,
   },
-  {
-    card: { kind: "status", code: 200, path: "/pricing" },
-    x: "4%", y: "12%", drift: 14, pulse: 9, rotate: 0.6, delay: 2.4,
-    scale: 0.88,
-  },
+  // mid-right edge — small chips that peek next to the 3D scene without
+  // overlapping its dense zone (kept under x:78% area)
   {
     card: { kind: "metric", label: "CLS", value: "0.04", status: "pass" },
-    x: "92%", y: "44%", drift: 16, pulse: 6, rotate: -0.8, delay: 2.8,
+    x: "70%", y: "10%", drift: 14, pulse: 6, rotate: 0.6, delay: 2.6,
+    scale: 0.92,
+  },
+  {
+    card: { kind: "signal", label: "schema.org", state: "set" },
+    x: "76%", y: "92%", drift: 16, pulse: 8, rotate: 1.0, delay: 3.0,
     scale: 0.92,
   },
 ];
@@ -88,7 +98,7 @@ export function HeroFloatingCards() {
   const reduce = useReducedMotion();
 
   return (
-    <div className="pointer-events-none absolute inset-0 -z-[5] overflow-hidden hidden md:block" aria-hidden>
+    <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden hidden md:block" aria-hidden>
       {CARDS.map((c, i) => (
         <motion.div
           key={i}
@@ -97,9 +107,9 @@ export function HeroFloatingCards() {
           initial={{ opacity: 0, y: 14, rotate: c.rotate }}
           animate={
             reduce
-              ? { opacity: 0.7, y: 0, rotate: c.rotate }
+              ? { opacity: 0.85, y: 0, rotate: c.rotate }
               : {
-                  opacity: [0.55, 0.95, 0.55],
+                  opacity: [0.78, 1, 0.78],
                   y: [0, -c.drift, 0],
                   rotate: [c.rotate, c.rotate * 0.4, c.rotate],
                 }
