@@ -5,6 +5,7 @@ import "./globals.css";
 import { SmoothScroll } from "@/components/smooth-scroll";
 import { ScrollProgress } from "@/components/scroll-progress";
 import { GlobalAuditCursor } from "@/components/global-audit-cursor";
+import { MascotHost } from "@/components/mascot-host";
 
 // Figtree — chosen for its slightly geometric character, distinct from the
 // universal Geist/Inter on every other SaaS landing.
@@ -169,6 +170,7 @@ export default function RootLayout({
           <SmoothScroll />
           <ScrollProgress />
           <GlobalAuditCursor />
+          <MascotHost />
           {children}
         </body>
       </html>
