@@ -50,7 +50,7 @@ export function Surfaces() {
           <ReportEyebrow num="02">The verb · six surfaces</ReportEyebrow>
           <h2 className="display-2xl mt-5">
             Type{" "}
-            <span className="font-mono text-[color:var(--color-term-bg)] bg-[color:var(--color-term)] px-2 py-0.5 rounded-md tracking-tight">
+            <span className="font-mono text-[color:var(--color-ink-fg)] bg-[color:var(--color-ink)] px-2 py-0.5 rounded-md tracking-tight">
               crawliq
             </span>{" "}
             <span className="italic font-normal [font-family:var(--font-serif)] tracking-[-0.01em] text-fg-muted">
@@ -85,7 +85,7 @@ export function Surfaces() {
                   className={cn(
                     "font-mono text-[9.5px] tracking-tight normal-case ml-1 px-1.5 py-0.5 rounded",
                     active === s.id
-                      ? "bg-[color:var(--color-term)] text-[color:var(--color-term-bg)]"
+                      ? "bg-[color:var(--color-accent)] text-[color:var(--color-accent-fg)]"
                       : "bg-[color:var(--color-bg-3)] text-fg-faint",
                   )}
                 >

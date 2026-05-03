@@ -180,7 +180,7 @@ export function Hero() {
               <FadeChildren delay={1.3}>
                 <p className="mt-6 lg:mt-8 max-w-[560px] text-balance text-fg-muted text-[16px] sm:text-[17px] lg:text-[18.5px] leading-[1.6]">
                   Type{" "}
-                  <span className="font-mono text-[color:var(--color-term-bg)] bg-[color:var(--color-term)] px-1.5 py-0.5 rounded font-bold tracking-tight">
+                  <span className="font-mono text-[color:var(--color-ink-fg)] bg-[color:var(--color-ink)] px-1.5 py-0.5 rounded font-bold tracking-tight">
                     crawliq
                   </span>{" "}
                   in Slack, GitHub, Notion, your inbox, your phone, or any

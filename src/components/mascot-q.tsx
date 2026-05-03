@@ -1,19 +1,21 @@
 "use client";
 
 /**
- * Q mascot — the CrawlIQ wave-and-peek character.
+ * Q mascot / Audit lens — the CrawlIQ wave-and-peek character.
  *
- * 3D extruded Q letter body, with a face inside the Q's curl, two stick arms,
- * and a continuous wave on the right arm. Renders inside a small R3F canvas
- * positioned at fixed bottom-right via the host component. Pause-when-offscreen
- * (rare here since it's fixed-position, but covers the dismiss case).
+ * Reads as a magnifying-glass-with-a-face hybrid: the Q letter's circular
+ * ring is the lens, the face sits inside, and the Q's tail (rotated 45° at
+ * bottom-right) becomes the magnifier handle. Two stick arms wave from the
+ * sides. Brand-appropriate for an audit tool — the visual ambiguity is the
+ * point: it's both the CrawlIQ Q AND the audit lens, depending on how the
+ * viewer reads it.
  *
  * Personality:
  *  - Idle bob       — gentle Y-translate ±2px on a 3.2s cosine loop
  *  - Eye-track      — pupils follow the cursor with a soft spring
- *  - Wave           — right arm rotates -45° → +20° on a 1.6s ease loop
+ *  - Wave           — right arm rotates -1.1 → -0.55 rad on a 3.2s sin loop
  *  - Blink          — eyes squint every ~3.8s for 130ms
- *  - Speech tap     — clicking the canvas triggers a one-shot "jump" anim
+ *  - Speech tap     — clicking the canvas advances the bubble message
  */
 
 import { Suspense, useEffect, useMemo, useRef, useState } from "react";
@@ -22,10 +24,10 @@ import { Float } from "@react-three/drei";
 import { Group, Mesh, Vector3 } from "three";
 import * as THREE from "three";
 
-const ACCENT = "#FF5E1A";
-const ACCENT_HOVER = "#E84F0F";
+const ACCENT = "#A8262A";
+const ACCENT_HOVER = "#8E1F23";
 const INK = "#15110D";
-const CREAM = "#F8EFD8";
+const CREAM = "#F5E2C9";
 
 // ─── Q body — extruded shape from a parametric path ─────────────────────────
 
@@ -266,6 +268,9 @@ export function MascotQ({ className }: { className?: string }) {
         dpr={[1, 1.6]}
         gl={{ antialias: true, alpha: true, powerPreference: "low-power" }}
         style={{ background: "transparent" }}
+        onCreated={({ gl }) => {
+          gl.setClearColor(0x000000, 0);
+        }}
       >
         <Suspense fallback={null}>
           <Stage />

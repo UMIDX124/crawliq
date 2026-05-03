@@ -106,7 +106,7 @@ export function TypewriterTerminal() {
             crawliq · {surface.label}
           </span>
         </div>
-        <span className="text-[10.5px] tracking-[0.18em] uppercase text-[color:var(--color-term)]/60">
+        <span className="text-[10.5px] tracking-[0.18em] uppercase text-[color:var(--color-term-accent)]/65">
           live · 0.{((idx + 1) * 17) % 100}s
         </span>
       </div>
@@ -126,9 +126,9 @@ export function TypewriterTerminal() {
             phase === "holding" ? "opacity-100" : "opacity-0"
           }`}
         >
-          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-term)] shadow-[0_0_12px_rgb(57_255_106/_0.55)]" />
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-term-accent)] shadow-[0_0_12px_rgb(200_49_58/_0.55)]" />
           <span className="text-white/55">audit running</span>
-          <span className="text-[color:var(--color-term)]/70">8s</span>
+          <span className="text-[color:var(--color-term-accent)]/75">8s</span>
         </div>
       </div>
     </div>

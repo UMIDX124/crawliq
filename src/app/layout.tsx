@@ -122,7 +122,7 @@ const STRUCTURED_DATA = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#EBDFC6",
+  themeColor: "#F0DDC4",
   width: "device-width",
   initialScale: 1,
 };
@@ -135,19 +135,19 @@ export default function RootLayout({
       afterSignOutUrl="/"
       appearance={{
         variables: {
-          colorPrimary: "#FF5E1A",
-          colorBackground: "#F7ECCB",
+          colorPrimary: "#A8262A",
+          colorBackground: "#F5E2C9",
           colorText: "#15110D",
           colorTextSecondary: "#5A5247",
-          colorInputBackground: "#EBDFC6",
+          colorInputBackground: "#F0DDC4",
           colorInputText: "#15110D",
           borderRadius: "8px",
           fontFamily: "var(--font-geist-sans)",
         },
         elements: {
           formButtonPrimary:
-            "bg-[#FF5E1A] hover:bg-[#E84F0F] text-white font-mono uppercase tracking-[0.14em] text-[12px]",
-          card: "shadow-none border border-[rgb(21_17_13_/_0.10)] bg-[#FCF3D9]",
+            "bg-[#A8262A] hover:bg-[#8E1F23] text-white font-mono uppercase tracking-[0.14em] text-[12px]",
+          card: "shadow-none border border-[rgb(21_17_13_/_0.10)] bg-[#FAEBD0]",
         },
       }}
     >

@@ -1,20 +1,21 @@
 @import "tailwindcss";
 
 /* === CrawlIQ design tokens ===
- *  EDITORIAL theme — warm cream surface + tangerine accent + Figtree.
- *  Cream chosen over pure-white to avoid clinical SaaS feel; dark warm-charcoal
- *  text instead of pure-black for editorial softness. Accent stays tangerine.
+ *  EDITORIAL theme — FT-salmon paper + ink navy + deep brick.
+ *  Inspired by Financial Times print: warm pink-tan paper signals
+ *  authority + heritage, distinctive in a category dominated by white +
+ *  blue. Lime green deliberately removed — overused in dev-tool branding.
  */
 
 @theme {
-  /* surfaces — DEEPENED paper. Pushed slightly darker + more chromatic so
-     the page reads "aged museum paper" not "off-white". Reference: Aesop
-     packaging, Wallpaper* magazine, Hermès Maison printed catalog. */
-  --color-bg: #EBDFC6;        /* page base — deeper aged paper */
-  --color-bg-2: #E1D3B3;      /* section bands — stronger paper depth */
-  --color-bg-3: #D4C5A1;      /* raised wells — sand */
-  --color-surface: #F7ECCB;   /* lifted cards — warmer luminous cream */
-  --color-surface-raised: #FCF3D9; /* top-elevation surface (modals, popovers) */
+  /* surfaces — FT-SALMON. Warm pink-tan paper. Editorial-publication coded,
+     not SaaS-template coded. Same warm-paper soul as cream but a different
+     authority class entirely. */
+  --color-bg: #F0DDC4;        /* FT salmon — warm pink-tan paper */
+  --color-bg-2: #E5CFB4;      /* section bands — deeper salmon */
+  --color-bg-3: #D8C0A2;      /* raised wells — biscuit */
+  --color-surface: #F5E2C9;   /* lifted cards — luminous salmon */
+  --color-surface-raised: #FAEBD0;
 
   /* ink — warm near-black text, slightly richer for crisper editorial type */
   --color-fg: #15110D;
@@ -25,42 +26,42 @@
   /* borders — warm-charcoal hairlines at low alpha */
   --color-border: rgb(21 17 13 / 0.10);
   --color-border-strong: rgb(21 17 13 / 0.22);
-  --color-border-accent: rgb(255 94 26 / 0.45);
+  --color-border-accent: rgb(168 38 42 / 0.45);
 
-  /* PRIMARY accent — ELECTRIC TANGERINE. Brand mark, used as PUNCTUATION:
-     CTAs, single accent words, severity dots. Restraint is the premium move. */
-  --color-accent: #FF5E1A;
-  --color-accent-hover: #E84F0F;
-  --color-accent-soft: rgb(255 94 26 / 0.12);
+  /* PRIMARY accent — DEEP BRICK. Replaces electric tangerine. Brick has
+     the authority of legal/financial/heritage publications, not dev tools.
+     Restraint stays the premium move — used for CTAs, accent words, dots. */
+  --color-accent: #A8262A;
+  --color-accent-hover: #8E1F23;
+  --color-accent-soft: rgb(168 38 42 / 0.10);
   --color-accent-fg: #FFFFFF;
 
-  /* SECONDARY accent — OXIDIZED INK. Deep editorial navy that gives the
-     page magazine-grade gravitas. Used for: section eyebrow numbers,
-     pull-quote borders, hairline dividers, num-display gravitas, headline
-     spans that need weight without shouting tangerine. Editorial tradition:
-     two-color print runs (ink + spot color), never one. */
-  --color-ink: #142433;
-  --color-ink-hover: #1E3144;
-  --color-ink-soft: rgb(20 36 51 / 0.08);
-  --color-ink-strong: rgb(20 36 51 / 0.20);
-  --color-ink-fg: #ECE0C8;
+  /* SECONDARY accent — OXIDIZED INK. Deep editorial navy gives the page
+     magazine-grade gravitas. Used for: section eyebrow numbers, pull-quote
+     borders, hairline dividers, num-display gravitas, headline spans that
+     need weight without shouting brick. Two-color print run (ink + spot
+     color) is the publishing tradition. */
+  --color-ink: #172033;
+  --color-ink-hover: #213048;
+  --color-ink-soft: rgb(23 32 51 / 0.08);
+  --color-ink-strong: rgb(23 32 51 / 0.20);
+  --color-ink-fg: #F0DDC4;
 
-  /* TERTIARY accent — TERMINAL LIME. Used STRICTLY for command-line moments
-     (typed verbs, code prompts, terminal headers). The verb-as-product
-     framing — "type crawliq anywhere" — needs a color that reads as "live
-     terminal" without competing with tangerine CTAs or ink gravitas.
-     Three-color print run; zero leakage into normal copy. */
-  --color-term: #39FF6A;
-  --color-term-soft: rgb(57 255 106 / 0.16);
-  --color-term-bg: #0B0F0E;
+  /* TERMINAL surface — black with cream type. The "verb" token renders in
+     BRICK on dark, NOT lime green. Lime is overused in dev-tool branding;
+     brick keeps the editorial authority class even inside the terminal. */
+  --color-term-bg: #0B0F12;
+  --color-term-fg: #F2E5D2;
+  --color-term-accent: #C8313A;        /* brighter brick for typed verb */
+  --color-term-accent-soft: rgb(200 49 58 / 0.16);
 
-  /* gradient stops for full-bleed CTA bands */
-  --grad-stop-1: #FF5E1A;
-  --grad-stop-2: #E84F0F;
-  --grad-stop-3: #C44308;
-  --grad-ink-1: #0E1A26;
-  --grad-ink-2: #1A2B3D;
-  --grad-ink-3: #243E55;
+  /* gradient stops */
+  --grad-stop-1: #A8262A;
+  --grad-stop-2: #8E1F23;
+  --grad-stop-3: #6E1419;
+  --grad-ink-1: #0F1626;
+  --grad-ink-2: #1A2438;
+  --grad-ink-3: #243250;
 
   /* semantic severity (calibrated for cream bg — darker for legibility) */
   --color-pass: #047857;
@@ -117,8 +118,8 @@
        layout.tsx so it can use position: fixed + transform-only updates,
        which the browser keeps on its own compositor layer. */
     background-image:
-      radial-gradient(ellipse 80% 60% at 50% -10%, rgb(255 94 26 / 0.045), transparent 60%),
-      radial-gradient(ellipse 70% 50% at 50% 110%, rgb(20 36 51 / 0.05), transparent 60%);
+      radial-gradient(ellipse 80% 60% at 50% -10%, rgb(168 38 42 / 0.04), transparent 60%),
+      radial-gradient(ellipse 70% 50% at 50% 110%, rgb(23 32 51 / 0.05), transparent 60%);
     background-size: 100% 100%, 100% 100%;
     background-repeat: no-repeat, no-repeat;
   }
@@ -638,10 +639,10 @@
   .shadow-accent {
     box-shadow:
       0 1px 0 0 rgb(255 255 255 / 0.6) inset,
-      0 1px 2px -1px rgb(255 94 26 / 0.10),
-      0 12px 28px -8px rgb(255 94 26 / 0.32),
-      0 36px 72px -24px rgb(255 94 26 / 0.40),
-      0 0 0 1px rgb(255 94 26 / 0.18);
+      0 1px 2px -1px rgb(168 38 42 / 0.10),
+      0 12px 28px -8px rgb(168 38 42 / 0.32),
+      0 36px 72px -24px rgb(168 38 42 / 0.40),
+      0 0 0 1px rgb(168 38 42 / 0.18);
   }
 
   /* inset-only — for inputs / wells where the surface should sink */
@@ -712,35 +713,36 @@
     border-top: none;
   }
 
-  /* terminal block — brutalist mono surface for typed commands. Pairs with
-     --color-term for the verb token; sits ON the cream paper, not against it. */
+  /* terminal block — brutalist mono surface for typed commands. The "verb"
+     token renders in brick (not lime); prompt fragments in muted cream. */
   .terminal {
     font-family: var(--font-mono), ui-monospace, monospace;
     background: var(--color-term-bg);
-    color: #E8EFEC;
+    color: var(--color-term-fg);
     border-radius: 10px;
     box-shadow:
-      0 1px 0 0 rgb(255 255 255 / 0.06) inset,
+      0 1px 0 0 rgb(255 255 255 / 0.05) inset,
       0 1px 2px -1px rgb(0 0 0 / 0.5),
       0 16px 36px -10px rgb(0 0 0 / 0.45),
       0 36px 72px -24px rgb(0 0 0 / 0.55);
   }
   .terminal-prompt {
-    color: var(--color-term);
-    font-weight: 700;
-    text-shadow: 0 0 16px rgb(57 255 106 / 0.45);
+    color: rgb(242 229 210 / 0.55);
+    font-weight: 600;
   }
   .terminal-verb {
-    color: var(--color-term);
-    text-shadow: 0 0 18px rgb(57 255 106 / 0.55);
+    color: var(--color-term-accent);
     font-weight: 700;
+    text-shadow: 0 0 18px rgb(200 49 58 / 0.45);
+    border-bottom: 2px solid rgb(242 229 210 / 0.4);
+    padding-bottom: 0.04em;
   }
   .terminal-caret {
     display: inline-block;
     width: 0.55ch;
     height: 1em;
-    background: var(--color-term);
-    box-shadow: 0 0 14px rgb(57 255 106 / 0.55);
+    background: var(--color-term-accent);
+    box-shadow: 0 0 12px rgb(200 49 58 / 0.55);
     margin-left: 2px;
     vertical-align: -0.12em;
     animation: caret-blink 1.05s steps(1, end) infinite;

@@ -39,9 +39,9 @@ export function FinalCta() {
                 <span>Action item</span>
               </div>
 
-              <h2 className="display-2xl mt-5">
+              <h2 className="display-2xl mt-5 text-[color:var(--color-fg)]">
                 See what&rsquo;s actually{" "}
-                <span className="text-fg-muted italic font-normal [font-family:var(--font-serif)]">
+                <span className="italic font-normal text-[color:var(--color-ink)] [font-family:var(--font-serif)]">
                   broken on your site.
                 </span>
               </h2>
