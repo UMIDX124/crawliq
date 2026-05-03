@@ -45,6 +45,15 @@
   --color-ink-strong: rgb(20 36 51 / 0.20);
   --color-ink-fg: #ECE0C8;
 
+  /* TERTIARY accent — TERMINAL LIME. Used STRICTLY for command-line moments
+     (typed verbs, code prompts, terminal headers). The verb-as-product
+     framing — "type crawliq anywhere" — needs a color that reads as "live
+     terminal" without competing with tangerine CTAs or ink gravitas.
+     Three-color print run; zero leakage into normal copy. */
+  --color-term: #39FF6A;
+  --color-term-soft: rgb(57 255 106 / 0.16);
+  --color-term-bg: #0B0F0E;
+
   /* gradient stops for full-bleed CTA bands */
   --grad-stop-1: #FF5E1A;
   --grad-stop-2: #E84F0F;
@@ -701,6 +710,48 @@
     bottom: 12px; right: 12px;
     border-left: none;
     border-top: none;
+  }
+
+  /* terminal block — brutalist mono surface for typed commands. Pairs with
+     --color-term for the verb token; sits ON the cream paper, not against it. */
+  .terminal {
+    font-family: var(--font-mono), ui-monospace, monospace;
+    background: var(--color-term-bg);
+    color: #E8EFEC;
+    border-radius: 10px;
+    box-shadow:
+      0 1px 0 0 rgb(255 255 255 / 0.06) inset,
+      0 1px 2px -1px rgb(0 0 0 / 0.5),
+      0 16px 36px -10px rgb(0 0 0 / 0.45),
+      0 36px 72px -24px rgb(0 0 0 / 0.55);
+  }
+  .terminal-prompt {
+    color: var(--color-term);
+    font-weight: 700;
+    text-shadow: 0 0 16px rgb(57 255 106 / 0.45);
+  }
+  .terminal-verb {
+    color: var(--color-term);
+    text-shadow: 0 0 18px rgb(57 255 106 / 0.55);
+    font-weight: 700;
+  }
+  .terminal-caret {
+    display: inline-block;
+    width: 0.55ch;
+    height: 1em;
+    background: var(--color-term);
+    box-shadow: 0 0 14px rgb(57 255 106 / 0.55);
+    margin-left: 2px;
+    vertical-align: -0.12em;
+    animation: caret-blink 1.05s steps(1, end) infinite;
+  }
+  @keyframes caret-blink {
+    0%, 50%   { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+  }
+  .terminal-chrome-dot {
+    width: 10px; height: 10px; border-radius: 50%;
+    box-shadow: 0 0 0 1px rgb(255 255 255 / 0.06) inset;
   }
 
   /* ───────────────────────────────────────────────────────────

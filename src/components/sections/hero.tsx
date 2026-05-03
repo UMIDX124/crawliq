@@ -11,6 +11,7 @@ import { InlineAudit } from "@/components/inline-audit";
 import { Magnetic } from "@/components/magnetic";
 import { AuditedSeal } from "@/components/audit-stamp";
 import { HeroFloatingCards, HeroLiveFinding } from "@/components/hero-floating-cards";
+import { TypewriterTerminal } from "@/components/typewriter-terminal";
 
 // Lazy-load the R3F 3D scene — original CrawlIQ floating audit stamps + central
 // reticle + wireframe grid floor + magenta key light + drag-to-orbit interaction.
@@ -164,14 +165,13 @@ export function Hero() {
                 </span>
               </motion.div>
 
-              {/* H1 */}
+              {/* H1 — verb-as-product reframe */}
               <KineticHeading
                 className="font-display font-extrabold mt-7 sm:mt-8 lg:mt-10 text-balance text-[clamp(40px,8.4vw,96px)] leading-[0.92] tracking-[-0.035em]"
                 words={[
-                  "Your website,",
-                  "audited like an",
-                  { italic: "expert" },
-                  "would.",
+                  "We&rsquo;re not",
+                  "a tool.",
+                  { italic: "We&rsquo;re a verb." },
                 ]}
                 delayBase={0.3}
               />
@@ -179,10 +179,14 @@ export function Hero() {
               {/* sub */}
               <FadeChildren delay={1.3}>
                 <p className="mt-6 lg:mt-8 max-w-[560px] text-balance text-fg-muted text-[16px] sm:text-[17px] lg:text-[18.5px] leading-[1.6]">
-                  Five AI auditors crawl your site in parallel — On-Page,
-                  Technical, Content, Off-Site, and Competitor. Each finding is
-                  written so a developer can ship the fix today, sourced from
-                  Lighthouse, CrUX, and Search Console.
+                  Type{" "}
+                  <span className="font-mono text-[color:var(--color-term-bg)] bg-[color:var(--color-term)] px-1.5 py-0.5 rounded font-bold tracking-tight">
+                    crawliq
+                  </span>{" "}
+                  in Slack, GitHub, Notion, your inbox, your phone, or any
+                  browser tab. Five AI auditors run in parallel and ship the
+                  findings to wherever your team already lives — no new login,
+                  no new dashboard, no new training.
                 </p>
               </FadeChildren>
 
@@ -268,9 +272,20 @@ export function Hero() {
               </FadeChildren>
             </div>
 
-            {/* RIGHT — R3F 3D audit-stamps scene (lg+ only) */}
+            {/* RIGHT — verb-as-product centerpiece. Brutalist black terminal
+                that types real CrawlIQ surface commands character-by-character,
+                cycling through Slack / GitHub / Notion / Email / SMS / Browser.
+                The "crawliq" token always renders in electric lime so the verb
+                itself becomes the visual anchor. The R3F 3D scene moved to the
+                Surfaces section below — competing for the eye in the hero was
+                making the hero feel like product noise instead of a thesis. */}
             <div className="hidden lg:flex justify-center lg:justify-end">
-              <ThreeSceneHero />
+              <div className="w-full max-w-[640px]">
+                <TypewriterTerminal />
+                <div className="mt-5 font-mono text-[11px] tracking-[0.18em] uppercase text-fg-muted text-right">
+                  same engine · six surfaces · zero new logins
+                </div>
+              </div>
             </div>
           </div>
         ) : (

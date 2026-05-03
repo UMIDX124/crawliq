@@ -1,5 +1,6 @@
 import { Nav } from "@/components/sections/nav";
 import { Hero } from "@/components/sections/hero";
+import { Surfaces } from "@/components/sections/surfaces";
 import { DataSourcesStrip } from "@/components/sections/data-sources-strip";
 import { Problems } from "@/components/sections/problems";
 import { WatchItThink } from "@/components/sections/watch-it-think";
@@ -26,25 +27,27 @@ export default function Home() {
       <LiveAuditMargin />
       <main>
         <Hero />
+        <Surfaces />
+        <SectionBridge num="01" label="surfaces shown" />
         <DataSourcesStrip />
         <Problems />
-        <SectionBridge num="01" total="06" label="problem stated" />
+        <SectionBridge num="02" label="problem stated" />
         <div className="bg-[color:var(--color-bg-2)]/40">
           <WatchItThink />
           <HowItWorks />
         </div>
-        <SectionBridge num="02" total="06" label="mechanism shown" />
+        <SectionBridge num="03" label="mechanism shown" />
         <Features />
         <Comparison />
         <PdfPreview />
-        <SectionBridge num="03" total="06" label="comparisons drawn" />
+        <SectionBridge num="04" label="comparisons drawn" />
         <div className="bg-[color:var(--color-bg-2)]/40">
           <WhyBuilt />
         </div>
-        <SectionBridge num="04" total="06" label="founder note" />
+        <SectionBridge num="05" label="founder note" />
         <EarlyAccess />
         <Demo />
-        <SectionBridge num="05" total="06" label="report sample" />
+        <SectionBridge num="06" label="report sample" />
         <Pricing />
         <Faq />
         <FinalCta />
