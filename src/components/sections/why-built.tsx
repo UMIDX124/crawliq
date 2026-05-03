@@ -42,24 +42,27 @@ export function WhyBuilt() {
             />
 
             <p className="font-display drop-cap text-[clamp(22px,3vw,32px)] leading-[1.4] tracking-[-0.018em] text-balance" style={{ color: "#F4E9CD" }}>
-              Look — I&rsquo;ve been running an agency for years and audits
-              were always the worst part of the job. Two days to write one.
-              Clients wouldn&rsquo;t read past page three. They&rsquo;d ask me
-              which thing to fix first and I never had a clean answer, because
-              the report wasn&rsquo;t built that way.
+              I run Digital Point LLC. Seven years of agency work — three
+              brands, dozens of client retainers, and audits that always took
+              two days to write and got read past page three by exactly nobody.
+              My team was burning a third of every week on PDFs that nobody
+              acted on.
             </p>
 
             <p className="mt-7 max-w-[62ch] text-[16px] leading-[1.75]" style={{ color: "rgb(244 233 205 / 0.78)" }}>
-              CrawlIQ exists because I wanted to run an audit on a sales call
-              and have something actually useful by the time the call ended.
-              The three things that matter, in order, with a real reason next
-              to each one. Not a 60-page PDF nobody opens.
+              CrawlIQ started as the internal tool I built for my own agency.
+              Run an audit on a sales call. Three findings the client&rsquo;s
+              dev team can ship this week, in order, with a real reason next
+              to each one. Replace the 60-page PDF nobody opens with eight
+              seconds of decisions.
             </p>
 
             <p className="mt-5 max-w-[62ch] text-[15px] leading-[1.75]" style={{ color: "rgb(244 233 205 / 0.66)" }}>
-              If something on this page sounds like marketing, email me. The
-              only thing I&rsquo;m selling here is the tool I&rsquo;d pay for
-              myself.
+              We use it on every Digital Point client today, plus the audit
+              workflow at Virtual Customer Solutions and Backup Solutions. If
+              you run an agency with 10+ retainers and your senior SEOs are
+              still hand-writing audit reports, this conversation will pay for
+              itself.
             </p>
 
             <div className="mt-12 flex items-center justify-between gap-6 pt-7 border-t" style={{ borderColor: "rgb(255 255 255 / 0.14)" }}>
@@ -80,11 +83,11 @@ export function WhyBuilt() {
                 </div>
               </div>
               <a
-                href="#cta"
-                className="hidden sm:inline-flex font-mono text-[11px] tracking-[0.16em] uppercase transition-colors"
-                style={{ color: "rgb(244 233 205 / 0.66)" }}
+                href="/talk-to-umer"
+                className="hidden sm:inline-flex font-mono text-[11px] tracking-[0.16em] uppercase transition-colors hover:text-[color:var(--color-accent)]"
+                style={{ color: "rgb(244 233 205 / 0.85)" }}
               >
-                Talk to me →
+                Book 30 min with me →
               </a>
             </div>
           </Reveal>

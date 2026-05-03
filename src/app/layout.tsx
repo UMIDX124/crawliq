@@ -52,7 +52,10 @@ export const metadata: Metadata = {
     "Core Web Vitals",
     "Groq AI",
   ],
-  authors: [{ name: "CrawlIQ" }],
+  authors: [{ name: "Umer Farooq" }, { name: "CrawlIQ" }],
+  alternates: {
+    canonical: SITE_URL,
+  },
   openGraph: {
     type: "website",
     siteName: "CrawlIQ",
@@ -68,6 +71,53 @@ export const metadata: Metadata = {
       "Paste any URL. Get a full AI audit in under 10 seconds.",
   },
   robots: { index: true, follow: true },
+  formatDetection: {
+    telephone: false,
+    address: false,
+    email: false,
+  },
+};
+
+const STRUCTURED_DATA = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE_URL}#organization`,
+      name: "CrawlIQ",
+      url: SITE_URL,
+      logo: `${SITE_URL}/icon`,
+      founder: {
+        "@type": "Person",
+        name: "Umer Farooq",
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE_URL}#website`,
+      url: SITE_URL,
+      name: "CrawlIQ",
+      description:
+        "AI-powered website audits that tell you what's broken and how to fix it.",
+      publisher: { "@id": `${SITE_URL}#organization` },
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "CrawlIQ",
+      applicationCategory: "DeveloperApplication",
+      operatingSystem: "Web",
+      url: SITE_URL,
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+        priceValidUntil: "2027-12-31",
+        availability: "https://schema.org/InStock",
+      },
+      description:
+        "Five AI auditors crawl your site in parallel — On-Page, Technical, Content, Off-Site, and Competitor.",
+    },
+  ],
 };
 
 export const viewport: Viewport = {
@@ -101,6 +151,12 @@ export default function RootLayout({
       }}
     >
       <html lang="en" className={`${figtree.variable} ${geistMono.variable} ${instrumentSerif.variable}`}>
+        <head>
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(STRUCTURED_DATA) }}
+          />
+        </head>
         <body className="min-h-[100dvh] bg-[color:var(--color-bg)] text-[color:var(--color-fg)] antialiased">
           {/* paper grain — own compositor layer, won't repaint on scroll */}
           <div className="paper-bg" aria-hidden />

@@ -51,7 +51,44 @@ export function Footer() {
 
           <FooterCol title="Product" links={product} />
           <FooterCol title="Company" links={company} />
-          <FooterCol title="Legal" links={legal} />
+          <div>
+            <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-fg-muted mb-5">
+              Sales
+            </div>
+            <ul className="flex flex-col gap-3 mb-6">
+              <li>
+                <Link
+                  href="/talk-to-umer"
+                  className="text-[14px] text-fg hover:text-[color:var(--color-accent)] transition-colors font-medium"
+                >
+                  Book 30 min →
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="mailto:umer@crawliq.ai"
+                  className="text-[14px] text-fg-muted hover:text-fg transition-colors"
+                >
+                  umer@crawliq.ai
+                </a>
+              </li>
+            </ul>
+            <div className="font-mono text-[11px] tracking-[0.18em] uppercase text-fg-muted mb-3">
+              Legal
+            </div>
+            <ul className="flex flex-col gap-2">
+              {legal.map((l) => (
+                <li key={l.label}>
+                  <Link
+                    href={l.href}
+                    className="text-[13.5px] text-fg-muted hover:text-fg transition-colors"
+                  >
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
 
         <div className="mt-16 pt-7 border-t border-[color:var(--color-border)] flex flex-col gap-5 md:flex-row md:items-center md:justify-between font-mono text-[11px] tracking-[0.14em] uppercase text-fg-faint">
