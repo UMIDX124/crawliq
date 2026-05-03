@@ -50,46 +50,33 @@ const CARDS: Array<{
   delay: number;
   scale?: number;
 }> = [
-  // top band — frame the H1 with two micro readouts
+  // Reduced from 8 → 5 cards. Earlier set was overlapping the H1 word
+  // "audited" and crowding the 3D scene right of the H1. New positions
+  // intentionally avoid the H1 box (~x:0–48%, y:30–60%) and the 3D scene
+  // (~x:62%+).
   {
     card: { kind: "status", code: 200, path: "/—" },
-    x: "3%", y: "12%", drift: 14, pulse: 9, rotate: 0.6, delay: 0.2,
+    x: "2%", y: "10%", drift: 14, pulse: 9, rotate: 0.6, delay: 0.2,
     scale: 0.95,
   },
   {
     card: { kind: "signal", label: "canonical", state: "set" },
-    x: "44%", y: "6%", drift: 12, pulse: 7, rotate: -0.8, delay: 0.6,
+    x: "42%", y: "5%", drift: 12, pulse: 7, rotate: -0.8, delay: 0.6,
     scale: 0.95,
-  },
-  // mid-left — sits next to the H1 verb, becomes part of typography
-  {
-    card: { kind: "score", pillar: "On-Page", score: 87, trend: "up" },
-    x: "1%", y: "38%", drift: 16, pulse: 7, rotate: -1.2, delay: 1.0,
   },
   {
     card: { kind: "metric", label: "LCP", value: "1.4s", status: "pass" },
-    x: "48%", y: "30%", drift: 12, pulse: 6, rotate: -0.4, delay: 1.4,
+    x: "1%", y: "82%", drift: 14, pulse: 7, rotate: -0.6, delay: 1.4,
+    scale: 0.92,
   },
-  // bottom-left — drift below the URL form (after content scrolls past, the
-  // form is centered at ~y:75% on lg screens; cards at y:88% peek under)
-  {
-    card: { kind: "finding", severity: "crit", label: "H1 missing", detail: "sample page" },
-    x: "2%", y: "66%", drift: 14, pulse: 8, rotate: 0.8, delay: 1.8,
-  },
-  {
-    card: { kind: "finding", severity: "warn", label: "Alt-text gap", detail: "image scan" },
-    x: "44%", y: "88%", drift: 18, pulse: 7, rotate: -1.0, delay: 2.2,
-  },
-  // mid-right edge — small chips that peek next to the 3D scene without
-  // overlapping its dense zone (kept under x:78% area)
   {
     card: { kind: "metric", label: "CLS", value: "0.04", status: "pass" },
-    x: "70%", y: "10%", drift: 14, pulse: 6, rotate: 0.6, delay: 2.6,
+    x: "70%", y: "8%", drift: 14, pulse: 6, rotate: 0.6, delay: 2.0,
     scale: 0.92,
   },
   {
     card: { kind: "signal", label: "schema.org", state: "set" },
-    x: "76%", y: "92%", drift: 16, pulse: 8, rotate: 1.0, delay: 3.0,
+    x: "72%", y: "88%", drift: 16, pulse: 8, rotate: 1.0, delay: 2.6,
     scale: 0.92,
   },
 ];

@@ -36,13 +36,15 @@ export function GlobalAuditCursor() {
   const x = useMotionValue(-200);
   const y = useMotionValue(-200);
 
-  // Inner reticle — snappy
-  const sx = useSpring(x, { stiffness: 700, damping: 38, mass: 0.25 });
-  const sy = useSpring(y, { stiffness: 700, damping: 38, mass: 0.25 });
+  // Inner reticle — track the real cursor at near-1:1. Earlier we ran a
+  // softer spring (stiffness 700) that produced visible lag; users reported
+  // "cursor disappears / feels behind the mouse" so we tightened it.
+  const sx = useSpring(x, { stiffness: 1500, damping: 36, mass: 0.12 });
+  const sy = useSpring(y, { stiffness: 1500, damping: 36, mass: 0.12 });
 
-  // Trailing dot — lazier
-  const tx = useSpring(x, { stiffness: 200, damping: 22, mass: 0.6 });
-  const ty = useSpring(y, { stiffness: 200, damping: 22, mass: 0.6 });
+  // Trailing dot — lazy follower for motion sense; safe to keep softer.
+  const tx = useSpring(x, { stiffness: 260, damping: 22, mass: 0.55 });
+  const ty = useSpring(y, { stiffness: 260, damping: 22, mass: 0.55 });
 
   useEffect(() => {
     if (reduce) return;
@@ -106,9 +108,12 @@ export function GlobalAuditCursor() {
   if (!enabled) return null;
 
   const hovering = mode !== "idle";
-  const reticleSize = hovering ? 64 : 40;
-  const innerR = active ? 6 : hovering ? 3 : 4;
-  const outerR = hovering ? 28 : 16;
+  // Slightly bigger so the reticle reads instantly even on cream paper —
+  // earlier 40px center cursor was washing out at default warm-charcoal /
+  // tangerine alpha.
+  const reticleSize = hovering ? 68 : 46;
+  const innerR = active ? 7 : hovering ? 3 : 5;
+  const outerR = hovering ? 30 : 18;
 
   return (
     <>

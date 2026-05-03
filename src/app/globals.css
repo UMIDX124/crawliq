@@ -101,17 +101,30 @@
   }
 
   body {
-    /* editorial paper grain — fractal-noise SVG instead of a dot grid.
-       Reads as actual paper fibre rather than "Tailwind starter dots".
-       Layered with a soft warm vignette top + bottom so the page feels
-       like a printed book spread, not a flat browser canvas. */
+    /* Background lives on body but WITHOUT background-attachment: fixed
+       (that flag forces a viewport-sized repaint per scroll frame on most
+       GPUs and was the dominant cause of scroll lag). The fixed paper
+       texture moves to a separate isolated layer (.paper-bg) mounted by
+       layout.tsx so it can use position: fixed + transform-only updates,
+       which the browser keeps on its own compositor layer. */
     background-image:
       radial-gradient(ellipse 80% 60% at 50% -10%, rgb(255 94 26 / 0.045), transparent 60%),
-      radial-gradient(ellipse 70% 50% at 50% 110%, rgb(20 36 51 / 0.05), transparent 60%),
-      url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.082 0 0 0 0 0.067 0 0 0 0 0.051 0 0 0 0.055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    background-size: 100% 100%, 100% 100%, 240px 240px;
-    background-attachment: fixed, fixed, fixed;
-    background-repeat: no-repeat, no-repeat, repeat;
+      radial-gradient(ellipse 70% 50% at 50% 110%, rgb(20 36 51 / 0.05), transparent 60%);
+    background-size: 100% 100%, 100% 100%;
+    background-repeat: no-repeat, no-repeat;
+  }
+
+  /* Paper-fibre grain layer — fixed-position container so the browser
+     promotes it to its own compositor layer; no per-scroll repaint. */
+  .paper-bg {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.082 0 0 0 0 0.067 0 0 0 0 0.051 0 0 0 0.055 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 240px 240px;
+    background-repeat: repeat;
+    will-change: transform;
   }
 
   /* serif voice helper — used for accent / pull-quote words inside Figtree H1s */

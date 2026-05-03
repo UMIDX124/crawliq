@@ -102,6 +102,8 @@ export default function RootLayout({
     >
       <html lang="en" className={`${figtree.variable} ${geistMono.variable} ${instrumentSerif.variable}`}>
         <body className="min-h-[100dvh] bg-[color:var(--color-bg)] text-[color:var(--color-fg)] antialiased">
+          {/* paper grain — own compositor layer, won't repaint on scroll */}
+          <div className="paper-bg" aria-hidden />
           <a
             href="#hero"
             className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[100] focus:bg-[color:var(--color-accent)] focus:text-[color:var(--color-accent-fg)] focus:px-4 focus:py-2 focus:rounded-md focus:font-mono focus:text-[12px] focus:tracking-[0.14em] focus:uppercase"
