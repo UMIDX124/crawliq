@@ -34,21 +34,21 @@ export function FinalCta() {
             <div className="relative p-10 md:p-16 lg:p-20 text-center max-w-3xl mx-auto">
               <div className="inline-flex items-center gap-2.5 font-mono text-[10.5px] tracking-[0.2em] uppercase text-[color:var(--color-accent)]">
                 <span className="pulse-dot inline-block w-1.5 h-1.5 rounded-full bg-[color:var(--color-accent)]" />
-                <span className="text-fg-faint">§ 12 / 12</span>
+                <span className="text-[color:var(--color-ink)] font-bold">§ 06</span>
                 <span className="text-fg-faint">·</span>
                 <span>Action item</span>
               </div>
 
-              <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(36px,5.5vw,72px)] leading-[1.02] tracking-tight">
-                See what's actually{" "}
-                <span className="text-fg-muted italic font-normal">
+              <h2 className="display-2xl mt-5">
+                See what&rsquo;s actually{" "}
+                <span className="text-fg-muted italic font-normal [font-family:var(--font-serif)]">
                   broken on your site.
                 </span>
               </h2>
 
               <p className="mt-7 text-fg-muted text-[16px] md:text-[18px] leading-[1.65] max-w-xl mx-auto">
-                Paste your URL. Five AI auditors will hand you a ranked action
-                plan in under ten seconds. No signup, no card, no fluff.
+                Paste your URL. Five AI auditors hand you a ranked action plan
+                in under ten seconds — no signup, no credit card.
               </p>
 
               <form
@@ -85,7 +85,6 @@ export function FinalCta() {
 
               <div className="mt-10 flex items-center justify-center gap-x-8 gap-y-2 flex-wrap font-mono text-[10.5px] tracking-[0.16em] uppercase text-fg-faint">
                 <span>● No signup</span>
-                <span>● No credit card</span>
                 <span>● Results in &lt;10s</span>
               </div>
             </div>

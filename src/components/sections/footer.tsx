@@ -9,15 +9,14 @@ const product = [
   { label: "Pricing", href: "#pricing" },
 ];
 const company = [
-  { label: "About", href: "/about" },
-  { label: "Blog", href: "/blog" },
-  { label: "Changelog", href: "/changelog" },
+  { label: "Why CrawlIQ", href: "#why" },
+  { label: "Comparisons", href: "#comparison" },
+  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#cta" },
 ];
 const legal = [
   { label: "Privacy", href: "/privacy" },
   { label: "Terms", href: "/terms" },
-  { label: "Cookie policy", href: "/cookies" },
 ];
 
 export function Footer() {
@@ -76,12 +75,6 @@ export function Footer() {
             >
               Terms
             </Link>
-            <a
-              href="/changelog"
-              className="text-fg-muted hover:text-fg transition-colors"
-            >
-              Changelog
-            </a>
             <span className="text-fg-faint/70">
               build {(process.env.VERCEL_GIT_COMMIT_SHA ?? "local").slice(0, 7)}
             </span>
