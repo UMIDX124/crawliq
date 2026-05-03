@@ -169,9 +169,9 @@ export function Hero() {
               <KineticHeading
                 className="font-display font-extrabold mt-7 sm:mt-8 lg:mt-10 text-balance text-[clamp(40px,8.4vw,96px)] leading-[0.92] tracking-[-0.035em]"
                 words={[
-                  "We&rsquo;re not",
+                  "We’re not",
                   "a tool.",
-                  { italic: "We&rsquo;re a verb." },
+                  { italic: "We’re a verb." },
                 ]}
                 delayBase={0.3}
               />

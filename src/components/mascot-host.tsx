@@ -39,7 +39,7 @@ const MESSAGES = [
     cta: { label: "Book Umer", href: "/talk-to-umer" },
   },
   {
-    text: "Reading the FAQ? I&rsquo;m happy to clarify in person.",
+    text: "Reading the FAQ? I’m happy to clarify in person.",
     cta: { label: "Talk to Umer", href: "/talk-to-umer" },
   },
 ] as const;
