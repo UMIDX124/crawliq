@@ -21,6 +21,10 @@ type Section = {
   findings: { title: string; detail: string; severity: Severity }[];
 };
 
+// Demo section content is INTENTIONALLY framed as "what your audit checks"
+// rather than "audit findings on a fake site." Each entry describes a
+// CHECK, not a finding. No specific URLs, percentages, or measurements that
+// could be mistaken for a real audit. SAMPLE badge in chrome bar reinforces.
 const sections: Section[] = [
   {
     id: "on-page",
@@ -29,27 +33,27 @@ const sections: Section[] = [
     status: "warn",
     findings: [
       {
-        title: "Missing H1 on 4 key landing pages",
+        title: "Missing H1 detection",
         detail:
-          "/services, /about, /pricing, /contact have no <h1>. Google reads H1 as the primary topical signal — pages without one underperform on relevance scoring. Add a keyword-targeted H1 (35-65 chars) to each.",
+          "Cheerio crawl flags any landing page missing an <h1>. Google reads H1 as the primary topical signal — pages without one underperform on relevance scoring. Your audit lists every offending route with a suggested keyword-targeted H1.",
         severity: "crit",
       },
       {
-        title: "Title tag exceeds 60 chars on 11 URLs",
+        title: "Title-tag length scoring",
         detail:
-          "Google truncates title tags at ~60 chars in SERPs. Truncated titles drop CTR by an average of 18%. Rewrite to lead with the primary keyword, end with the brand.",
+          "Google truncates title tags at ~60 characters in SERPs. We score every page's title length, flag truncation risk, and suggest a rewrite that leads with the primary keyword and ends with the brand.",
         severity: "crit",
       },
       {
-        title: "Duplicate meta descriptions on 7 URLs",
+        title: "Duplicate meta-description scan",
         detail:
-          "7 pages share the same description. Each URL should have a distinct 150-160 char description aligned to its target query.",
+          "Pages sharing the same meta description compete for the same SERP snippet. Your audit groups duplicates and recommends per-URL descriptions aligned to each page's target query.",
         severity: "warn",
       },
       {
-        title: "94% image alt-text coverage",
+        title: "Image alt-text coverage",
         detail:
-          "Strong baseline. Only 3 decorative images need alt=\"\" added. Visual SEO and accessibility are well-managed.",
+          "We measure alt-text coverage across every image found in the crawl, separate decorative from informational images, and surface a per-page coverage score plus the exact images missing alt.",
         severity: "pass",
       },
     ],
@@ -61,21 +65,21 @@ const sections: Section[] = [
     status: "crit",
     findings: [
       {
-        title: "Largest Contentful Paint at 3.8s",
+        title: "Core Web Vitals against thresholds",
         detail:
-          "Google flags LCP > 2.5s as needs-improvement. Hero image is 1.4 MB unoptimized. Convert to AVIF and serve responsive sizes — should drop LCP to ~1.6s.",
+          "Lighthouse + CrUX feed real-user LCP, CLS, INP measurements. Your audit compares each page's metrics to Google's thresholds, identifies the offending asset for each failure, and lists the specific fix (AVIF conversion, font preload, image priority hint).",
         severity: "crit",
       },
       {
-        title: "No canonical tag on /blog/* paginated URLs",
+        title: "Canonical-tag presence + correctness",
         detail:
-          "Pagination pages (/blog?page=2, page=3...) have no canonical and no rel=prev/next. Google may treat them as duplicates and demote the parent /blog index.",
+          "We check every crawled URL for a valid canonical, flag paginated routes missing rel=prev/next, and detect circular or self-referential canonicals that signal-confuse Google.",
         severity: "crit",
       },
       {
-        title: "Sitemap.xml is valid and submitted",
+        title: "Sitemap + robots integrity",
         detail:
-          "Found at /sitemap.xml, indexed by Google Search Console, last updated 4 days ago. 247 URLs listed, all returning 200.",
+          "We fetch /sitemap.xml and /robots.txt, validate XML structure, confirm Search Console submission status, and check every listed URL for 2xx response + presence in the crawl graph.",
         severity: "pass",
       },
     ],
@@ -87,15 +91,15 @@ const sections: Section[] = [
     status: "pass",
     findings: [
       {
-        title: "Strong topical depth across blog",
+        title: "Topical depth scoring",
         detail:
-          "Average blog post is 1,840 words with clear H2/H3 structure. Topic clusters are well-formed around your three pillars.",
+          "Per-page word count and heading hierarchy feed a topical-depth score. We map clusters across your blog, identify pillar/cluster gaps, and surface the next-best topic for ranking.",
         severity: "pass",
       },
       {
-        title: "12 thin pages under 300 words",
+        title: "Thin-page detection",
         detail:
-          "Service sub-pages and tag archives are below the 300-word threshold Google uses to flag thin content. Consolidate or expand each to at least 800 words of unique content.",
+          "Pages under the 300-word threshold Google uses for thin-content classification get flagged with a recommended expansion target (typically 800+ unique words) or consolidation route.",
         severity: "warn",
       },
     ],
@@ -107,9 +111,9 @@ const sections: Section[] = [
     status: "warn",
     findings: [
       {
-        title: "47 referring domains, mostly low-DA",
+        title: "Referring-domain profile",
         detail:
-          "Backlink profile is light. Median referring domain DA is 22. Target 5-10 high-quality outreach links per quarter — guest posts, resource pages, podcast appearances.",
+          "Open PageRank + multi-page crawl identifies your unique referring domains, segments by authority, and flags toxic anchor patterns. Your audit ends with a quarter's worth of outreach targets ranked by predicted lift.",
         severity: "warn",
       },
     ],

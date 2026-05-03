@@ -50,9 +50,9 @@ export function DataSourcesStrip() {
             <span>zero LLM-invented metrics</span>
           </div>
           <h2 className="font-display font-extrabold mt-4 text-[clamp(22px,3.2vw,36px)] leading-[1.1] tracking-[-0.025em] max-w-2xl mx-auto text-balance">
-            Real data in.{" "}
+            Eight signal sources, named and{" "}
             <span className="italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]">
-              Real findings out.
+              wired to your site.
             </span>
           </h2>
         </motion.div>

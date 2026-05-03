@@ -46,7 +46,8 @@ const MESSAGES = [
 
 const SS_KEY = "crawliq.mascot.dismissed";
 const TYPE_MS = 22;
-const HOLD_MS = 4800;
+const HOLD_MS = 3400;
+const TOTAL_OPEN_MAX_MS = 7000; // hard cap — bubble can never linger longer
 
 export function MascotHost() {
   const reduce = useReducedMotion();
@@ -57,7 +58,6 @@ export function MascotHost() {
   const [typed, setTyped] = useState("");
   const [phase, setPhase] = useState<"idle" | "typing" | "holding" | "erasing">("idle");
   const triggeredOnce = useRef(false);
-  const triggeredMid = useRef(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -70,7 +70,7 @@ export function MascotHost() {
     setEnabled(true);
   }, []);
 
-  // First greeting after 1.4s
+  // First greeting after 2.2s — only fires once per session.
   useEffect(() => {
     if (!enabled || dismissed || reduce || triggeredOnce.current) return;
     triggeredOnce.current = true;
@@ -78,29 +78,15 @@ export function MascotHost() {
       setMsgIdx(0);
       setBubbleOpen(true);
       setPhase("typing");
-    }, 1400);
+    }, 2200);
     return () => clearTimeout(t);
   }, [enabled, dismissed, reduce]);
 
-  // Mid-page nudge at scroll 65%
-  useEffect(() => {
-    if (!enabled || dismissed || reduce) return;
-    const onScroll = () => {
-      if (triggeredMid.current) return;
-      const max = document.body.scrollHeight - window.innerHeight;
-      if (max <= 0) return;
-      const pct = window.scrollY / max;
-      if (pct > 0.55) {
-        triggeredMid.current = true;
-        setMsgIdx(1);
-        setBubbleOpen(true);
-        setTyped("");
-        setPhase("typing");
-      }
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [enabled, dismissed, reduce]);
+  // No mid-page auto-prompt — earlier impl spammed users with a second
+  // bubble at scroll 55% which stacked with the first greeting and made the
+  // mascot feel pushy on every screenshot. Users can tap the mascot to
+  // advance manually if they want more.
+  // (Hook intentionally removed.)
 
   // Bubble animation FSM
   useEffect(() => {
@@ -129,6 +115,19 @@ export function MascotHost() {
       if (timer) clearTimeout(timer);
     };
   }, [bubbleOpen, phase, typed, msgIdx]);
+
+  // Hard cap — no matter what state the FSM is in, the bubble force-closes
+  // after TOTAL_OPEN_MAX_MS. Prevents the "always-open during screenshots"
+  // failure mode.
+  useEffect(() => {
+    if (!bubbleOpen) return;
+    const t = setTimeout(() => {
+      setBubbleOpen(false);
+      setPhase("idle");
+      setTyped("");
+    }, TOTAL_OPEN_MAX_MS);
+    return () => clearTimeout(t);
+  }, [bubbleOpen]);
 
   if (!enabled || dismissed) return null;
 

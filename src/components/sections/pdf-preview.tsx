@@ -117,15 +117,15 @@ function PdfPage() {
             Crawl<span className="text-[color:var(--color-accent)]">IQ</span>
           </div>
           <div className="font-mono text-[8.5px] tracking-[0.16em] uppercase text-fg-faint mt-1">
-            Audit · northwood.studio · 2026-04-12
+            Audit · [your-client.com] · template
           </div>
         </div>
         <div className="text-right">
           <div className="font-display font-extrabold text-[34px] leading-none tabular-nums text-[color:var(--color-accent)]">
-            89
+            ##
           </div>
           <div className="font-mono text-[8.5px] tracking-[0.14em] uppercase text-fg-faint mt-1">
-            Grade A
+            Score
           </div>
         </div>
       </div>
@@ -151,18 +151,18 @@ function PdfPage() {
         </div>
         <div className="grid grid-cols-5 gap-1.5">
           {[
-            { name: "On-Page", val: 92 },
-            { name: "Tech.", val: 81 },
-            { name: "Content", val: 94 },
-            { name: "Off-Site", val: 88 },
-            { name: "Compet.", val: 86 },
+            { name: "On-Page" },
+            { name: "Tech." },
+            { name: "Content" },
+            { name: "Off-Site" },
+            { name: "Compet." },
           ].map((p) => (
             <div
               key={p.name}
               className="rounded p-2 bg-[color:var(--color-accent-soft)]"
             >
               <div className="font-display font-extrabold text-[14px] leading-none text-[color:var(--color-accent)] tabular-nums">
-                {p.val}
+                ##
               </div>
               <div className="font-mono text-[6.5px] tracking-[0.14em] uppercase text-fg-muted mt-1">
                 {p.name}
@@ -180,19 +180,19 @@ function PdfPage() {
         <div className="space-y-2">
           <FindingMini
             sev="pass"
-            label="H1 added on /pricing"
+            label="Win — passing check on a routes group"
           />
           <FindingMini
             sev="pass"
-            label="Canonicals set on paginated routes"
+            label="Win — schema or canonical integrity"
           />
           <FindingMini
             sev="warn"
-            label="3 thin pages remain"
+            label="Warning — sub-threshold metric on N pages"
           />
           <FindingMini
             sev="crit"
-            label="2 redirect chains still active"
+            label="Critical — top-priority remediation item"
           />
         </div>
       </div>

@@ -63,7 +63,7 @@ export function Features() {
                 linking depth, OG/Twitter tags. Every signal a search engine
                 reads on the page.
               </p>
-              <SamplePill text="Title is 78 chars · Google truncates at 60" status="warn" />
+              <SamplePill text="Title-tag length scoring · 60-char threshold" status="warn" />
             </BentoCell>
           </Reveal>
 
@@ -75,7 +75,7 @@ export function Features() {
                 HTTPS, redirects, sitemap, canonicals, schema, page weight, Core
                 Web Vitals signals.
               </p>
-              <SamplePill text="3 redirects to reach final URL" status="crit" />
+              <SamplePill text="Redirect-chain depth + canonical integrity" status="crit" />
             </BentoCell>
           </Reveal>
 
@@ -87,7 +87,7 @@ export function Features() {
                 Readability, depth vs competitors, freshness, topical
                 authority, thin pages, keyword opportunities.
               </p>
-              <SamplePill text="14 thin pages under 300 words" status="warn" />
+              <SamplePill text="Thin-page detection · 300-word threshold" status="warn" />
             </BentoCell>
           </Reveal>
 
@@ -99,7 +99,7 @@ export function Features() {
                 Domain authority, backlink profile, anchor distribution, toxic
                 link flags, NAP consistency.
               </p>
-              <SamplePill text="12 toxic referring domains flagged" status="crit" />
+              <SamplePill text="Toxic anchor + domain detection" status="crit" />
             </BentoCell>
           </Reveal>
 
@@ -111,7 +111,7 @@ export function Features() {
                 Top 3 SERP rivals identified. Content gaps, backlink gaps,
                 keyword overlap, threat level.
               </p>
-              <SamplePill text="8 keywords competitors rank for that you don't" status="warn" />
+              <SamplePill text="Keyword-overlap gap analysis" status="warn" />
             </BentoCell>
           </Reveal>
 
@@ -249,10 +249,10 @@ function PdfMini() {
         </div>
         <div className="flex-1 min-w-0">
           <div className="text-[12.5px] font-medium truncate">
-            audit-northwood-2026-04.pdf
+            audit-[your-client]-template.pdf
           </div>
           <div className="font-mono text-[10px] tracking-[0.14em] uppercase text-fg-faint mt-0.5">
-            12 pages · 384 KB
+            12 pages · white-label
           </div>
         </div>
       </div>
@@ -279,9 +279,9 @@ function ScheduleMini() {
   return (
     <div className="mt-auto pt-5 space-y-2">
       {[
-        { date: "Apr 02", score: 84, delta: "—" },
-        { date: "Apr 09", score: 87, delta: "+3" },
-        { date: "Apr 16", score: 89, delta: "+2" },
+        { date: "Week 1", score: "score", delta: "baseline" },
+        { date: "Week 2", score: "Δ", delta: "shift" },
+        { date: "Week 3", score: "Δ", delta: "trend" },
       ].map((r) => (
         <div
           key={r.date}
