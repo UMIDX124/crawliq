@@ -78,7 +78,7 @@ export function Pricing() {
     <section id="pricing" className="relative py-20 sm:py-24 md:py-32 lg:py-36">
       <div className="container-page">
         <Reveal y={40} className="max-w-3xl">
-          <h2 className="font-display font-extrabold text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
+          <h2 className="display-xl">
             Start free.{" "}
             <span className="italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]">
               Scale when you&rsquo;re ready.

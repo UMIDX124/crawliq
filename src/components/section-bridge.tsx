@@ -4,17 +4,18 @@ import { motion } from "framer-motion";
 
 /**
  * Section bridge with optional report-style page marker.
- * - Animated accent line drawn from center
- * - Page-of-pages marker centered on the line: "§ 03 / 12 — end of section"
+ * - Animated 3-stop hairline drawn from center (ink + tangerine register)
+ * - Editorial marker centered on the line: "§ 03 — end of section"
  *
- * Replaces hard cuts between sections with a soft document-style transition.
+ * The /total ratio was dropped — it conflicted with the per-section eyebrow
+ * numbering and read as fake page-of-pages metadata.
  */
 export function SectionBridge({
   num,
-  total = "12",
   label = "end of section",
 }: {
   num?: string;
+  /** retained for back-compat; no longer rendered */
   total?: string;
   label?: string;
 }) {
@@ -51,8 +52,7 @@ export function SectionBridge({
         >
           <span className="bg-[color:var(--color-bg)] px-4 font-mono text-[10px] tracking-[0.2em] uppercase">
             <span className="text-[color:var(--color-ink)] font-bold">§ {num}</span>
-            <span className="text-fg-faint"> / {total} </span>
-            <span className="text-fg-faint/60">— {label}</span>
+            <span className="text-fg-faint/60"> — {label}</span>
           </span>
         </motion.div>
       )}

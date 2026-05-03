@@ -48,21 +48,23 @@ export function Glyph({
   );
 }
 
-/** Pre-composed eyebrow: "◇ section / 03" style — replaces the dot+text pattern */
+/** Pre-composed eyebrow: "◇ § 03 · Label" — editorial section marker.
+ * Drops the ratio (was "§ 03 / 12") which conflicted with SectionBridge's
+ * own numbering scheme and read as fake page-of-pages metadata. */
 export function ReportEyebrow({
   children,
   num,
-  total = "12",
 }: {
   children: React.ReactNode;
   num: string;
+  /** retained for back-compat; no longer rendered */
   total?: string;
 }) {
   return (
     <span className="inline-flex flex-wrap items-center gap-x-2.5 gap-y-1 font-mono text-[10.5px] tracking-[0.18em] uppercase text-fg-muted leading-none">
       <span className="inline-flex items-center gap-2.5 whitespace-nowrap">
         <Glyph k="section" className="text-[color:var(--color-accent)] text-[10px]" />
-        <span className="text-fg-faint tabular-nums">§&nbsp;{num}&nbsp;/&nbsp;{total}</span>
+        <span className="text-[color:var(--color-ink)] font-bold tabular-nums">§&nbsp;{num}</span>
       </span>
       <span className="text-fg-faint hidden sm:inline">·</span>
       <span className="whitespace-nowrap">{children}</span>

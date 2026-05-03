@@ -79,7 +79,7 @@ export function PdfPreview() {
 
               {/* page 2 floating behind */}
               <div
-                className="absolute -right-8 top-12 w-[88%] aspect-[8.5/11] rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-surface)] shadow-[0_24px_48px_-24px_rgb(29_29_31/_0.2)]"
+                className="absolute -right-8 top-12 w-[88%] aspect-[8.5/11] rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-surface)] shadow-layered-lg"
                 style={{
                   transform: "translateZ(-30px) rotateZ(2deg)",
                 }}
@@ -109,7 +109,7 @@ export function PdfPreview() {
 
 function PdfPage() {
   return (
-    <div className="relative w-full h-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-surface)] shadow-[0_40px_80px_-32px_rgb(29_29_31/_0.32)] overflow-hidden">
+    <div className="relative w-full h-full rounded-lg border border-[color:var(--color-border)] bg-[color:var(--color-surface)] shadow-layered-xl overflow-hidden">
       {/* header */}
       <div className="px-7 pt-7 flex items-start justify-between">
         <div>

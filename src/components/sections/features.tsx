@@ -20,7 +20,7 @@ export function Features() {
       <div className="container-page">
         <Reveal className="max-w-3xl">
           <ReportEyebrow num="04">Five auditors · one report</ReportEyebrow>
-          <h2 className="font-display font-extrabold mt-5 text-balance text-[clamp(32px,5vw,56px)] leading-[1.05] tracking-[-0.025em]">
+          <h2 className="display-xl mt-5">
             Every angle, every issue,{" "}
             <span className="italic font-normal text-[color:var(--color-fg)] [font-family:var(--font-serif)] tracking-[-0.01em]">
               one merged report.

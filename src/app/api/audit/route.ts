@@ -54,6 +54,25 @@ export async function POST(req: NextRequest) {
 
   const { url } = parsed.data;
 
+  // Reject Vercel preview URLs upstream — they're auth-protected and would
+  // otherwise produce a misleading HTTP 401 → "Score 20 GRADE F" report.
+  try {
+    const candidate = url.startsWith("http") ? url : `https://${url}`;
+    const host = new URL(candidate).hostname.toLowerCase();
+    if (host.endsWith(".vercel.app") && host !== "crawliq-sage.vercel.app") {
+      return Response.json(
+        {
+          error: "vercel_protected",
+          message:
+            "Vercel preview URLs are auth-protected. Paste a public production URL (e.g. https://stripe.com) instead.",
+        },
+        { status: 400 },
+      );
+    }
+  } catch {
+    /* ignore — schema parser already validated overall shape */
+  }
+
   const stream = new ReadableStream({
     async start(controller) {
       const enc = new TextEncoder();

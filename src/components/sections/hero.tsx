@@ -71,6 +71,15 @@ export function Hero() {
       if (!u.hostname.includes(".") || u.hostname.length < 4) {
         throw new Error("invalid host");
       }
+      // Vercel preview URLs are deployment-protected and return HTTP 401 to
+      // unauthenticated crawlers — surfacing that as a "Score 20 GRADE F"
+      // report would be misleading. Block the submission with a hint.
+      if (u.hostname.endsWith(".vercel.app")) {
+        setError(
+          "Vercel preview URLs are auth-protected. Use a public production URL instead.",
+        );
+        return;
+      }
     } catch {
       setError("That doesn't look like a valid URL.");
       return;
@@ -228,6 +237,14 @@ export function Hero() {
 
                 <div className="mt-4 sm:mt-5">
                   <LiveTicker />
+                </div>
+
+                <div className="mt-3 font-mono text-[10.5px] tracking-[0.14em] uppercase text-fg-faint">
+                  tip · paste a public URL like{" "}
+                  <span className="text-[color:var(--color-ink)] font-bold">stripe.com</span>{" "}
+                  or{" "}
+                  <span className="text-[color:var(--color-ink)] font-bold">vercel.com</span>{" "}
+                  — preview-protected URLs return 401
                 </div>
               </FadeChildren>
 

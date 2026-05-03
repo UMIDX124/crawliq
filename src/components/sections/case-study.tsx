@@ -51,7 +51,7 @@ export function CaseStudy() {
           {/* visual side — score before/after card */}
           <Reveal delay={0.15}>
             <div className="relative">
-              <div className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-8 md:p-10 shadow-[0_24px_48px_-24px_rgb(29_29_31/_0.18)]">
+              <div className="rounded-2xl border border-[color:var(--color-border)] bg-[color:var(--color-surface)] p-8 md:p-10 shadow-layered-lg">
                 <div className="font-mono text-[10.5px] tracking-[0.16em] uppercase text-fg-muted mb-7 flex items-center gap-2">
                   <span className="inline-block w-1 h-1 rounded-full bg-[color:var(--color-accent)]" />
                   Northwood — before / after
