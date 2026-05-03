@@ -142,9 +142,9 @@ export function Hero() {
         <AuditedSeal />
       </div>
 
-      {/* Live finding ticker — single big-motion card top-center, re-prints
-          every ~4s. Heartbeat that says "this audit is RUNNING right now". */}
-      <HeroLiveFinding className="hidden lg:block absolute top-24 left-1/2 -translate-x-1/2 z-0" />
+      {/* Live finding ticker — pushed lower (top-64 = 256px) so it doesn't
+          collide with the canonical/CLS chips at the top of the hero. */}
+      <HeroLiveFinding className="hidden lg:block absolute top-[260px] left-1/2 -translate-x-1/2 z-0" />
 
       <div className="relative w-full max-w-[1480px] mx-auto">
         {!submittedUrl ? (
